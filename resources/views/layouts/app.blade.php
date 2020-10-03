@@ -16,6 +16,12 @@
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script type="text/javascript" src="{{ asset('/js/app_general/setting.js') }}"></script>
+
+    <!-- Alerts JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
     <script src="{{ asset('js/users.js') }}"></script>
 
     <!-- Fonts -->
@@ -52,14 +58,10 @@
                         @else
                             <li>
                                 <div class="btn-group" role="group" aria-label="...">
-                                    <a href="{{ route('users') }}" type="button" class="btn
-                                    btn-outline-secondary">Usuarios App</a>
-                                    <a href="{{ route('employees') }}" type="button" class="btn
-                                    btn-outline-secondary">Empleados</a>
-                                    <a href="{{ route('branch') }}" type="button" class="btn
-                                    btn-outline-secondary">Sucursales</a>
-                                    <a href="{{ route('assistance') }}" type="button" class="btn
-                                    btn-outline-secondary">Asistencia</a>
+                                    <a id="users-nav" href="{{ route('users') }}" type="button" class="btn btn-outline-secondary">Usuarios App</a>
+                                    <a id="employees-nav" href="{{ route('employees') }}" type="button" class="btn btn-outline-secondary">Empleados</a>
+                                    <a id="branch-nav" href="{{ route('branch') }}" type="button" class="btn btn-outline-secondary">Sucursales</a>
+                                    <a id="assitance-nav" href="{{ route('assistance') }}" type="button" class="btn btn-outline-secondary">Asistencia</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -89,5 +91,7 @@
             @yield('content')
         </main>
     </div>
+    <!-- Personal JS -->
+    @yield('personal-js')
 </body>
 </html>

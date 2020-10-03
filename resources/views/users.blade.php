@@ -6,7 +6,7 @@
         <h4>Usuarios App</h4>
         <br>
         <div class="row">
-            <div class="col-md-1 col-md-push-3">
+            <div class="col-md-2 col-md-push-3">
                 <button class="btn btn-dark" data-toggle="modal" data-target="#myModal">Nuevo Usuario</button>
             </div>
         </div>
@@ -48,10 +48,10 @@
         </div>
         <!-- TERMINA MODAL PARA ELIMINAR REGISTRO -->
         <br>
-        <div>
+        <div class="table-responsive-md">
             <table class="table table-hover">
                 <thead>
-                <tr >
+                <tr class="table-primary">
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Correo Electrónico</th>

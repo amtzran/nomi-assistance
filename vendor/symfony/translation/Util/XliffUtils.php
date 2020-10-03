@@ -41,7 +41,7 @@ class XliffUtils
             $namespace = $xliff->attributes->getNamedItem('xmlns');
             if ($namespace) {
                 if (0 !== substr_compare('urn:oasis:names:tc:xliff:document:', $namespace->nodeValue, 0, 34)) {
-                    throw new InvalidArgumentException(sprintf('Not a valid XLIFF namespace "%s"', $namespace));
+                    throw new InvalidArgumentException(sprintf('Not a valid XLIFF namespace "%s".', $namespace));
                 }
 
                 return substr($namespace, 34);
@@ -61,23 +61,29 @@ class XliffUtils
     {
         $xliffVersion = static::getVersionNumber($dom);
         $internalErrors = libxml_use_internal_errors(true);
-        $disableEntities = libxml_disable_entity_loader(false);
+        if (\LIBXML_VERSION < 20900) {
+            $disableEntities = libxml_disable_entity_loader(false);
+        }
 
         $isValid = @$dom->schemaValidateSource(self::getSchema($xliffVersion));
         if (!$isValid) {
-            libxml_disable_entity_loader($disableEntities);
+            if (\LIBXML_VERSION < 20900) {
+                libxml_disable_entity_loader($disableEntities);
+            }
 
             return self::getXmlErrors($internalErrors);
         }
 
-        libxml_disable_entity_loader($disableEntities);
+        if (\LIBXML_VERSION < 20900) {
+            libxml_disable_entity_loader($disableEntities);
+        }
 
         $dom->normalizeDocument();
 
         libxml_clear_errors();
         libxml_use_internal_errors($internalErrors);
 
-        return array();
+        return [];
     }
 
     public static function getErrorsAsString(array $xmlErrors): string
@@ -86,7 +92,7 @@ class XliffUtils
 
         foreach ($xmlErrors as $error) {
             $errorsAsString .= sprintf("[%s %s] %s (in %s - line %d, column %d)\n",
-                LIBXML_ERR_WARNING === $error['level'] ? 'WARNING' : 'ERROR',
+                \LIBXML_ERR_WARNING === $error['level'] ? 'WARNING' : 'ERROR',
                 $error['code'],
                 $error['message'],
                 $error['file'],
@@ -143,16 +149,16 @@ class XliffUtils
      */
     private static function getXmlErrors(bool $internalErrors): array
     {
-        $errors = array();
+        $errors = [];
         foreach (libxml_get_errors() as $error) {
-            $errors[] = array(
-                'level' => LIBXML_ERR_WARNING == $error->level ? 'WARNING' : 'ERROR',
+            $errors[] = [
+                'level' => \LIBXML_ERR_WARNING == $error->level ? 'WARNING' : 'ERROR',
                 'code' => $error->code,
                 'message' => trim($error->message),
                 'file' => $error->file ?: 'n/a',
                 'line' => $error->line,
                 'column' => $error->column,
-            );
+            ];
         }
 
         libxml_clear_errors();

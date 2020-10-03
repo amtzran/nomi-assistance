@@ -20,7 +20,7 @@ namespace Symfony\Component\Translation;
  */
 class PluralizationRules
 {
-    private static $rules = array();
+    private static $rules = [];
 
     /**
      * Returns the plural position to use for the given locale and number.
@@ -32,8 +32,8 @@ class PluralizationRules
      */
     public static function get($number, $locale/*, bool $triggerDeprecation = true*/)
     {
-        if (3 > \func_num_args() || \func_get_arg(2)) {
-            @trigger_error(sprintf('The "%s" class is deprecated since Symfony 4.2.', __CLASS__), E_USER_DEPRECATED);
+        if (3 > \func_num_args() || func_get_arg(2)) {
+            @trigger_error(sprintf('The "%s" class is deprecated since Symfony 4.2.', __CLASS__), \E_USER_DEPRECATED);
         }
 
         if ('pt_BR' === $locale) {
@@ -46,7 +46,7 @@ class PluralizationRules
         }
 
         if (isset(self::$rules[$locale])) {
-            $return = \call_user_func(self::$rules[$locale], $number);
+            $return = self::$rules[$locale]($number);
 
             if (!\is_int($return) || $return < 0) {
                 return 0;
@@ -202,7 +202,7 @@ class PluralizationRules
      */
     public static function set(callable $rule, $locale)
     {
-        @trigger_error(sprintf('The "%s" class is deprecated since Symfony 4.2.', __CLASS__), E_USER_DEPRECATED);
+        @trigger_error(sprintf('The "%s" class is deprecated since Symfony 4.2.', __CLASS__), \E_USER_DEPRECATED);
 
         if ('pt_BR' === $locale) {
             // temporary set a locale for brazilian

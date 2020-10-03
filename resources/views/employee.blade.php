@@ -2,15 +2,19 @@
 
 @section('content')
 
+@section('personal-js')
+<script type="text/javascript" src="{{ asset('/js/employees/validation.js') }}"></script>
+@endsection
+
     <div class="col-12">
         <h4>Empleados</h4>
         <br>
         <div class="row">
-            <div class="col-md-1 col-md-push-3">
+            <div class="col-md-2 col-md-push-3">
                 <button class="btn btn-dark" data-toggle="modal" data-target="#myModal">Importar Datos</button>
             </div>
-            <div class="col-md-11 col-md-pull-9">
-                <a href="{{ route('export_employee') }}" class="btn btn-dark">Exportar Datos</a>
+            <div class="col-md-10 col-md-pull-9">
+                <a id="btnExportEmployee" name="btnExportEmployee" href="{{ route('export_employee') }}" class="btn btn-dark">Exportar Datos</a>
             </div>
         </div>
         <!-- INICIA MODAL PARA INSCRIBIR -->
@@ -30,7 +34,7 @@
                         <form method="POST" enctype="multipart/form-data" action="{{ Route('employee_file_upload') }}" role="form">
                             {{ csrf_field() }}
                             <label for="employee">Seleccionar archivo csv</label>
-                            <input type="file" id="employee" name="employee" accept=".csv" required="required">
+                            <input class="form-control btn" type="file" id="employee" name="employee" multiple>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-dark">Importar</button>
                             </div>
@@ -42,15 +46,16 @@
         <!-- TERMINA MODAL PARA ELIMINAR REGISTRO -->
 
         <br>
-            <div>
+            <div class="table-responsive-md">
                 <table class="table table-hover border">
                     <thead>
-                    <tr >
+                    <tr class="table-primary">
                         <th>Clave</th>
                         <th>NSS</th>
                         <th>Sucursal</th>
                         <th>Nombre</th>
-                        <th>Apellidos</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
                         <th>Turno</th>
                     </tr>
                     </thead>
@@ -60,9 +65,10 @@
                         <tr>
                             <td>{{ $employee->clave }}</td>
                             <td>{{ $employee->nss }}</td>
-                            <td>{{ $employee->id_sucursal }}</td>
+                            <td>{{ $employee->sucursal }}</td>
                             <td>{{ $employee->nombre }}</td>
-                            <td>{{ $employee->apellidos }}</td>
+                            <td>{{ $employee->apellido_paterno }}</td>
+                            <td>{{ $employee->apellido_materno }}</td>
                             <td>{{ $employee->turno }}</td>
                         </tr>
                     @endforeach
@@ -73,4 +79,3 @@
         </div>
 
 @endsection
-

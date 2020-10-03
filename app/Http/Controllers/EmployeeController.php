@@ -8,11 +8,16 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+use App\Employee;
 
 class EmployeeController extends Controller
 {
     public function index(){
-        $employees = DB::table('empleados')->paginate(10);
+        $employees = DB::table('empleados as e')
+            ->join('sucursales as s','e.id_sucursal','s.id')
+            ->select('e.id','e.clave','e.nss','s.nombre as sucursal','e.nombre', 'e.apellido_paterno', 'e.apellido_materno', 'e.turno')
+            ->paginate(10);
         return view('employee')->with(['employees' => $employees]);
     }
 
@@ -22,7 +27,12 @@ class EmployeeController extends Controller
      */
     public function export()
     {
-        return Excel::download(new EmployeesExport, 'empleados.csv');
+        $name = 'Empleados-';
+        $csvExtension = '.csv';
+        $date = Carbon::now(); 
+        $date = $date->toFormattedDateString();
+        $nameFecha = $name . $date . $csvExtension;
+        return Excel::download(new EmployeesExport, $nameFecha);
     }
 
     /**

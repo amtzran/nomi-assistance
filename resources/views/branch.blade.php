@@ -1,15 +1,18 @@
 @extends('layouts.app')
 
+@section('personal-js')
+<script type="text/javascript" src="{{ asset('/js/branch_offices/validation.js') }}"></script>
+@endsection
 @section('content')
     <div class="col-12">
         <h4>Sucursales</h4>
         <br>
         <div class="row">
-            <div class="col-md-1 col-md-push-3">
+            <div class="col-md-2 col-md-push-3">
                 <button class="btn btn-dark" data-toggle="modal" data-target="#myModal">Importar Datos</button>
             </div>
-            <div class="col-md-11 col-md-pull-9">
-                <a href="{{ route('export_branch') }}" class="btn btn-dark">Exportar Datos</a>
+            <div class="col-md-10 col-md-pull-9">
+                <a id="btnExportBranch" name="btnExportBranch" href="{{ route('export_branch') }}" class="btn btn-dark">Exportar Datos</a>
             </div>
         </div>
         <!-- INICIA MODAL PARA INSCRIBIR -->
@@ -30,7 +33,7 @@
                               role="form">
                             {{ csrf_field() }}
                             <label for="branch">Seleccionar archivo csv</label>
-                            <input type="file" id="branch" name="branch" accept=".csv" required="required">
+                            <input class="form-control btn" type="file" id="branch" name="branch" multiple>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-dark">Importar</button>
                             </div>
@@ -42,10 +45,10 @@
         <!-- TERMINA MODAL PARA ELIMINAR REGISTRO -->
 
         <br>
-        <div>
+        <div class="table-responsive-md">
             <table class="table table-hover">
                 <thead>
-                <tr >
+                <tr class="table-primary">
                     <th>Clave</th>
                     <th>Nombre</th>
                 </tr>
