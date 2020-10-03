@@ -10,9 +10,23 @@
             <p><a class="btn btn-secondary btn-sm" href="#" role="button">Versión 1.0</a></p>
             <img src="https://ipc.milaulas.com/pluginfile.php/1895/course/overviewfiles/reporte-de-asistencia.png" class="img-responsive center-block" />
         </div>
-        <div class="jumbotron">
-            <p>Designed and built with all the love in the world by @CLAM</p>
-            <p>Copyright © 2019 Nomi Assistance. All Rights Reserved</p>
+        <div class="container d-md-flex py-4">
+
+      <div class="mr-md-auto text-center text-md-left">
+        <div class="copyright">
+          &copy; Copyright <strong><span>JAP Engineering</span></strong>. All Rights Reserved
         </div>
+        <div class="credits">
+               Designed by <a href="http://japengineering.mx/">JAP Engineering</a>
+        </div>
+      </div>
+      <div class="text-center text-md-right pt-3 pt-md-0">
+      <h4>JAP Engineering</h4>
+            <p>
+              <strong>Phone:</strong> +52 449 115 11 33<br>
+              <strong>Email:</strong> contacto@japengineering.mx<br>
+            </p>
+      </div>
+    </div>
     </div>
 @endsection

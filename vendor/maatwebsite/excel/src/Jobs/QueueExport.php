@@ -2,10 +2,11 @@
 
 namespace Maatwebsite\Excel\Jobs;
 
-use Maatwebsite\Excel\Writer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Maatwebsite\Excel\Files\TemporaryFile;
+use Maatwebsite\Excel\Writer;
 
 class QueueExport implements ShouldQueue
 {
@@ -14,12 +15,7 @@ class QueueExport implements ShouldQueue
     /**
      * @var object
      */
-    private $export;
-
-    /**
-     * @var string
-     */
-    private $tempFile;
+    public $export;
 
     /**
      * @var string
@@ -27,22 +23,36 @@ class QueueExport implements ShouldQueue
     private $writerType;
 
     /**
-     * @param object $export
-     * @param string $tempFile
-     * @param string $writerType
+     * @var TemporaryFile
      */
-    public function __construct($export, string $tempFile, string $writerType)
+    private $temporaryFile;
+
+    /**
+     * @param object        $export
+     * @param TemporaryFile $temporaryFile
+     * @param string        $writerType
+     */
+    public function __construct($export, TemporaryFile $temporaryFile, string $writerType)
     {
-        $this->export     = $export;
-        $this->tempFile   = $tempFile;
-        $this->writerType = $writerType;
+        $this->export        = $export;
+        $this->writerType    = $writerType;
+        $this->temporaryFile = $temporaryFile;
+    }
+
+    /**
+     * Get the middleware the job should be dispatched through.
+     *
+     * @return array
+     */
+    public function middleware()
+    {
+        return (method_exists($this->export, 'middleware')) ? $this->export->middleware() : [];
     }
 
     /**
      * @param Writer $writer
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     public function handle(Writer $writer)
     {
@@ -60,6 +70,6 @@ class QueueExport implements ShouldQueue
         }
 
         // Write to temp file with empty sheets.
-        $writer->write($sheetExport, $this->tempFile, $this->writerType);
+        $writer->write($sheetExport, $this->temporaryFile, $this->writerType);
     }
 }

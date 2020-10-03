@@ -5,10 +5,10 @@
         <h4>Asistencias</h4>
         <br>
         <div class="row">
-            <div class="col-md-1 col-md-push-3">
+            <!-- <div class="col-md-2 col-md-push-3">
                 <button class="btn btn-dark" data-toggle="modal" data-target="#myModal">Importar Datos</button>
-            </div>
-            <div class="col-md-11 col-md-pull-9">
+            </div> -->
+            <div class="col-md-10 col-md-pull-9">
                 <a href="{{ route('export_assistance') }}" class="btn btn-dark">Exportar Datos</a>
             </div>
         </div>
@@ -42,10 +42,10 @@
         <!-- TERMINA MODAL PARA ELIMINAR REGISTRO -->
 
         <br>
-        <div>
+        <div class="table-responsive-md">
             <table class="table table-hover">
                 <thead>
-                <tr>
+                <tr class="table-primary">
                     <th>Clave</th>
                     <th>Asistencia</th>
                     <th>Fecha</th>
