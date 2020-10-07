@@ -3,8 +3,8 @@
 @section('content')
     <div class="col-12">
         <div class="jumbotron text-center">
-            <h1>¡ Bienvenido a Nomi Assistance !</h1>
-            <p>Nomi Assistance es una pequeña herramienta web y móvil para el pase de asistencia de empleados en
+            <h1>¡ Bienvenido a Nómina Asistencia !</h1>
+            <p>Nómina Asistencia es una pequeña herramienta web y móvil para el pase de asistencia de empleados en
                 pequeñas, medianas y grandes empresas y automatizar tareas en conjunto a software de contabilidad,
                 gracias a las opciones de exportar e importar información con excel.</p>
             <p><a class="btn btn-secondary btn-sm" href="#" role="button">Versión 1.0</a></p>

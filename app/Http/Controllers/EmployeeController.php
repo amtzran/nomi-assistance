@@ -82,7 +82,7 @@ class EmployeeController extends Controller
         $employee = Employee::find($request->id);
         $employee->delete();
 
-        return redirect()->route('deleteEmployee')->with('success', 'Datos eliminados Correctamente.');
+        return redirect()->route('employees')->with('success', 'Datos eliminados Correctamente.');
 
     }
     /**

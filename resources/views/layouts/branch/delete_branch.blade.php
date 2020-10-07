@@ -17,8 +17,7 @@
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </div>
                 </form>
-            </div>
-            
+            </div> 
         </div>
     </div>
 </div>

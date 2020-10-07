@@ -12,9 +12,9 @@
                     <form method="POST" role="form">
                         {{ csrf_field() }}
                         <label for="clave">Clave</label>
-                        <input type="text" id="clave" class="form-control" name="clave" required="required">
+                        <input type="text" id="clave" class="form-control" name="clave" placeholder="Clave de la sucursal (Catalgo)" required="required">
                         <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" class="form-control" name="nombre" required="required">
+                        <input type="text" id="nombre" class="form-control" name="nombre" placeholder="Nombre de la sucursal (Catalgo)" required="required">
                     </form>
                 </div>
                 <!-- Modal footer -->

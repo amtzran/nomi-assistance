@@ -12,7 +12,7 @@
         <br>
         @if(session('success'))
             <div class="col-md-4 col-md-offset-4">
-                <div class="alert alert-success alert-dismissible text-center btn-block">
+                <div class="alert alert-success alert-dismissible fade show">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                     <strong>{{ session('success') }}</strong>
                 </div>
