@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
 use App\Employee;
 
 class EmployeeController extends Controller
@@ -93,8 +92,7 @@ class EmployeeController extends Controller
     {
         $name = 'Empleados-';
         $csvExtension = '.xlsx';
-        $date = Carbon::now(); 
-        $date = $date->toFormattedDateString();
+        $date =  date("Y-m-d H:i:s");
         $nameFecha = $name . $date . $csvExtension;
         return Excel::download(new EmployeesExport, $nameFecha);
     }
