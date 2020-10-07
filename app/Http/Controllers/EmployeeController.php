@@ -15,12 +15,76 @@ class EmployeeController extends Controller
 {
     public function index(){
         $employees = DB::table('empleados as e')
-            ->join('sucursales as s','e.id_sucursal','s.id')
-            ->select('e.id','e.clave','e.nss','s.nombre as sucursal','e.nombre', 'e.apellido_paterno', 'e.apellido_materno', 'e.turno')
+            ->join('sucursales as s','e.id_sucursal','s.clave')
+            ->select('e.id','e.clave','e.nss','s.nombre as sucursal','s.clave as sucursalId','e.nombre', 'e.apellido_paterno', 'e.apellido_materno', 'e.turno')
             ->paginate(10);
-        return view('employee')->with(['employees' => $employees]);
+        $branches = DB::table('sucursales as s')->get();    
+        return view('employee')->with(['employees' => $employees,'sucursales' => $branches]);
     }
 
+    // Guardar Empleados
+    public function create(Request $request){
+        try {
+            $employee = new Employee;
+            $employee->clave = $request->clave;
+            $employee->nss = $request->nss;
+            //Checar que dato se manda
+            $employee->id_sucursal = $request->id_sucursal;
+            $employee->nombre = $request->nombre;
+            $employee->apellido_paterno = $request->apellido_paterno;
+            $employee->apellido_materno = $request->apellido_materno;
+            $employee->turno = $request->turno;
+            $employee->id_empresa = 1;
+    
+            $employee->save();
+            
+            return response()->json([
+                'code' => 201,
+                'message' => 'Registro Guardado'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'code' => 500,
+                'message' => $th->getMessage()
+            ]);
+        }
+    }
+    public function edit($id)
+    {
+        $employees = DB::table('empleados as e')
+            ->join('sucursales as s','e.id_sucursal','s.clave')
+            ->select('e.id','e.clave','e.nss','s.nombre as sucursal','e.nombre', 'e.apellido_paterno', 'e.apellido_materno', 'e.turno')
+            ->where('e.id', $id)->first();
+
+            $branches = DB::table('sucursales')->get();
+            return view('employee')->with(['employees' => $employees,'sucursales' => $branches]);
+    }
+    //Update
+    public function updateEmployee(Request $request){
+        
+        $employee = Employee::find($request->id);
+        $employee->clave = $request->clave;
+        $employee->nss = $request->nss;
+        $employee->id_sucursal = $request->sucursal;
+        $employee->nombre = $request->nombre;
+        $employee->apellido_paterno = $request->apellido_paterno;
+        $employee->apellido_materno = $request->apellido_materno;
+        $employee->turno = $request->turno;
+        $employee->id_empresa = 1;
+        
+        $employee->save();
+        
+        return redirect()->route('updateEmployee')->with('success', 'Datos Guardados Correctamente.');
+    }
+    //Delete
+    public function deleteEmployee(Request $request){
+
+        $employee = Employee::find($request->id);
+        $employee->delete();
+
+        return redirect()->route('employees')->with('success', 'Datos eliminados Correctamente.');
+
+    }
     /**
      * Exporta los datos de la tabla Empleados a excel.
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
@@ -28,13 +92,12 @@ class EmployeeController extends Controller
     public function export()
     {
         $name = 'Empleados-';
-        $csvExtension = '.csv';
+        $csvExtension = '.xlsx';
         $date = Carbon::now(); 
         $date = $date->toFormattedDateString();
         $nameFecha = $name . $date . $csvExtension;
         return Excel::download(new EmployeesExport, $nameFecha);
     }
-
     /**
      * Importa datos desde un archivo excel a la tabla de Empleados.
      * @return \Illuminate\Http\RedirectResponse
@@ -43,13 +106,12 @@ class EmployeeController extends Controller
     {
         DB::table('empleados')->delete();
 
-        Excel::import(new EmployeesImport, 'empleado.csv');
+        Excel::import(new EmployeesImport, 'empleado.xlsx');
 
         return redirect('/')->with('success', 'All good!');
     }
-
     public function employeeFile(Request $request){
-        Storage::putFileAs('/', $request->file('employee'), 'empleado.csv');
+        Storage::putFileAs('/', $request->file('employee'), 'empleado.xlsx');
         $this->import();
         return redirect()->route('employees');
     }

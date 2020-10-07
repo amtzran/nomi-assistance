@@ -15,8 +15,8 @@ class EmployeesImport implements ToModel
     */
     public function model(array $row)
     {
-        $validationSucursal= Branch::find($row[2]);
-        if($validationSucursal){
+        $validationSucursal= Branch::where('clave', $row[2])->first();
+        if(!empty($validationSucursal)){
             return new Employee([
                 'clave' => $row[0],
                 'nss' => $row[1],
@@ -26,8 +26,6 @@ class EmployeesImport implements ToModel
                 'apellido_materno' => $row[5],
                 'turno' => $row[6],
                 'id_empresa' => 1,
-                'huella' => "cadenadehuella",
-                'url_imagen' => "url.com",
             ]);
         }
     }

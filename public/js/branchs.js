@@ -1,22 +1,19 @@
 $(document).ready(function() {
-    //start modal new users
-    $('#userNew').click(function() {
-        let name = $('#name').val();
-        let email = $('#email').val();
-        let password = $('#password').val();
-        let id_rol = $('#rol').val();
+    //start modal new employees
+    $('#branchNew').click(function() {
+        let clave = $('#clave').val();
+        let nombre = $('#nombre').val();
+
         $.ajax({
             type: 'POST',
-            url: "../create/user",
+            url: "../create/branch",
             data: {
                 _token: $("meta[name=csrf-token]").attr("content"),
-                name: name,
-                email: email,
-                password: password,
-                id_rol: id_rol
+                clave: clave,
+                nombre: nombre,
             },
             success: function(data) {
-                if (data.errors) {
+                if (data.code == 500) {
                     faltante();
                 } else {
                     correcto();
@@ -27,8 +24,6 @@ $(document).ready(function() {
     });
 
     //end modal new employees
-
-
 
     //sweet alert
     function correcto() {

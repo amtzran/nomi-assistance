@@ -4,20 +4,32 @@
 
 @section('personal-js')
 <script type="text/javascript" src="{{ asset('/js/employees/validation.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/employees.js') }}"></script>
 @endsection
 
     <div class="col-12">
         <h4>Empleados</h4>
         <br>
+        @if(session('success'))
+            <div class="col-md-4 col-md-offset-4">
+                <div class="alert alert-success alert-dismissible fade show">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>{{ session('success') }}</strong>
+                </div>
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-2 col-md-push-3">
                 <button class="btn btn-dark" data-toggle="modal" data-target="#myModal">Importar Datos</button>
             </div>
-            <div class="col-md-10 col-md-pull-9">
+            <div class="col-md-8 col-md-pull-9">
                 <a id="btnExportEmployee" name="btnExportEmployee" href="{{ route('export_employee') }}" class="btn btn-dark">Exportar Datos</a>
             </div>
+            <div class="col-md-2 col-md-push-3">
+                <button class="btn btn-success" data-toggle="modal" data-target="#myModalEmployee">Ingresar Nuevo Empleado</button>
+            </div>
         </div>
-        <!-- INICIA MODAL PARA INSCRIBIR -->
+        <!-- INICIA MODAL PARA EXCEL -->
         <div class="modal fade" id="myModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -43,11 +55,12 @@
                 </div>
             </div>
         </div>
-        <!-- TERMINA MODAL PARA ELIMINAR REGISTRO -->
-
+        <!-- TERMINA MODAL -->
+        <!-- Modal para guardar empleado Manual -->
+        @include('layouts.employee.add_employee')
         <br>
             <div class="table-responsive-md">
-                <table class="table table-hover border">
+                <table class="table table-hover table-borderless">
                     <thead>
                     <tr class="table-primary">
                         <th>Clave</th>
@@ -57,11 +70,14 @@
                         <th>Apellido Paterno</th>
                         <th>Apellido Materno</th>
                         <th>Turno</th>
+                        <th>Opciones</th>
                     </tr>
                     </thead>
 
                     <tbody>
+                    @php($a = 0)
                     @foreach($employees as $employee)
+                        @php($a = $employee->id)
                         <tr>
                             <td>{{ $employee->clave }}</td>
                             <td>{{ $employee->nss }}</td>
@@ -70,6 +86,16 @@
                             <td>{{ $employee->apellido_paterno }}</td>
                             <td>{{ $employee->apellido_materno }}</td>
                             <td>{{ $employee->turno }}</td>
+                            <td>
+                                @csrf
+                                @method('DELETE')
+                                <!-- Modal para editar empleado Manual -->
+                                @include('layouts.employee.edit_employee')
+                                <a data-toggle="modal" data-target="#myModalEmployeeEdit{{ $a }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-user-edit"></i></a>
+                                <!-- Modal para eliminar empleado Manual -->
+                                @include('layouts.employee.delete_employee')
+                                <a data-toggle="modal" data-target="#myModalEmployeeDelete{{ $a }}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i></a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

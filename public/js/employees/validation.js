@@ -21,8 +21,8 @@
              let sFileExtension = sFileName.split('.')[sFileName.split('.').length - 1].toLowerCase();
              let iFileSize = file.size;
 
-             if (!(sFileExtension === "pfd" ||
-                     sFileExtension === "csv") || iFileSize > 10485760) { /// 10 mb
+             if (!(sFileExtension === "xls" ||
+                     sFileExtension === "xlsx") || iFileSize > 10485760) { /// 10 mb
                  error = true;
              }
          }
@@ -34,7 +34,7 @@
 
      function missingText(textError) {
          swal.fire({
-             title: "Favor de checar tu archivo CSV",
+             title: "Favor de checar tu archivo se xls",
              type: "error",
              text: textError,
              icon: "error",
