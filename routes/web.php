@@ -18,12 +18,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::name('users')->get('users/app', 'AppUsersController@index');
     Route::name('createUser')->post('create/user', 'AppUsersController@create');
 
+    //Empleados
     Route::name('employees')->get('employees', 'EmployeeController@index');
     Route::name('employee_file_upload')->post('employee/file/upload', 'EmployeeController@employeeFile');
+    Route::name('createEmployee')->post('create/employee', 'EmployeeController@create');
+    Route::name('updateEmployee')->post('employees/update','EmployeeController@updateEmployee');
+    Route::name('deleteEmployee')->post('employees/delete','EmployeeController@deleteEmployee');
 
+    //Sucursales
     Route::name('branch')->get('branch', 'BranchOfficeController@index');
     Route::name('branch_file_upload')->post('branch/file/upload', 'BranchOfficeController@branchFile');
+    Route::name('createBranch')->post('create/branch', 'BranchOfficeController@create');
+    Route::name('updateBranch')->post('branch/update','BranchOfficeController@updateBranch');
+    Route::name('deleteBranch')->post('branch/delete','BranchOfficeController@deleteBranch');
 
+    //Asistencias
     Route::name('assistance')->get('assistance', 'AssistanceController@assistance');
     Route::name('assistance_file_upload')->post('assistance/file/upload', 'AssistanceController@assistanceFile');
 
