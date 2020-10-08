@@ -48,9 +48,9 @@ Route::group(['prefix' => 'js'], function () {
         Route::get('/employees', 'AssistanceController@getEmployeesByJson');
 
         /**
-         * Guarda una nueva asistencia por alumno.
+         * Guarda una nueva asistencia por empleado.
          */
-        Route::post('/save/assistance', 'AssistanceController@saveAssistancesyJson');
+        Route::post('/save/assistance', 'AssistanceController@saveAssistance');
 
         /**
          * Exporta e Importa datos con Excel en tabla Asistencias.
