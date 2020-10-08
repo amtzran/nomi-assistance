@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -42,20 +43,26 @@ class LoginController extends Controller
     /**
      * Valida los datos de intento de sesión desde app para generar el login.
      */
-    public function authenticate($email, $password)
+    public function authenticate(Request $request)
     {
+        $email = $request->get('username');
+        $password = $request->get('password');
         if (Auth::attempt(['email' => $email, 'password' => $password])) {
-            $user = Auth::user();
             $idUser = DB::table('users')->where('email', $email)->first();
-            $loginResponse = ['loginResponse' => 1, 'name' => $idUser->name, 'email' => $idUser->email, 'id_rol' => $idUser->id_rol];
+            $loginResponse = [
+                'loginResponse' => 1,
+                'user_name' => $idUser->name,
+                'email' => $idUser->email,
+                'user_id' => $idUser->id
+            ];
             $collection = collect($loginResponse);
-            echo $collection->toJson();
+            return response()->json($collection);
         }
         else
         {
             $loginResponse = ['loginResponse' => 0];
             $collection = collect($loginResponse);
-            echo $collection->toJson();
+            return response()->json($collection);
         }
     }
 }
