@@ -74,7 +74,7 @@ Route::group(['prefix' => 'js'], function () {
          * Retorna un LoginResponse en base a los datos de sesión del usuario desde la app.
          * @url public/api/js/user/authenticate/{email}/{password}
          */
-        Route::get('/authenticate/{email}/{password}', 'Auth\LoginController@authenticate');
+        Route::post('/authenticate/login', 'Auth\LoginController@authenticate');
 
     });
 
