@@ -13,7 +13,7 @@
                     {{ csrf_field() }}
                     <input type="number" name="id" value="{{ $bra->id }}" hidden="hidden">
                     <label for="clave">Clave</label>
-                    <input type="text" id="clave" class="form-control" name="clave" required="required" value="{{ $bra->clave }}">
+                    <input type="text" id="clave" class="form-control" name="clave" required="required" value="{{ $bra->clave }}" disabled="disabled">
                     <label for="nombre">Nombre</label>
                     <input type="text" id="nombre" class="form-control" name="nombre" required="required" value="{{ $bra->nombre }}">
                         <!-- Modal footer -->

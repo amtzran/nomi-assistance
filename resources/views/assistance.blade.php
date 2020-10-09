@@ -47,7 +47,12 @@
                 <thead>
                 <tr class="table-primary">
                     <th>Clave</th>
+                    <th>Nss</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
                     <th>Asistencia</th>
+                    <th>Hora Entrada</th>
+                    <th>Hora Salida</th>
                     <th>Fecha</th>
                 </tr>
                 </thead>
@@ -55,9 +60,14 @@
                 <tbody>
                 @foreach($assistance as $assist)
                     <tr>
-                        <td>{{ $assist->id_empleado }}</td>
-                        <td>{{ $assist->asistencia }}</td>
-                        <td>{{ $assist->created_at }}</td>
+                        <td>{{ $assist->clave }}</td>
+                        <td>{{ $assist->nss }}</td>
+                        <td>{{ $assist->nombre }}</td>
+                        <td>{{ $assist->apellido_paterno }}</td>
+                        <td>{{ $assist->nombre_incidencia }}</td>
+                        <td>{{ $assist->hora_entrada }}</td>
+                        <td>{{ $assist->hora_salida }}</td>
+                        <td>{{ $assist->fecha_entrada }}</td>
                     </tr>
                 @endforeach
                 </tbody>

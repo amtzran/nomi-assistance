@@ -37,7 +37,7 @@ $(document).ready(function() {
             },
             success: function(data) {
                 if (data.code == 500) {
-                    faltante();
+                    faltante(data.message);
                 } else {
                     correcto();
                     location.reload();
@@ -59,9 +59,9 @@ $(document).ready(function() {
         });
     }
 
-    function faltante() {
+    function faltante(message) {
         swal.fire({
-            title: "Ha ocurrido un error",
+            title: message,
             text: " ",
             icon: "error",
             button: false,
