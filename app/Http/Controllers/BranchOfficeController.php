@@ -18,8 +18,18 @@ class BranchOfficeController extends Controller
     }
     public function create(Request $request){
         try {
+            $requestBranch = $request->clave;
+
+            $isExist = Branch::where('clave', $requestBranch)->first;
+            if($isExist) {
+                return response()->json([
+                    'code' => 500,
+                    'message' => 'La clave de la sucursal ya existe.'
+                ]);
+            }
+
             $branch = new Branch;
-            $branch->clave = $request->clave;
+            $branch->clave = $requestBranch;
 
             $branch->nombre = $request->nombre;
     
@@ -32,20 +42,22 @@ class BranchOfficeController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'code' => 500,
-                'message' => $th->getMessage()
+                'message' => 'Algo ha salido mal, intenta de nuevo.'
             ]);
         }
     }
      //Update Sucursal
      public function updateBranch(Request $request){
+
+        $requestBranch = $request->clave;
         
         $branch = Branch::find($request->id);
-        $branch->clave = $request->clave;
+        $branch->clave = $requestBranch;
         $branch->nombre = $request->nombre;
         
         $branch->save();
         
-        return redirect()->route('updateBranch')->with('success', 'Datos Guardados Correctamente.');
+        return redirect()->route('branch')->with('success', 'Datos Guardados Correctamente.');
     }
       //Delete Sucursal
       public function deleteBranch(Request $request){

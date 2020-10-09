@@ -25,6 +25,16 @@ class EmployeeController extends Controller
     // Guardar Empleados
     public function create(Request $request){
         try {
+            $requestKey = $request->clave;
+
+            $isExist = Employee::where('clave', $requestKey)->first();
+            if ($isExist) {
+                return response()->json([
+                    'code' => 500,
+                    'message' => 'La clave del empleado ya existe.'
+                ]);
+            }
+
             $employee = new Employee;
             $employee->clave = $request->clave;
             $employee->nss = $request->nss;
@@ -45,7 +55,7 @@ class EmployeeController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'code' => 500,
-                'message' => $th->getMessage()
+                'message' => 'Algo ha salido mal. intenta de nuevo.'
             ]);
         }
     }

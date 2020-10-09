@@ -19,7 +19,12 @@ class AssistanceController extends Controller
     }
 
     public function assistance(){
-        $assistance = DB::table('asistencia')->paginate(10);
+        $assistance = DB::table('asistencia as a')
+            ->join('empleados as e', 'a.id_clave', 'e.clave')
+            ->join('ausencias as au', 'a.asistencia', 'au.id')
+            ->select('e.clave', 'e.nss', 'e.nombre', 'e.apellido_paterno', 'au.nombre as nombre_incidencia',
+                 'a.hora_entrada', 'a.hora_salida', 'a.fecha_entrada')
+            ->paginate(10);
         return view('assistance')->with(['assistance' => $assistance]);
     }
 
