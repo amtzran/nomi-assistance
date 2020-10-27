@@ -6,11 +6,13 @@ use App\Imports\AssistancesImport;
 use App\Assistance;
 use App\Employee;
 use App\Exports\AssistancesExport;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class AssistanceController extends Controller
 {
@@ -36,21 +38,27 @@ class AssistanceController extends Controller
 
     // Esta es una prueba
     public function getEmployeesByJson(){
-        $employees = DB::table('empleados')->get();
+        $employees = DB::table('empleados as e')
+            ->join('turnos as t', 'e.id_turno', 't.id')
+            ->select('e.*', 't.nombre_turno as turno')
+            ->get();
+
         echo $employees->toJson();
     }
 
     /**
-     * Guarda la asistencia por la clave del empleado
-     * @return JSON
+     * Save assistance of employee
+     * @param Request $request
+     * @return JsonResponse
      */
     public function saveAssistance(Request $request){
 
         try {
-            
+
             $employeeKey = $request->get('key');
+            $coordinates = $request->get('coordinates');
             $employee = Employee::where('clave', $employeeKey)->first();
-            
+
             if ($employee){
 
                 $entry = Assistance::where('id_clave', $employee->clave)
@@ -87,6 +95,7 @@ class AssistanceController extends Controller
                     $assistance->salida = 0;
                     $assistance->hora_entrada = Carbon::now()->toTimeString();
                     $assistance->fecha_entrada = Carbon::now()->toDateString();
+                    $assistance->geolocalizacion = $coordinates;
                     $assistance->save();
                 }
             }
@@ -105,7 +114,7 @@ class AssistanceController extends Controller
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return BinaryFileResponse
      */
     public function export()
     {
@@ -113,7 +122,7 @@ class AssistanceController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     *  Import data assistance's to excel
      */
     public function import()
     {
