@@ -1,23 +1,24 @@
 $(document).ready(function() {
-    //start modal new users
-    $('#userNew').click(function() {
-        let name = $('#name').val();
-        let email = $('#email').val();
-        let password = $('#password').val();
-        let id_rol = $('#rol').val();
+    //start modal new employees save
+    $('#turnNew').click(function() {
+
+        // Variables input
+        let nombre_turno = $('#nombre_turno').val();
+        let hora_entrada = $('#hora_entrada').val();
+        let hora_salida = $('#hora_salida').val();
+
         $.ajax({
             type: 'POST',
-            url: "../create/user",
+            url: "../create/turn",
             data: {
                 _token: $("meta[name=csrf-token]").attr("content"),
-                name: name,
-                email: email,
-                password: password,
-                id_rol: id_rol
+                nombre_turno: nombre_turno,
+                hora_entrada: hora_entrada,
+                hora_salida: hora_salida,
             },
             success: function(data) {
-                if (data.errors) {
-                    faltante();
+                if (data.code == 500) {
+                    faltante(data.message);
                 } else {
                     correcto();
                     location.reload();
@@ -27,7 +28,6 @@ $(document).ready(function() {
     });
 
     //end modal new employees
-
     //sweet alert
     function correcto() {
         swal.fire({
@@ -39,9 +39,9 @@ $(document).ready(function() {
         });
     }
 
-    function faltante() {
+    function faltante(message) {
         swal.fire({
-            title: "Ha ocurrido un error",
+            title: message,
             text: " ",
             icon: "error",
             button: false,

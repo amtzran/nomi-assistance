@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 use App\Branch;
 
 class BranchOfficeController extends Controller
@@ -74,7 +75,12 @@ class BranchOfficeController extends Controller
      */
     public function export()
     {
-        return Excel::download(new BranchsExport, 'sucursales.xlsx');
+        $name = 'Sucursales-';
+        $csvExtension = '.xlsx';
+        $date = Carbon::now(); 
+        $date = $date->toFormattedDateString();
+        $nameFecha = $name . $date . $csvExtension;
+        return Excel::download(new BranchsExport, $nameFecha);
     }
 
     /**

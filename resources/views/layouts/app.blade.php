@@ -65,6 +65,7 @@
                                     <a id="employees-nav" href="{{ route('employees') }}" type="button" class="btn btn-outline-secondary">Empleados</a>
                                     <a id="branch-nav" href="{{ route('branch') }}" type="button" class="btn btn-outline-secondary">Sucursales</a>
                                     <a id="assitance-nav" href="{{ route('assistance') }}" type="button" class="btn btn-outline-secondary">Asistencia</a>
+                                    <a id="configuration-nav" href="{{ route('configuration') }}" type="button" class="btn btn-outline-secondary">Configuración</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -78,7 +79,6 @@
                                                      document.getElementById('logout-form').submit();">
                                         Cerrar sesión
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>

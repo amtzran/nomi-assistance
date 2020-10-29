@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,17 +12,14 @@
 
     <!-- Scripts -->
     <script src="http://127.0.0.1:8000/js/app.js" defer></script>
-    <script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script type="text/javascript" src="http://127.0.0.1:8000/js/app_general/setting.js"></script>
 
     <!-- Alerts JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    
+
     <script src="http://127.0.0.1:8000/js/users.js"></script>
 
     <!-- Fonts -->
@@ -31,6 +29,7 @@
     <!-- Styles -->
     <link href="http://127.0.0.1:8000/css/app.css" rel="stylesheet">
 </head>
+
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
@@ -51,815 +50,816 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                                                    <li class="nav-item">
-                                <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
-                            </li>
-                                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
 
         <main class="py-4">
-            
 
-    <div class="col-12">
-        <h4>Empleados</h4>
-        <br>
-        <div class="row">
-            <div class="col-md-2 col-md-push-3">
-                <button class="btn btn-dark" data-toggle="modal" data-target="#myModal">Importar Datos</button>
-            </div>
-            <div class="col-md-10 col-md-pull-9">
-                <a href="http://127.0.0.1:8000/api/js/assistance/export/employee" class="btn btn-dark">Exportar Datos</a>
-            </div>
-        </div>
-        <!-- INICIA MODAL PARA INSCRIBIR -->
-        <div class="modal fade" id="myModal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            <div class="col-12">
+                <h4>Empleados</h4>
+                <br>
+                <div class="row">
+                    <div class="col-md-2 col-md-push-3">
+                        <button class="btn btn-dark" data-toggle="modal" data-target="#myModal">Importar Datos</button>
                     </div>
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <h4 class="modal-title">Importar datos</h4>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <form method="POST" enctype="multipart/form-data" action="http://127.0.0.1:8000/employee/file/upload" role="form">
-                            <input type="hidden" name="_token" value="">
-                            <label for="employee">Seleccionar archivo csv</label>
-                            <input class="form-control btn" type="file" id="employee" name="employee" multiple>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-dark">Importar</button>
-                            </div>
-                        </form>
+                    <div class="col-md-10 col-md-pull-9">
+                        <a href="http://127.0.0.1:8000/api/js/assistance/export/employee" class="btn btn-dark">Exportar Datos</a>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- TERMINA MODAL PARA ELIMINAR REGISTRO -->
+                <!-- INICIA MODAL PARA INSCRIBIR -->
+                <div class="modal fade" id="myModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <h4 class="modal-title">Importar datos</h4>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <form method="POST" enctype="multipart/form-data" action="http://127.0.0.1:8000/employee/file/upload" role="form">
+                                    <input type="hidden" name="_token" value="">
+                                    <label for="employee">Seleccionar archivo csv</label>
+                                    <input class="form-control btn" type="file" id="employee" name="employee" multiple>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-dark">Importar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- TERMINA MODAL PARA ELIMINAR REGISTRO -->
 
-        <br>
-            <div>
-                <table class="table table-hover border">
-                    <thead>
-                    <tr >
-                        <th>Clave</th>
-                        <th>NSS</th>
-                        <th>Sucursal</th>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Turno</th>
-                    </tr>
-                    </thead>
+                <br>
+                <div>
+                    <table class="table table-hover border">
+                        <thead>
+                            <tr>
+                                <th>Clave</th>
+                                <th>NSS</th>
+                                <th>Sucursal</th>
+                                <th>Nombre</th>
+                                <th>Apellidos</th>
+                                <th>Turno</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                                            <tr>
-                            <td>0014</td>
-                            <td>51876906952</td>
-                            <td>21</td>
-                            <td>Rodney</td>
-                            <td>Shepherd</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0034</td>
-                            <td>51877120595</td>
-                            <td>9</td>
-                            <td>Ignacio</td>
-                            <td>Reyes</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0058</td>
-                            <td>51028520255</td>
-                            <td>58</td>
-                            <td>Irene</td>
-                            <td>Martinez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0087</td>
-                            <td>51836511199</td>
-                            <td>58</td>
-                            <td>Juana Maria</td>
-                            <td>Mendoza</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0099</td>
-                            <td>51806100536</td>
-                            <td>58</td>
-                            <td>Maria Socorro</td>
-                            <td>Reyes</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0142</td>
-                            <td>51099125414</td>
-                            <td>58</td>
-                            <td>Rafael</td>
-                            <td>Andrade</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0178</td>
-                            <td>51907306685</td>
-                            <td>5</td>
-                            <td>Cecilio</td>
-                            <td>0</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0210</td>
-                            <td>51098707337</td>
-                            <td>62</td>
-                            <td>Salvador</td>
-                            <td>Cantero</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0214</td>
-                            <td>51876908438</td>
-                            <td>5</td>
-                            <td>Eduardo</td>
-                            <td>Cervantes</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0230</td>
-                            <td>51998350279</td>
-                            <td>5</td>
-                            <td>Jose Antonio</td>
-                            <td>Juarez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0227</td>
-                            <td>51068618670</td>
-                            <td>63</td>
-                            <td>Jonathan</td>
-                            <td>Castro</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0277</td>
-                            <td>51117500127</td>
-                            <td>58</td>
-                            <td>Beatriz</td>
-                            <td>Mendoza</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0281</td>
-                            <td>14048647961</td>
-                            <td>70</td>
-                            <td>Jorge Armando</td>
-                            <td>Diaz</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0337</td>
-                            <td>51077802125</td>
-                            <td>4</td>
-                            <td>Virginia</td>
-                            <td>Villalobos</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0364</td>
-                            <td>92896507271</td>
-                            <td>70</td>
-                            <td>Jorge Severo</td>
-                            <td>Baca</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0351</td>
-                            <td>51068823049</td>
-                            <td>27</td>
-                            <td>Jorge Eduardo</td>
-                            <td>Cervantes</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0357</td>
-                            <td>51957812871</td>
-                            <td>62</td>
-                            <td>Janeth</td>
-                            <td>Lopez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0387</td>
-                            <td>37018109274</td>
-                            <td>62</td>
-                            <td>Karen</td>
-                            <td>Castro</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0392</td>
-                            <td>51118910838</td>
-                            <td>5</td>
-                            <td>Gerardo</td>
-                            <td>Nieves</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0399</td>
-                            <td>51937713249</td>
-                            <td>7</td>
-                            <td>Santiago</td>
-                            <td>Sandoval</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0409</td>
-                            <td>51957854972</td>
-                            <td>7</td>
-                            <td>Juan Manuel</td>
-                            <td>Mejia</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0459</td>
-                            <td>51786007644</td>
-                            <td>58</td>
-                            <td>Ma. Teresa</td>
-                            <td>Valerio</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0466</td>
-                            <td>51978068784</td>
-                            <td>5</td>
-                            <td>Francisco Javier</td>
-                            <td>Lopez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0519</td>
-                            <td>16765000910</td>
-                            <td>64</td>
-                            <td>Miguel</td>
-                            <td>Facio</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0528</td>
-                            <td>51118700692</td>
-                            <td>9</td>
-                            <td>Oscar</td>
-                            <td>Gonzalez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0536</td>
-                            <td>51887028424</td>
-                            <td>58</td>
-                            <td>Jose David</td>
-                            <td>Trujillo</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0002</td>
-                            <td>51088301638</td>
-                            <td>22</td>
-                            <td>Alejandra</td>
-                            <td>Robles</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0710</td>
-                            <td>51038705573</td>
-                            <td>51</td>
-                            <td>Antonio</td>
-                            <td>Garcia </td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0784</td>
-                            <td>51128809020</td>
-                            <td>5</td>
-                            <td>Enrique</td>
-                            <td>Nieves</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0830</td>
-                            <td>34058902551</td>
-                            <td>65</td>
-                            <td>Francisco Javier Emanuel</td>
-                            <td>Chavira</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0883</td>
-                            <td>04068001652</td>
-                            <td>5</td>
-                            <td>Javier</td>
-                            <td>Garcia</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0924</td>
-                            <td>51927851710</td>
-                            <td>58</td>
-                            <td>J Marcos</td>
-                            <td>Valdez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0940</td>
-                            <td>51978218504</td>
-                            <td>5</td>
-                            <td>Fernando</td>
-                            <td>Baca</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>1168</td>
-                            <td>51897230846</td>
-                            <td>58</td>
-                            <td>Ma De La Luz</td>
-                            <td>Vera</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>1184</td>
-                            <td>51079010305</td>
-                            <td>5</td>
-                            <td>Guillermo</td>
-                            <td>Hermosillo</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>1294</td>
-                            <td>53099029307</td>
-                            <td>9</td>
-                            <td>Angel Ernesto</td>
-                            <td>Ramirez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>1310</td>
-                            <td>51987103499</td>
-                            <td>5</td>
-                            <td>Leticia</td>
-                            <td>Hernandez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>1328</td>
-                            <td>51078830125</td>
-                            <td>62</td>
-                            <td>Viridiana Elizabeth</td>
-                            <td>Mendez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>1362</td>
-                            <td>51139329711</td>
-                            <td>25</td>
-                            <td>Carolina</td>
-                            <td>Nieto</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>0957</td>
-                            <td>51138903334</td>
-                            <td>25</td>
-                            <td>Victor Antonio</td>
-                            <td>Hernandez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>1631</td>
-                            <td>90088408480</td>
-                            <td>58</td>
-                            <td>Maria Vannesa</td>
-                            <td>Hernandez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>1690</td>
-                            <td>51089011293</td>
-                            <td>5</td>
-                            <td>Jose Carlos</td>
-                            <td>Santos</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>1741</td>
-                            <td>51129113463</td>
-                            <td>10</td>
-                            <td>Maria Cristina</td>
-                            <td>Gongora</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>2050</td>
-                            <td>39987605639</td>
-                            <td>63</td>
-                            <td>Paola Lilianna</td>
-                            <td>Medina</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>2066</td>
-                            <td>51897318419</td>
-                            <td>5</td>
-                            <td>Lorena</td>
-                            <td>Romo</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>2080</td>
-                            <td>51129125665</td>
-                            <td>12</td>
-                            <td>Cesar</td>
-                            <td>Sarmiento</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>3242</td>
-                            <td>51965950382</td>
-                            <td>58</td>
-                            <td>Consuelo</td>
-                            <td>Perez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>3482</td>
-                            <td>51048902111</td>
-                            <td>5</td>
-                            <td>Alondra Elizabeth</td>
-                            <td>Cervantes</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>3525</td>
-                            <td>50159778906</td>
-                            <td>58</td>
-                            <td>Flor Andrea</td>
-                            <td>Medina</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>3830</td>
-                            <td>51907327590</td>
-                            <td>58</td>
-                            <td>Ruben</td>
-                            <td>Rodriguez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>3973</td>
-                            <td>51987203521</td>
-                            <td>62</td>
-                            <td>Ma. De La Luz</td>
-                            <td>Solis</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>4208</td>
-                            <td>51139311115</td>
-                            <td>2</td>
-                            <td>Maria Magdalena</td>
-                            <td>Anaya</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>4328</td>
-                            <td>51128606004</td>
-                            <td>14</td>
-                            <td>Carlos Enrique</td>
-                            <td>Sanchez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>4397</td>
-                            <td>03169516246</td>
-                            <td>5</td>
-                            <td>Sonia Anayeli</td>
-                            <td>Perez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>4597</td>
-                            <td>51008510581</td>
-                            <td>5</td>
-                            <td>Ricardo Eucebio</td>
-                            <td>Hernandez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>4706</td>
-                            <td>51099020219</td>
-                            <td>7</td>
-                            <td>Cecilia</td>
-                            <td>Esquivel</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>4769</td>
-                            <td>51816208188</td>
-                            <td>58</td>
-                            <td>Maria Elena</td>
-                            <td>Bocanegra</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>5062</td>
-                            <td>51836410582</td>
-                            <td>2</td>
-                            <td>Mario</td>
-                            <td>Martinez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>5276</td>
-                            <td>20119345872</td>
-                            <td>62</td>
-                            <td>Jose Alfredo</td>
-                            <td>Gonzalez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>5446</td>
-                            <td>12118730915</td>
-                            <td>62</td>
-                            <td>Carmen</td>
-                            <td>Jimenez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>5461</td>
-                            <td>78008025492</td>
-                            <td>63</td>
-                            <td>Raul</td>
-                            <td>Garcia</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>5474</td>
-                            <td>05169098307</td>
-                            <td>5</td>
-                            <td>Laura Juana</td>
-                            <td>Gallardo</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>5577</td>
-                            <td>51947852318</td>
-                            <td>5</td>
-                            <td>Gabriel</td>
-                            <td>Martinez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>5607</td>
-                            <td>39927452712</td>
-                            <td>21</td>
-                            <td>Gilberto</td>
-                            <td>Gutierrez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>5639</td>
-                            <td>17179677145</td>
-                            <td>62</td>
-                            <td>Victoria</td>
-                            <td>Coyomatzi</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>5626</td>
-                            <td>35169428147</td>
-                            <td>63</td>
-                            <td>Viridiana Jazmin</td>
-                            <td>Hernandez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>5734</td>
-                            <td>08179105724</td>
-                            <td>62</td>
-                            <td>Gustavo Alfredo</td>
-                            <td>Miranda</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>6092</td>
-                            <td>51796402751</td>
-                            <td>4</td>
-                            <td>Ma. Candelaria</td>
-                            <td>Reyes</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>6271</td>
-                            <td>03189325024</td>
-                            <td>62</td>
-                            <td>Erandenyf Janet</td>
-                            <td>Bravo</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>6330</td>
-                            <td>31169928806</td>
-                            <td>58</td>
-                            <td>Jose De Jesus</td>
-                            <td>Gutierrez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>6336</td>
-                            <td>52876810392</td>
-                            <td>25</td>
-                            <td>Ramon</td>
-                            <td>Garcia</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>6591</td>
-                            <td>25169436091</td>
-                            <td>63</td>
-                            <td>Karen Fabiola</td>
-                            <td>Garcia</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>6631</td>
-                            <td>51129429067</td>
-                            <td>63</td>
-                            <td>Ma Del Refugio</td>
-                            <td>De Lira</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>6731</td>
-                            <td>27160046028</td>
-                            <td>25</td>
-                            <td>Alan Max</td>
-                            <td>Velarde</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>6737</td>
-                            <td>51129203405</td>
-                            <td>65</td>
-                            <td>Mario Angel </td>
-                            <td>Gomez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>6736</td>
-                            <td>49169806103</td>
-                            <td>2</td>
-                            <td>Perla</td>
-                            <td>Vera</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7012</td>
-                            <td>51139114774</td>
-                            <td>18</td>
-                            <td>Jessica</td>
-                            <td>Martinez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7127</td>
-                            <td>51018419468</td>
-                            <td>63</td>
-                            <td>Gloria Gabriela</td>
-                            <td>Torres</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7207</td>
-                            <td>51048807906</td>
-                            <td>21</td>
-                            <td>Jose Guadalupe</td>
-                            <td>Olague</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7283</td>
-                            <td>75139591004</td>
-                            <td>25</td>
-                            <td>Veronica De La Luz</td>
-                            <td>Govea</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7331</td>
-                            <td>51079500040</td>
-                            <td>8</td>
-                            <td>Ricardo Aron</td>
-                            <td>Lopez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7353</td>
-                            <td>51078902031</td>
-                            <td>5</td>
-                            <td>Karla Janeth</td>
-                            <td>Diaz</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7377</td>
-                            <td>01179401391</td>
-                            <td>25</td>
-                            <td>Tania Navid</td>
-                            <td>Esqueda</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7372</td>
-                            <td>51109226558</td>
-                            <td>25</td>
-                            <td>Jimena Del Rocio</td>
-                            <td>Rangel</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7405</td>
-                            <td>18169366194</td>
-                            <td>25</td>
-                            <td>Carlos Ignacio</td>
-                            <td>Urzua</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7620</td>
-                            <td>51159401580</td>
-                            <td>63</td>
-                            <td>Consuelo</td>
-                            <td>Gonzalez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7626</td>
-                            <td>51139560208</td>
-                            <td>63</td>
-                            <td>Adolfo</td>
-                            <td>Ramirez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7629</td>
-                            <td>42160062347</td>
-                            <td>7</td>
-                            <td>Laura Jazmin</td>
-                            <td>Rodriguez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7638</td>
-                            <td>92048901604</td>
-                            <td>26</td>
-                            <td>Christopher Alfredo</td>
-                            <td>Rodriguez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7642</td>
-                            <td>38169666138</td>
-                            <td>63</td>
-                            <td>Martin</td>
-                            <td>Sanchez</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7643</td>
-                            <td>54159773909</td>
-                            <td>63</td>
-                            <td>Lucia Jaquelin</td>
-                            <td>Renovato</td>
-                            <td>Matutino</td>
-                        </tr>
-                                            <tr>
-                            <td>7644</td>
-                            <td>02188325696</td>
-                            <td>63</td>
-                            <td>Gabriela</td>
-                            <td>Medina</td>
-                            <td>Matutino</td>
-                        </tr>
-                                        </tbody>
-                </table>
+                        <tbody>
+                            <tr>
+                                <td>0014</td>
+                                <td>51876906952</td>
+                                <td>21</td>
+                                <td>Rodney</td>
+                                <td>Shepherd</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0034</td>
+                                <td>51877120595</td>
+                                <td>9</td>
+                                <td>Ignacio</td>
+                                <td>Reyes</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0058</td>
+                                <td>51028520255</td>
+                                <td>58</td>
+                                <td>Irene</td>
+                                <td>Martinez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0087</td>
+                                <td>51836511199</td>
+                                <td>58</td>
+                                <td>Juana Maria</td>
+                                <td>Mendoza</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0099</td>
+                                <td>51806100536</td>
+                                <td>58</td>
+                                <td>Maria Socorro</td>
+                                <td>Reyes</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0142</td>
+                                <td>51099125414</td>
+                                <td>58</td>
+                                <td>Rafael</td>
+                                <td>Andrade</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0178</td>
+                                <td>51907306685</td>
+                                <td>5</td>
+                                <td>Cecilio</td>
+                                <td>0</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0210</td>
+                                <td>51098707337</td>
+                                <td>62</td>
+                                <td>Salvador</td>
+                                <td>Cantero</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0214</td>
+                                <td>51876908438</td>
+                                <td>5</td>
+                                <td>Eduardo</td>
+                                <td>Cervantes</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0230</td>
+                                <td>51998350279</td>
+                                <td>5</td>
+                                <td>Jose Antonio</td>
+                                <td>Juarez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0227</td>
+                                <td>51068618670</td>
+                                <td>63</td>
+                                <td>Jonathan</td>
+                                <td>Castro</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0277</td>
+                                <td>51117500127</td>
+                                <td>58</td>
+                                <td>Beatriz</td>
+                                <td>Mendoza</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0281</td>
+                                <td>14048647961</td>
+                                <td>70</td>
+                                <td>Jorge Armando</td>
+                                <td>Diaz</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0337</td>
+                                <td>51077802125</td>
+                                <td>4</td>
+                                <td>Virginia</td>
+                                <td>Villalobos</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0364</td>
+                                <td>92896507271</td>
+                                <td>70</td>
+                                <td>Jorge Severo</td>
+                                <td>Baca</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0351</td>
+                                <td>51068823049</td>
+                                <td>27</td>
+                                <td>Jorge Eduardo</td>
+                                <td>Cervantes</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0357</td>
+                                <td>51957812871</td>
+                                <td>62</td>
+                                <td>Janeth</td>
+                                <td>Lopez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0387</td>
+                                <td>37018109274</td>
+                                <td>62</td>
+                                <td>Karen</td>
+                                <td>Castro</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0392</td>
+                                <td>51118910838</td>
+                                <td>5</td>
+                                <td>Gerardo</td>
+                                <td>Nieves</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0399</td>
+                                <td>51937713249</td>
+                                <td>7</td>
+                                <td>Santiago</td>
+                                <td>Sandoval</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0409</td>
+                                <td>51957854972</td>
+                                <td>7</td>
+                                <td>Juan Manuel</td>
+                                <td>Mejia</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0459</td>
+                                <td>51786007644</td>
+                                <td>58</td>
+                                <td>Ma. Teresa</td>
+                                <td>Valerio</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0466</td>
+                                <td>51978068784</td>
+                                <td>5</td>
+                                <td>Francisco Javier</td>
+                                <td>Lopez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0519</td>
+                                <td>16765000910</td>
+                                <td>64</td>
+                                <td>Miguel</td>
+                                <td>Facio</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0528</td>
+                                <td>51118700692</td>
+                                <td>9</td>
+                                <td>Oscar</td>
+                                <td>Gonzalez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0536</td>
+                                <td>51887028424</td>
+                                <td>58</td>
+                                <td>Jose David</td>
+                                <td>Trujillo</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0002</td>
+                                <td>51088301638</td>
+                                <td>22</td>
+                                <td>Alejandra</td>
+                                <td>Robles</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0710</td>
+                                <td>51038705573</td>
+                                <td>51</td>
+                                <td>Antonio</td>
+                                <td>Garcia </td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0784</td>
+                                <td>51128809020</td>
+                                <td>5</td>
+                                <td>Enrique</td>
+                                <td>Nieves</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0830</td>
+                                <td>34058902551</td>
+                                <td>65</td>
+                                <td>Francisco Javier Emanuel</td>
+                                <td>Chavira</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0883</td>
+                                <td>04068001652</td>
+                                <td>5</td>
+                                <td>Javier</td>
+                                <td>Garcia</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0924</td>
+                                <td>51927851710</td>
+                                <td>58</td>
+                                <td>J Marcos</td>
+                                <td>Valdez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0940</td>
+                                <td>51978218504</td>
+                                <td>5</td>
+                                <td>Fernando</td>
+                                <td>Baca</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>1168</td>
+                                <td>51897230846</td>
+                                <td>58</td>
+                                <td>Ma De La Luz</td>
+                                <td>Vera</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>1184</td>
+                                <td>51079010305</td>
+                                <td>5</td>
+                                <td>Guillermo</td>
+                                <td>Hermosillo</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>1294</td>
+                                <td>53099029307</td>
+                                <td>9</td>
+                                <td>Angel Ernesto</td>
+                                <td>Ramirez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>1310</td>
+                                <td>51987103499</td>
+                                <td>5</td>
+                                <td>Leticia</td>
+                                <td>Hernandez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>1328</td>
+                                <td>51078830125</td>
+                                <td>62</td>
+                                <td>Viridiana Elizabeth</td>
+                                <td>Mendez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>1362</td>
+                                <td>51139329711</td>
+                                <td>25</td>
+                                <td>Carolina</td>
+                                <td>Nieto</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>0957</td>
+                                <td>51138903334</td>
+                                <td>25</td>
+                                <td>Victor Antonio</td>
+                                <td>Hernandez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>1631</td>
+                                <td>90088408480</td>
+                                <td>58</td>
+                                <td>Maria Vannesa</td>
+                                <td>Hernandez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>1690</td>
+                                <td>51089011293</td>
+                                <td>5</td>
+                                <td>Jose Carlos</td>
+                                <td>Santos</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>1741</td>
+                                <td>51129113463</td>
+                                <td>10</td>
+                                <td>Maria Cristina</td>
+                                <td>Gongora</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>2050</td>
+                                <td>39987605639</td>
+                                <td>63</td>
+                                <td>Paola Lilianna</td>
+                                <td>Medina</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>2066</td>
+                                <td>51897318419</td>
+                                <td>5</td>
+                                <td>Lorena</td>
+                                <td>Romo</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>2080</td>
+                                <td>51129125665</td>
+                                <td>12</td>
+                                <td>Cesar</td>
+                                <td>Sarmiento</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>3242</td>
+                                <td>51965950382</td>
+                                <td>58</td>
+                                <td>Consuelo</td>
+                                <td>Perez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>3482</td>
+                                <td>51048902111</td>
+                                <td>5</td>
+                                <td>Alondra Elizabeth</td>
+                                <td>Cervantes</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>3525</td>
+                                <td>50159778906</td>
+                                <td>58</td>
+                                <td>Flor Andrea</td>
+                                <td>Medina</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>3830</td>
+                                <td>51907327590</td>
+                                <td>58</td>
+                                <td>Ruben</td>
+                                <td>Rodriguez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>3973</td>
+                                <td>51987203521</td>
+                                <td>62</td>
+                                <td>Ma. De La Luz</td>
+                                <td>Solis</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>4208</td>
+                                <td>51139311115</td>
+                                <td>2</td>
+                                <td>Maria Magdalena</td>
+                                <td>Anaya</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>4328</td>
+                                <td>51128606004</td>
+                                <td>14</td>
+                                <td>Carlos Enrique</td>
+                                <td>Sanchez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>4397</td>
+                                <td>03169516246</td>
+                                <td>5</td>
+                                <td>Sonia Anayeli</td>
+                                <td>Perez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>4597</td>
+                                <td>51008510581</td>
+                                <td>5</td>
+                                <td>Ricardo Eucebio</td>
+                                <td>Hernandez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>4706</td>
+                                <td>51099020219</td>
+                                <td>7</td>
+                                <td>Cecilia</td>
+                                <td>Esquivel</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>4769</td>
+                                <td>51816208188</td>
+                                <td>58</td>
+                                <td>Maria Elena</td>
+                                <td>Bocanegra</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>5062</td>
+                                <td>51836410582</td>
+                                <td>2</td>
+                                <td>Mario</td>
+                                <td>Martinez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>5276</td>
+                                <td>20119345872</td>
+                                <td>62</td>
+                                <td>Jose Alfredo</td>
+                                <td>Gonzalez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>5446</td>
+                                <td>12118730915</td>
+                                <td>62</td>
+                                <td>Carmen</td>
+                                <td>Jimenez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>5461</td>
+                                <td>78008025492</td>
+                                <td>63</td>
+                                <td>Raul</td>
+                                <td>Garcia</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>5474</td>
+                                <td>05169098307</td>
+                                <td>5</td>
+                                <td>Laura Juana</td>
+                                <td>Gallardo</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>5577</td>
+                                <td>51947852318</td>
+                                <td>5</td>
+                                <td>Gabriel</td>
+                                <td>Martinez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>5607</td>
+                                <td>39927452712</td>
+                                <td>21</td>
+                                <td>Gilberto</td>
+                                <td>Gutierrez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>5639</td>
+                                <td>17179677145</td>
+                                <td>62</td>
+                                <td>Victoria</td>
+                                <td>Coyomatzi</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>5626</td>
+                                <td>35169428147</td>
+                                <td>63</td>
+                                <td>Viridiana Jazmin</td>
+                                <td>Hernandez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>5734</td>
+                                <td>08179105724</td>
+                                <td>62</td>
+                                <td>Gustavo Alfredo</td>
+                                <td>Miranda</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>6092</td>
+                                <td>51796402751</td>
+                                <td>4</td>
+                                <td>Ma. Candelaria</td>
+                                <td>Reyes</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>6271</td>
+                                <td>03189325024</td>
+                                <td>62</td>
+                                <td>Erandenyf Janet</td>
+                                <td>Bravo</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>6330</td>
+                                <td>31169928806</td>
+                                <td>58</td>
+                                <td>Jose De Jesus</td>
+                                <td>Gutierrez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>6336</td>
+                                <td>52876810392</td>
+                                <td>25</td>
+                                <td>Ramon</td>
+                                <td>Garcia</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>6591</td>
+                                <td>25169436091</td>
+                                <td>63</td>
+                                <td>Karen Fabiola</td>
+                                <td>Garcia</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>6631</td>
+                                <td>51129429067</td>
+                                <td>63</td>
+                                <td>Ma Del Refugio</td>
+                                <td>De Lira</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>6731</td>
+                                <td>27160046028</td>
+                                <td>25</td>
+                                <td>Alan Max</td>
+                                <td>Velarde</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>6737</td>
+                                <td>51129203405</td>
+                                <td>65</td>
+                                <td>Mario Angel </td>
+                                <td>Gomez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>6736</td>
+                                <td>49169806103</td>
+                                <td>2</td>
+                                <td>Perla</td>
+                                <td>Vera</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7012</td>
+                                <td>51139114774</td>
+                                <td>18</td>
+                                <td>Jessica</td>
+                                <td>Martinez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7127</td>
+                                <td>51018419468</td>
+                                <td>63</td>
+                                <td>Gloria Gabriela</td>
+                                <td>Torres</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7207</td>
+                                <td>51048807906</td>
+                                <td>21</td>
+                                <td>Jose Guadalupe</td>
+                                <td>Olague</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7283</td>
+                                <td>75139591004</td>
+                                <td>25</td>
+                                <td>Veronica De La Luz</td>
+                                <td>Govea</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7331</td>
+                                <td>51079500040</td>
+                                <td>8</td>
+                                <td>Ricardo Aron</td>
+                                <td>Lopez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7353</td>
+                                <td>51078902031</td>
+                                <td>5</td>
+                                <td>Karla Janeth</td>
+                                <td>Diaz</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7377</td>
+                                <td>01179401391</td>
+                                <td>25</td>
+                                <td>Tania Navid</td>
+                                <td>Esqueda</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7372</td>
+                                <td>51109226558</td>
+                                <td>25</td>
+                                <td>Jimena Del Rocio</td>
+                                <td>Rangel</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7405</td>
+                                <td>18169366194</td>
+                                <td>25</td>
+                                <td>Carlos Ignacio</td>
+                                <td>Urzua</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7620</td>
+                                <td>51159401580</td>
+                                <td>63</td>
+                                <td>Consuelo</td>
+                                <td>Gonzalez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7626</td>
+                                <td>51139560208</td>
+                                <td>63</td>
+                                <td>Adolfo</td>
+                                <td>Ramirez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7629</td>
+                                <td>42160062347</td>
+                                <td>7</td>
+                                <td>Laura Jazmin</td>
+                                <td>Rodriguez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7638</td>
+                                <td>92048901604</td>
+                                <td>26</td>
+                                <td>Christopher Alfredo</td>
+                                <td>Rodriguez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7642</td>
+                                <td>38169666138</td>
+                                <td>63</td>
+                                <td>Martin</td>
+                                <td>Sanchez</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7643</td>
+                                <td>54159773909</td>
+                                <td>63</td>
+                                <td>Lucia Jaquelin</td>
+                                <td>Renovato</td>
+                                <td>Matutino</td>
+                            </tr>
+                            <tr>
+                                <td>7644</td>
+                                <td>02188325696</td>
+                                <td>63</td>
+                                <td>Gabriela</td>
+                                <td>Medina</td>
+                                <td>Matutino</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
 
         </main>
     </div>
     <!-- Personal JS -->
     <script type="text/javascript" src="http://127.0.0.1:8000/js/employees/validation.js"></script>
 </body>
+
 </html>

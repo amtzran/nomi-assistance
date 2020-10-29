@@ -29,8 +29,8 @@
                         <form method="POST" enctype="multipart/form-data" action="{{ Route('assistance_file_upload')
                         }}" role="form">
                             {{ csrf_field() }}
-                            <label for="assistance">Seleccionar archivo csv</label>
-                            <input type="file" id="assistance" name="assistance" accept=".csv" required="required">
+                            <label for="assistance">Seleccionar archivo excel</label>
+                            <input type="file" id="assistance" name="assistance" required="required">
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-dark">Importar</button>
                             </div>
@@ -54,6 +54,7 @@
                     <th>Hora Entrada</th>
                     <th>Hora Salida</th>
                     <th>Fecha</th>
+                    <th>Geolocalización</th>
                 </tr>
                 </thead>
 
@@ -68,6 +69,7 @@
                         <td>{{ $assist->hora_entrada }}</td>
                         <td>{{ $assist->hora_salida }}</td>
                         <td>{{ $assist->fecha_entrada }}</td>
+                        <td><a target="_blank" class="btn btn-outline-secondary" href="https://www.google.com/maps/place/{{ $assist->geolocalizacion }}"><i class="fas fa-map-marked-alt"></i> Punto de Asistencia</a></td>
                     </tr>
                 @endforeach
                 </tbody>

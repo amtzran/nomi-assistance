@@ -44,7 +44,7 @@
                         <form method="POST" enctype="multipart/form-data" action="{{ Route('branch_file_upload') }}"
                               role="form">
                             {{ csrf_field() }}
-                            <label for="branch">Seleccionar archivo csv</label>
+                            <label for="branch">Seleccionar archivo excel</label>
                             <input class="form-control btn" type="file" id="branch" name="branch" multiple>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-dark">Importar</button>

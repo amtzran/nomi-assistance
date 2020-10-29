@@ -29,7 +29,12 @@
                         <label for="apellido_materno">Apellido Materno</label>
                         <input type="text" id="apellido_materno" class="form-control" name="apellido_materno" placeholder="Apellido materno del empleado (Catalago)" required="required">
                         <label for="turno">Turno</label>
-                        <input type="text" id="turno" class="form-control" name="turno" placeholder="Turno del empleado (Catalago)" required="required">
+                        <select name="turno" id="turno" class="form-control">
+                            <option value="" disabled selected>Seleccione un Turno</option>
+                            @foreach($turnos as $turno)
+                                <option value="{{ $turno->id }}">{{ $turno->nombre_turno }}</option>
+                            @endforeach
+                        </select>
                     </form>
                 </div>
                 <!-- Modal footer -->
