@@ -29,6 +29,15 @@
                 <button class="btn btn-success" data-toggle="modal" data-target="#myModalEmployee">Ingresar Nuevo Empleado</button>
             </div>
         </div>
+        <br>
+        <form action="{{ Route('employees') }}" method="GET" id="form">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control mr-2" placeholder="Buscar por: Clave, Nss, Nombre, Apellido Paterno" id="search" name="search">
+            <div class="input-group-prepend">
+                <span><button type="submit" class="btn btn-primary">Buscar</button></span>
+            </div>
+        </div>
+        </form>
         <!-- INICIA MODAL PARA EXCEL -->
         <div class="modal fade" id="myModal" tabindex="-1">
             <div class="modal-dialog">
@@ -45,7 +54,7 @@
                     <div class="modal-footer">
                         <form method="POST" enctype="multipart/form-data" action="{{ Route('employee_file_upload') }}" role="form">
                             {{ csrf_field() }}
-                            <label for="employee">Seleccionar archivo csv</label>
+                            <label for="employee">Seleccionar archivo excel</label>
                             <input class="form-control btn" type="file" id="employee" name="employee" multiple>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-dark">Importar</button>
@@ -60,7 +69,7 @@
         @include('layouts.employee.add_employee')
         <br>
             <div class="table-responsive-md">
-                <table class="table table-hover table-borderless">
+                <table class="table table-hover table-borderless" id="#tableData">
                     <thead>
                     <tr class="table-primary">
                         <th>Clave</th>

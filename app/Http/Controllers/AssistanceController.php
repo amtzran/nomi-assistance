@@ -25,7 +25,7 @@ class AssistanceController extends Controller
             ->join('empleados as e', 'a.id_clave', 'e.clave')
             ->join('ausencias as au', 'a.asistencia', 'au.id')
             ->select('e.clave', 'e.nss', 'e.nombre', 'e.apellido_paterno', 'au.nombre as nombre_incidencia',
-                 'a.hora_entrada', 'a.hora_salida', 'a.fecha_entrada')
+                 'a.hora_entrada', 'a.hora_salida', 'a.fecha_entrada', 'a.geolocalizacion')
             ->paginate(10);
         return view('assistance')->with(['assistance' => $assistance]);
     }
@@ -118,7 +118,12 @@ class AssistanceController extends Controller
      */
     public function export()
     {
-        return Excel::download(new AssistancesExport, 'asistencias.csv');
+        $name = 'Asistencias-';
+        $csvExtension = '.xlsx';
+        $date = Carbon::now(); 
+        $date = $date->toFormattedDateString();
+        $nameFecha = $name . $date . $csvExtension;
+        return Excel::download(new AssistancesExport, $nameFecha);
     }
 
     /**
@@ -128,13 +133,13 @@ class AssistanceController extends Controller
     {
         DB::table('asistencia')->delete();
 
-        Excel::import(new AssistancesImport, 'asistencia.csv');
+        Excel::import(new AssistancesImport, 'asistencia.xlsx');
 
         return redirect('/')->with('success', 'All good!');
     }
 
     public function assistanceFile(Request $request){
-        Storage::putFileAs('/', $request->file('assistance'), 'asistencia.csv');
+        Storage::putFileAs('/', $request->file('assistance'), 'asistencia.xlsx');
         $this->import();
         return redirect()->route('assistance');
     }

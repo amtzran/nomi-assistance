@@ -24,7 +24,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::name('createEmployee')->post('create/employee', 'EmployeeController@create');
     Route::name('updateEmployee')->post('employees/update','EmployeeController@updateEmployee');
     Route::name('deleteEmployee')->post('employees/delete','EmployeeController@deleteEmployee');
-
     //Sucursales
     Route::name('branch')->get('branch', 'BranchOfficeController@index');
     Route::name('branch_file_upload')->post('branch/file/upload', 'BranchOfficeController@branchFile');
@@ -35,6 +34,12 @@ Route::group(['middleware' => 'auth'], function () {
     //Asistencias
     Route::name('assistance')->get('assistance', 'AssistanceController@assistance');
     Route::name('assistance_file_upload')->post('assistance/file/upload', 'AssistanceController@assistanceFile');
+
+    //Configuraciones
+    Route::name('configuration')->get('configuration', 'ConfigurationController@index');
+    Route::name('createTurn')->post('create/turn', 'ConfigurationController@create');
+    Route::name('updateTurn')->post('turns/update','ConfigurationController@updateTurn');
+    Route::name('deleteTurn')->post('turns/delete','ConfigurationController@deleteTurn');
 
 });
 

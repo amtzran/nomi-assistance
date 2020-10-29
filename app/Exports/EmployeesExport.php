@@ -15,8 +15,9 @@ class EmployeesExport implements FromCollection
     {
         $employees = DB::table('empleados as e')
         // 3 parametros tabla a hacer join,1 tabla a asociar, 2 campo de relacion, 3 campo id del tabla sucursal
-            ->join('sucursales as s','e.id_sucursal','s.id')
-            ->select('e.id','e.clave','e.nss','s.nombre as sucursal','e.nombre', 'e.apellidos', 'e.turno')
+            ->join('sucursales as s','e.id_sucursal','s.clave')
+            ->join('turnos as t','e.id_turno','t.id')
+            ->select('e.id','e.clave','e.nss','s.nombre as sucursal','e.nombre', 'e.apellido_paterno','e.apellido_materno', 't.nombre_turno as turno')
             ->get();
         $employees->prepend([
             'Id',
@@ -24,7 +25,8 @@ class EmployeesExport implements FromCollection
             'Nss',
             'Sucursal',
             'Nombre',
-            'Apellidos',
+            'Apellido Paterno',
+            'Apellido Materno',
             'Turno'            
         ]);
         return $employees;        

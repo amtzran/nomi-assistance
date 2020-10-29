@@ -9,7 +9,7 @@ $(document).ready(function() {
         let nombre = $('#nombre').val();
         let apellido_paterno = $('#apellido_paterno').val();
         let apellido_materno = $('#apellido_materno').val();
-        let turno = $('#turno').val();
+        let id_turno = $('#turno option:selected').val();
 
         // //validations
         // if (clave === "") missingText('Ingresa la clave del Empleado');
@@ -33,7 +33,7 @@ $(document).ready(function() {
                 nombre: nombre,
                 apellido_paterno: apellido_paterno,
                 apellido_materno: apellido_materno,
-                turno: turno
+                id_turno: id_turno
             },
             success: function(data) {
                 if (data.code == 500) {
@@ -47,7 +47,6 @@ $(document).ready(function() {
     });
 
     //end modal new employees
-
     //sweet alert
     function correcto() {
         swal.fire({

@@ -10,16 +10,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Employee;
+use Illuminate\Support\Facades\Input;
 
 class EmployeeController extends Controller
 {
     public function index(){
         $employees = DB::table('empleados as e')
             ->join('sucursales as s','e.id_sucursal','s.clave')
-            ->select('e.id','e.clave','e.nss','s.nombre as sucursal','s.clave as sucursalId','e.nombre', 'e.apellido_paterno', 'e.apellido_materno', 'e.turno')
-            ->paginate(10);
-        $branches = DB::table('sucursales as s')->get();    
-        return view('employee')->with(['employees' => $employees,'sucursales' => $branches]);
+            ->join('turnos as t','e.id_turno','t.id')
+            ->select('e.id','e.clave','e.nss','s.nombre as sucursal','s.clave as sucursalId','e.nombre', 'e.apellido_paterno', 'e.apellido_materno', 't.nombre_turno as turno','t.id as turnoId')
+            ->where('e.clave', 'like', '%'.Input::get('search').'%')
+            ->orWhere('e.nss', 'like', '%'.Input::get('search').'%')
+            ->orWhere('e.nombre', 'like', '%'.Input::get('search').'%')
+            ->orWhere('e.apellido_paterno', 'like', '%'.Input::get('search').'%')
+            ->orderBy('clave', 'desc')
+            ->paginate(10)
+            ;
+        $turns = DB::table('turnos as t')->get();
+        $branches = DB::table('sucursales as s')->get();
+        return view('employee')->with(['employees' => $employees,'sucursales' => $branches,'turnos' => $turns]);
     }
 
     // Guardar Empleados
@@ -43,7 +52,7 @@ class EmployeeController extends Controller
             $employee->nombre = $request->nombre;
             $employee->apellido_paterno = $request->apellido_paterno;
             $employee->apellido_materno = $request->apellido_materno;
-            $employee->turno = $request->turno;
+            $employee->id_turno = $request->id_turno;
             $employee->id_empresa = 1;
     
             $employee->save();
@@ -79,12 +88,11 @@ class EmployeeController extends Controller
         $employee->nombre = $request->nombre;
         $employee->apellido_paterno = $request->apellido_paterno;
         $employee->apellido_materno = $request->apellido_materno;
-        $employee->turno = $request->turno;
+        $employee->id_turno = $request->turno;
         $employee->id_empresa = 1;
-        
         $employee->save();
         
-        return redirect()->route('updateEmployee')->with('success', 'Datos Guardados Correctamente.');
+        return redirect()->route('employees')->with('success', 'Datos Guardados Correctamente.');
     }
     //Delete
     public function deleteEmployee(Request $request){
