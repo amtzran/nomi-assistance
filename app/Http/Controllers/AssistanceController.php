@@ -45,7 +45,6 @@ class AssistanceController extends Controller
 
         echo $employees->toJson();
     }
-
     /**
      * Save assistance of employee
      * @param Request $request
@@ -112,7 +111,6 @@ class AssistanceController extends Controller
             ], 500);
         }
     }
-
     /**
      * @return BinaryFileResponse
      */
@@ -125,7 +123,6 @@ class AssistanceController extends Controller
         $nameFecha = $name . $date . $csvExtension;
         return Excel::download(new AssistancesExport, $nameFecha);
     }
-
     /**
      *  Import data assistance's to excel
      */
