@@ -52,23 +52,6 @@ Route::group(['prefix' => 'js'], function () {
          */
         Route::post('/save/assistance', 'AssistanceController@saveAssistance');
 
-        /**
-         * Exporta e Importa datos con Excel en tabla Asistencias.
-         */
-        Route::name('export_assistance')->get('/export/assistance', 'AssistanceController@export');
-        Route::name('import_assistance')->get('/import/assistance', 'AssistanceController@import');
-
-        /**
-         * Exporta e Importa datos con Excel en tabla Sucursales.
-         */
-        Route::name('export_branch')->get('/export/branch', 'BranchOfficeController@export');
-        Route::name('import_branch')->get('/import/branch', 'BranchOfficeController@import');
-
-        /**
-         * Exporta e Importa datos con Excel en tabla Empleados.
-         */
-        Route::name('export_employee')->get('/export/employee', 'EmployeeController@export');
-        Route::name('import_employee')->get('/import/employee', 'EmployeeController@import');
 
         /**
          * Retorna un LoginResponse en base a los datos de sesión del usuario desde la app.

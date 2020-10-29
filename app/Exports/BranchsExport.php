@@ -7,11 +7,19 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class BranchsExport implements FromCollection
 {
+    private $id_empresa;
+
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * BranchsExport constructor.
+     * @param $id_empresa
+     */
+    public function __construct($id_empresa)
+    {
+        $this->id_empresa = $id_empresa;
+    }
+
     public function collection()
     {
-        return Branch::all();
+        return Branch::where('id_empresa', $this->id_empresa)->get();
     }
 }

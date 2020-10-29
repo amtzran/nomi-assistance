@@ -11,6 +11,9 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 Route::group(['middleware' => 'auth'], function () {
 
     // Las rutas que incluyas aquí pasarán por el middleware 'auth'
@@ -24,16 +27,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::name('createEmployee')->post('create/employee', 'EmployeeController@create');
     Route::name('updateEmployee')->post('employees/update','EmployeeController@updateEmployee');
     Route::name('deleteEmployee')->post('employees/delete','EmployeeController@deleteEmployee');
+    Route::name('export_employee')->get('employees/export/employee', 'EmployeeController@export');
+    Route::name('import_employee')->get('employees/import/employee', 'EmployeeController@import');
+
     //Sucursales
     Route::name('branch')->get('branch', 'BranchOfficeController@index');
     Route::name('branch_file_upload')->post('branch/file/upload', 'BranchOfficeController@branchFile');
     Route::name('createBranch')->post('create/branch', 'BranchOfficeController@create');
     Route::name('updateBranch')->post('branch/update','BranchOfficeController@updateBranch');
     Route::name('deleteBranch')->post('branch/delete','BranchOfficeController@deleteBranch');
+    Route::name('export_branch')->get('branch/export/branch', 'BranchOfficeController@export');
+    Route::name('import_branch')->get('branch/import/branch', 'BranchOfficeController@import');
 
     //Asistencias
     Route::name('assistance')->get('assistance', 'AssistanceController@assistance');
     Route::name('assistance_file_upload')->post('assistance/file/upload', 'AssistanceController@assistanceFile');
+    Route::name('export_assistance')->get('assistance/export/assistance', 'AssistanceController@export');
+    Route::name('import_assistance')->get('assistance/import/assistance', 'AssistanceController@import');
 
     //Configuraciones
     Route::name('configuration')->get('configuration', 'ConfigurationController@index');

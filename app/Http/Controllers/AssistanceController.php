@@ -2,42 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\AssistancesImport;
 use App\Assistance;
 use App\Employee;
 use App\Exports\AssistancesExport;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Http\Request;
+use App\Imports\AssistancesImport;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class AssistanceController extends Controller
 {
-    public function index(){
+    /**
+     * Return view welcome
+     */
+    public function index() {
         return view('welcome');
     }
 
-    public function assistance(){
+    /**
+     * Returns the assistance view with data.
+     */
+    public function assistance() {
         $assistance = DB::table('asistencia as a')
             ->join('empleados as e', 'a.id_clave', 'e.clave')
             ->join('ausencias as au', 'a.asistencia', 'au.id')
             ->select('e.clave', 'e.nss', 'e.nombre', 'e.apellido_paterno', 'au.nombre as nombre_incidencia',
-                 'a.hora_entrada', 'a.hora_salida', 'a.fecha_entrada', 'a.geolocalizacion')
+                 'a.hora_entrada', 'a.hora_salida', 'a.fecha_entrada', 'a.geolocalizacion', 'e.id_empresa')
+            ->where('e.id_empresa', auth()->user()->id_empresa)
             ->paginate(10);
+
         return view('assistance')->with(['assistance' => $assistance]);
     }
 
-    //
-    public function getSucByJson(){
+    /**
+     * Get all branches
+     */
+    public function getSucByJson() {
         $branches = DB::table('sucursales')->get();
         echo $branches->toJson();
     }
 
-    // Esta es una prueba
-    public function getEmployeesByJson(){
+    /**
+     * Get all employees
+     */
+    public function getEmployeesByJson() {
         $employees = DB::table('empleados as e')
             ->join('turnos as t', 'e.id_turno', 't.id')
             ->select('e.*', 't.nombre_turno as turno')
@@ -51,7 +64,7 @@ class AssistanceController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function saveAssistance(Request $request){
+    public function saveAssistance(Request $request) {
 
         try {
 
@@ -114,13 +127,14 @@ class AssistanceController extends Controller
     }
 
     /**
+     * Exporta los datos de la tabla Asistencias a excel.
      * @return BinaryFileResponse
      */
     public function export()
     {
         $name = 'Asistencias-';
         $csvExtension = '.xlsx';
-        $date = Carbon::now(); 
+        $date = Carbon::now();
         $date = $date->toFormattedDateString();
         $nameFecha = $name . $date . $csvExtension;
         return Excel::download(new AssistancesExport, $nameFecha);
@@ -129,8 +143,7 @@ class AssistanceController extends Controller
     /**
      *  Import data assistance's to excel
      */
-    public function import()
-    {
+    public function import() {
         DB::table('asistencia')->delete();
 
         Excel::import(new AssistancesImport, 'asistencia.xlsx');
@@ -138,7 +151,11 @@ class AssistanceController extends Controller
         return redirect('/')->with('success', 'All good!');
     }
 
-    public function assistanceFile(Request $request){
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function assistanceFile(Request $request) {
         Storage::putFileAs('/', $request->file('assistance'), 'asistencia.xlsx');
         $this->import();
         return redirect()->route('assistance');
