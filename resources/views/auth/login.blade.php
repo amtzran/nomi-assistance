@@ -11,6 +11,13 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
+                        @if($errors->has('not'))
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong>Cuenta suspendida</strong> debido a falta de pago o uso indebido.
+                            </div>
+                        @endif
+
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 

@@ -18,16 +18,17 @@ class EmployeeController extends Controller
         $employees = DB::table('empleados as e')
             ->join('sucursales as s','e.id_sucursal','s.clave')
             ->join('turnos as t','e.id_turno','t.id')
-            ->select('e.id','e.clave','e.nss','s.nombre as sucursal','s.clave as sucursalId','e.nombre', 'e.apellido_paterno', 'e.apellido_materno', 't.nombre_turno as turno','t.id as turnoId')
-            ->where('e.clave', 'like', '%'.Input::get('search').'%')
+            ->select('e.id','e.clave','e.nss','s.nombre as sucursal','s.clave as sucursalId','e.nombre',
+                'e.apellido_paterno', 'e.apellido_materno', 't.nombre_turno as turno','t.id as turnoId')
+            ->where('e.id_empresa', auth()->user()->id_empresa)
+            ->orWhere('e.clave', 'like', '%'.Input::get('search').'%')
             ->orWhere('e.nss', 'like', '%'.Input::get('search').'%')
             ->orWhere('e.nombre', 'like', '%'.Input::get('search').'%')
             ->orWhere('e.apellido_paterno', 'like', '%'.Input::get('search').'%')
             ->orderBy('clave', 'desc')
-            ->paginate(10)
-            ;
-        $turns = DB::table('turnos as t')->get();
-        $branches = DB::table('sucursales as s')->get();
+            ->paginate(10);
+        $turns = DB::table('turnos as t')->where('id_empresa', auth()->user()->id_empresa)->get();
+        $branches = DB::table('sucursales as s')->where('id_empresa', auth()->user()->id_empresa)->get();
         return view('employee')->with(['employees' => $employees,'sucursales' => $branches,'turnos' => $turns]);
     }
 
@@ -53,10 +54,10 @@ class EmployeeController extends Controller
             $employee->apellido_paterno = $request->apellido_paterno;
             $employee->apellido_materno = $request->apellido_materno;
             $employee->id_turno = $request->id_turno;
-            $employee->id_empresa = 1;
-    
+            $employee->id_empresa = auth()->user()->id_empresa;
+
             $employee->save();
-            
+
             return response()->json([
                 'code' => 201,
                 'message' => 'Registro Guardado'
@@ -75,12 +76,12 @@ class EmployeeController extends Controller
             ->select('e.id','e.clave','e.nss','s.nombre as sucursal','e.nombre', 'e.apellido_paterno', 'e.apellido_materno', 'e.turno')
             ->where('e.id', $id)->first();
 
-            $branches = DB::table('sucursales')->get();
+            $branches = DB::table('sucursales')->where('id_empresa', auth()->user()->id_empresa)->get();
             return view('employee')->with(['employees' => $employees,'sucursales' => $branches]);
     }
     //Update
     public function updateEmployee(Request $request){
-        
+
         $employee = Employee::find($request->id);
         $employee->clave = $request->clave;
         $employee->nss = $request->nss;
@@ -89,9 +90,9 @@ class EmployeeController extends Controller
         $employee->apellido_paterno = $request->apellido_paterno;
         $employee->apellido_materno = $request->apellido_materno;
         $employee->id_turno = $request->turno;
-        $employee->id_empresa = 1;
+        $employee->id_empresa = auth()->user()->id_empresa;
         $employee->save();
-        
+
         return redirect()->route('employees')->with('success', 'Datos Guardados Correctamente.');
     }
     //Delete
@@ -111,10 +112,10 @@ class EmployeeController extends Controller
     {
         $name = 'Empleados-';
         $csvExtension = '.xlsx';
-        $date = Carbon::now(); 
+        $date = Carbon::now();
         $date = $date->toFormattedDateString();
         $nameFecha = $name . $date . $csvExtension;
-        return Excel::download(new EmployeesExport, $nameFecha);
+        return Excel::download(new EmployeesExport(auth()->user()->id_empresa), $nameFecha);
     }
     /**
      * Importa datos desde un archivo excel a la tabla de Empleados.

@@ -2,24 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\BranchsImport;
-use App\Exports\BranchsExport;
-use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
 use App\Branch;
+use App\Exports\BranchsExport;
+use App\Imports\BranchsImport;
+use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BranchOfficeController extends Controller
 {
-    public function index(){
-        $branch = DB::table('sucursales')->paginate(10);
+    /**
+     * Returns the branch view with data.
+     */
+    public function index() {
+        $branch = DB::table('sucursales')
+            ->where('id_empresa', auth()->user()->id_empresa)
+            ->paginate(10);
+
         return view('branch')->with(['branch' => $branch]);
     }
-    public function create(Request $request){
+
+    /**
+     * Create a new branch
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function create(Request $request) {
         try {
-            $requestBranch = $request->clave;
+            $requestBranch = $request->get('clave');
 
             $isExist = Branch::where('clave', $requestBranch)->first;
             if($isExist) {
@@ -31,11 +45,10 @@ class BranchOfficeController extends Controller
 
             $branch = new Branch;
             $branch->clave = $requestBranch;
-
-            $branch->nombre = $request->nombre;
-    
+            $branch->nombre = $request->get('nombre');
+            $branch->id_empresa = auth()->user()->id_empresa;
             $branch->save();
-            
+
             return response()->json([
                 'code' => 201,
                 'message' => 'Registro Guardado'
@@ -47,56 +60,71 @@ class BranchOfficeController extends Controller
             ]);
         }
     }
-     //Update Sucursal
-     public function updateBranch(Request $request){
 
-        $requestBranch = $request->clave;
-        
-        $branch = Branch::find($request->id);
+    /**
+     * Update a branch
+     * @param Request $request
+     * @return RedirectResponse
+     */
+     public function updateBranch(Request $request) {
+
+        $requestBranch = $request->get('clave');
+
+        $branch = Branch::find($request->get('id'));
         $branch->clave = $requestBranch;
-        $branch->nombre = $request->nombre;
-        
+        $branch->nombre = $request->get('nombre');
         $branch->save();
-        
+
         return redirect()->route('branch')->with('success', 'Datos Guardados Correctamente.');
     }
-      //Delete Sucursal
-      public function deleteBranch(Request $request){
 
-        $branch = Branch::find($request->id);
+    /**
+     * Delete a branch by id
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function deleteBranch(Request $request) {
+
+        $branch = Branch::find($request->get('id'));
         $branch->delete();
 
         return redirect()->route('branch')->with('success', 'Datos eliminados Correctamente.');
 
     }
+
     /**
      * Exporta los datos de la tabla Sucursales a excel.
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function export()
-    {
+    public function export() {
+
         $name = 'Sucursales-';
         $csvExtension = '.xlsx';
-        $date = Carbon::now(); 
+        $date = Carbon::now();
         $date = $date->toFormattedDateString();
-        $nameFecha = $name . $date . $csvExtension;
-        return Excel::download(new BranchsExport, $nameFecha);
+        $nameDate = $name . $date . $csvExtension;
+        return Excel::download(new BranchsExport(auth()->user()->id_empresa), $nameDate);
+
     }
 
     /**
      * Importa datos desde un archivo excel a la tabla de sucursales.
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function import()
-    {
+    public function import() {
+
         DB::table('sucursales')->delete();
 
         Excel::import(new BranchsImport, 'sucursal.xlsx');
 
         return redirect('/')->with('success', 'All good!');
+
     }
 
-    public function branchFile(Request $request){
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function branchFile(Request $request) {
         Storage::putFileAs('/', $request->file('branch'), 'sucursal.xlsx');
         $this->import();
         return redirect()->route('branch');

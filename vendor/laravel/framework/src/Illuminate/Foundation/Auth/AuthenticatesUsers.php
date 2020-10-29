@@ -3,6 +3,7 @@
 namespace Illuminate\Foundation\Auth;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -63,10 +64,26 @@ trait AuthenticatesUsers
      */
     protected function validateLogin(Request $request)
     {
-        $request->validate([
-            $this->username() => 'required|string',
-            'password' => 'required|string',
-        ]);
+        $user = DB::table('users as u')
+            ->join('empresas as e', 'u.id_empresa', 'e.id')
+            ->where('email', $request->get('email'))
+            ->select('e.status')
+            ->first();
+
+        if ($user) {
+            if ($user->status == 2) {
+                $request->validate([
+                    $this->username() => 'required|string',
+                    'password' => 'required|string',
+                    'not' => 'required',
+                ]);
+            } else {
+                $request->validate([
+                    $this->username() => 'required|string',
+                    'password' => 'required|string',
+                ]);
+            }
+        }
     }
 
     /**
