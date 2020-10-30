@@ -114,7 +114,7 @@ class BranchOfficeController extends Controller
 
         DB::table('sucursales')->delete();
 
-        Excel::import(new BranchsImport, 'sucursal.xlsx');
+        Excel::import(new BranchsImport(auth()->user()->id_empresa), 'sucursal.xlsx');
 
         return redirect('/')->with('success', 'All good!');
 
