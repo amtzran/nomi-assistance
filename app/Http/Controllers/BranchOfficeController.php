@@ -6,13 +6,19 @@ use App\Branch;
 use App\Exports\BranchsExport;
 use App\Imports\BranchsImport;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Throwable;
 
+/**
+ * Class BranchOfficeController
+ * @package App\Http\Controllers
+ */
 class BranchOfficeController extends Controller
 {
     /**
@@ -35,7 +41,7 @@ class BranchOfficeController extends Controller
         try {
             $requestBranch = $request->get('clave');
 
-            $isExist = Branch::where('clave', $requestBranch)->first;
+            $isExist = Branch::where('clave', $requestBranch)->first();
             if($isExist) {
                 return response()->json([
                     'code' => 500,
@@ -53,7 +59,7 @@ class BranchOfficeController extends Controller
                 'code' => 201,
                 'message' => 'Registro Guardado'
             ]);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return response()->json([
                 'code' => 500,
                 'message' => 'Algo ha salido mal, intenta de nuevo.'
@@ -82,6 +88,7 @@ class BranchOfficeController extends Controller
      * Delete a branch by id
      * @param Request $request
      * @return RedirectResponse
+     * @throws Exception
      */
     public function deleteBranch(Request $request) {
 
@@ -97,12 +104,16 @@ class BranchOfficeController extends Controller
      */
     public function export() {
 
-        $name = 'Sucursales-';
-        $csvExtension = '.xlsx';
-        $date = Carbon::now();
-        $date = $date->toFormattedDateString();
-        $nameDate = $name . $date . $csvExtension;
-        return Excel::download(new BranchsExport(auth()->user()->id_empresa), $nameDate);
+        try {
+            $name = 'Sucursales-';
+            $csvExtension = '.xlsx';
+            $date = Carbon::now();
+            $date = $date->toFormattedDateString();
+            $nameDate = $name . $date . $csvExtension;
+            return Excel::download(new BranchsExport(auth()->user()->id_empresa), $nameDate);
+        } catch (Exception $exception) {
+            return redirect('/');
+        }
 
     }
 

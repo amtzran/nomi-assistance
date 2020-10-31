@@ -2,25 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Turn;
+use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Turn;
+use Illuminate\View\View;
+use Throwable;
 
+/**
+ * Class ConfigurationController
+ * @package App\Http\Controllers
+ */
 class ConfigurationController extends Controller
 {
-    //
+    /**
+     * @return Factory|Application|View
+     */
     public function index(){
         $turns = DB::table('turnos')->paginate(10);
         return view('configuration')->with(['turns' => $turns]);
     }
-    // Guardar Turnos
+
+    /**
+     * Guarda un nuevo turno
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function create(Request $request){
         try {
 
             $turn = new Turn;
-            $turn->nombre_turno= $request->nombre_turno;
-            $turn->hora_entrada= $request->hora_entrada;
-            $turn->hora_salida= $request->hora_salida;
+            $turn->nombre_turno= $request->get('nombre_turno');
+            $turn->hora_entrada= $request->get('hora_entrada');
+            $turn->hora_salida= $request->get('hora_salida');
             $turn->id_empresa= 0;
 
             $turn->save();
@@ -29,30 +47,41 @@ class ConfigurationController extends Controller
                 'code' => 201,
                 'message' => 'Registro Guardado'
             ]);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return response()->json([
                 'code' => 500,
                 'message' => $th
             ]);
         }
     }
-    // Actualizar Turnos
+
+    /**
+     * Actualiza un turno por su id.
+     * @param Request $request
+     * @return RedirectResponse
+     */
     public function updateTurn(Request $request){
 
-        $turn = Turn::find($request->id);
-        $turn->nombre_turno = $request->nombre_turno;
-        $turn->hora_entrada = $request->hora_entrada;
-        $turn->hora_salida = $request->hora_salida;
+        $turn = Turn::find($request->get('id'));
+        $turn->nombre_turno = $request->get('nombre_turno');
+        $turn->hora_entrada = $request->get('hora_entrada');
+        $turn->hora_salida = $request->get('hora_salida');
         $turn->id_empresa = 0;
 
         $turn->save();
 
         return redirect()->route('configuration')->with('success', 'Datos Guardados Correctamente.');
     }
-    //Eliminar Turnos
+
+    /**
+     * Elimina un turno por su id.
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws Exception
+     */
     public function deleteTurn(Request $request){
 
-        $turn = Turn::find($request->id);
+        $turn = Turn::find($request->get('id'));
         $turn->delete();
 
         return redirect()->route('configuration')->with('success', 'Datos eliminados Correctamente.');

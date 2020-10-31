@@ -2,10 +2,14 @@
 
 namespace App\Exports;
 
-use App\Employee;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use DB;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
+/**
+ * Class EmployeesExport
+ * @package App\Exports
+ */
 class EmployeesExport implements FromCollection
 {
 
@@ -22,7 +26,8 @@ class EmployeesExport implements FromCollection
 
 
     /**
-    * @return \Illuminate\Support\Collection
+     * Exporta una colección de empleados.
+    * @return Collection
     */
     public function collection()
     {

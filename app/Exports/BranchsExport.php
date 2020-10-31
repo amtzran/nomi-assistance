@@ -5,6 +5,10 @@ namespace App\Exports;
 use App\Branch;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
+/**
+ * Class BranchsExport
+ * @package App\Exports
+ */
 class BranchsExport implements FromCollection
 {
     private $id_empresa;

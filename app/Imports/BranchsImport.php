@@ -5,6 +5,10 @@ namespace App\Imports;
 use App\Branch;
 use Maatwebsite\Excel\Concerns\ToModel;
 
+/**
+ * Class BranchsImport
+ * @package App\Imports
+ */
 class BranchsImport implements ToModel
 {
     private $id_empresa;

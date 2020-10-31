@@ -3,10 +3,13 @@
 namespace App\Exports;
 use Carbon\Carbon;
 use DB;
-
-use App\Assistance;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
+/**
+ * Class AssistancesExport
+ * @package App\Exports
+ */
 class AssistancesExport implements FromCollection
 {
     private $filter;
@@ -26,8 +29,9 @@ class AssistancesExport implements FromCollection
         $this->final_date = $final_date;
     }
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * Exporta una colección de empleados a excel.
+     * @return Collection
+     */
     public function collection()
     {
         $assistances = DB::table('asistencia as a')
