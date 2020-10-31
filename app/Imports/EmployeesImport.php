@@ -4,26 +4,30 @@ namespace App\Imports;
 
 use App\Employee;
 use App\Branch;
+use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\ToModel;
 
+/**
+ * Class EmployeesImport
+ * @package App\Imports
+ */
 class EmployeesImport implements ToModel
 {
     private $id_empresa;
 
     /**
-     * BranchsImport constructor.
+     * EmployeesImport constructor.
      * @param $id_empresa
-     */
-
-    /**
-     * @param array $row
-     * @return Employee
      */
     public function __construct($id_empresa)
     {
         $this->id_empresa = $id_empresa;
     }
 
+    /**
+     * @param array $row
+     * @return Employee|Model|Model[]|null
+     */
     public function model(array $row)
     {
         $validationSucursal= Branch::where('clave', $row[2])->first();

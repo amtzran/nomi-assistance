@@ -13,8 +13,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Exception;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Throwable;
 
+/**
+ * Class AssistanceController
+ * @package App\Http\Controllers
+ */
 class AssistanceController extends Controller
 {
     /**
@@ -118,7 +124,7 @@ class AssistanceController extends Controller
                 'message' => 'Registro guardado.'
             ], 201);
 
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return response()->json([
                 'code' => 500,
                 'message' => $th->getMessage()
@@ -127,8 +133,10 @@ class AssistanceController extends Controller
     }
 
     /**
-     * Exporta los datos de la tabla Asistencias a excel.
+     * @param Request $request
      * @return BinaryFileResponse
+     * @throws Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     public function export(Request $request)
     {

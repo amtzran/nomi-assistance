@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class LoginController
+ * @package App\Http\Controllers\Auth
+ */
 class LoginController extends Controller
 {
     /*
@@ -42,13 +47,15 @@ class LoginController extends Controller
 
     /**
      * Valida los datos de intento de sesión desde app para generar el login.
+     * @param Request $request
+     * @return JsonResponse
      */
     public function authenticate(Request $request)
     {
         $email = $request->get('username');
         $password = $request->get('password');
         if (Auth::attempt(['email' => $email, 'password' => $password])) {
-            $idUser = DB::table('users')->where('email', $email)->first();
+            $idUser = User::where('email', $email)->first();
             $loginResponse = [
                 'loginResponse' => 1,
                 'user_name' => $idUser->name,

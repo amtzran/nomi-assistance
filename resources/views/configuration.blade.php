@@ -1,10 +1,8 @@
 @extends('layouts.app')
-
-@section('content')
-
 @section('personal-js')
-<script type="text/javascript" src="{{ asset('/js/configurations.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/configurations.js') }}"></script>
 @endsection
+@section('content')
 
     <div class="col-12">
         <h4>Configuraciones</h4>

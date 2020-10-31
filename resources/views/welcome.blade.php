@@ -8,7 +8,7 @@
                 pequeñas, medianas y grandes empresas y automatizar tareas en conjunto a software de contabilidad,
                 gracias a las opciones de exportar e importar información con excel.</p>
             <p><a class="btn btn-secondary btn-sm" href="#" role="button">Versión 1.0</a></p>
-            <img src="https://ipc.milaulas.com/pluginfile.php/1895/course/overviewfiles/reporte-de-asistencia.png" class="img-responsive center-block" />
+            <img src="https://ipc.milaulas.com/pluginfile.php/1895/course/overviewfiles/reporte-de-asistencia.png" class="img-responsive center-block"  alt=""/>
         </div>
         <div class="container d-md-flex py-4">
 
