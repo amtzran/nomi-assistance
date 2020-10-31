@@ -15,18 +15,33 @@ use Illuminate\Support\Facades\Input;
 class EmployeeController extends Controller
 {
     public function index(){
+        $search= Input::get('search');
+
+        $users = DB::table('empleados as e')->where('e.id_empresa', auth()->user()->id_empresa)->where(function($query) use ($search){
+            $query
+                ->join('sucursales as s','e.id_sucursal','s.clave')
+                ->join('turnos as t','e.id_turno','t.id')
+                ->select('e.id','e.clave','e.nss','s.nombre as sucursal','s.clave as sucursalId','e.nombre',
+                    'e.apellido_paterno', 'e.apellido_materno', 't.nombre_turno as turno','t.id as turnoId')
+                ->where('e.clave', 'like', '%'.Input::get('search').'%')
+                ->orWhere('e.nss', 'like', '%'.Input::get('search').'%')
+                ->orWhere('e.nombre', 'like', '%'.Input::get('search').'%')
+                ->orWhere('e.apellido_paterno', 'like', '%'.Input::get('search').'%');
+        })->paginate(10);
+
         $employees = DB::table('empleados as e')
             ->join('sucursales as s','e.id_sucursal','s.clave')
             ->join('turnos as t','e.id_turno','t.id')
             ->select('e.id','e.clave','e.nss','s.nombre as sucursal','s.clave as sucursalId','e.nombre',
                 'e.apellido_paterno', 'e.apellido_materno', 't.nombre_turno as turno','t.id as turnoId')
-            ->where('e.id_empresa', auth()->user()->id_empresa)
+            ->Where('e.id_empresa', auth()->user()->id_empresa)
             ->orWhere('e.clave', 'like', '%'.Input::get('search').'%')
             ->orWhere('e.nss', 'like', '%'.Input::get('search').'%')
             ->orWhere('e.nombre', 'like', '%'.Input::get('search').'%')
             ->orWhere('e.apellido_paterno', 'like', '%'.Input::get('search').'%')
             ->orderBy('clave', 'desc')
             ->paginate(10);
+
         $turns = DB::table('turnos as t')->where('id_empresa', auth()->user()->id_empresa)->get();
         $branches = DB::table('sucursales as s')->where('id_empresa', auth()->user()->id_empresa)->get();
         return view('employee')->with(['employees' => $employees,'sucursales' => $branches,'turnos' => $turns]);
@@ -125,9 +140,9 @@ class EmployeeController extends Controller
     {
         DB::table('empleados')->delete();
 
-        Excel::import(new EmployeesImport, 'empleado.xlsx');
+        Excel::import(new EmployeesImport(auth()->user()->id_empresa), 'empleado.xlsx');
 
-        return redirect('/')->with('success', 'All good!');
+        return redirect('/')->with('success', 'Empleados cargados correctamente!');
     }
     public function employeeFile(Request $request){
         Storage::putFileAs('/', $request->file('employee'), 'empleado.xlsx');

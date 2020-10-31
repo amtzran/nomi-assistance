@@ -116,7 +116,7 @@ class BranchOfficeController extends Controller
 
         Excel::import(new BranchsImport(auth()->user()->id_empresa), 'sucursal.xlsx');
 
-        return redirect('/')->with('success', 'All good!');
+        return redirect('/')->with('success', 'Carga de Sucursales exitosa');
 
     }
 

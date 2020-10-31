@@ -130,14 +130,24 @@ class AssistanceController extends Controller
      * Exporta los datos de la tabla Asistencias a excel.
      * @return BinaryFileResponse
      */
-    public function export()
+    public function export(Request $request)
     {
+        $radioReport = $request->get("radioReport");
+        $date_initial =$request->get("date_initial");
+        $date_final =$request->get("date_final");
         $name = 'Asistencias-';
         $csvExtension = '.xlsx';
         $date = Carbon::now();
         $date = $date->toFormattedDateString();
         $nameFecha = $name . $date . $csvExtension;
-        return Excel::download(new AssistancesExport, $nameFecha);
+
+        if ($radioReport === "today" ){
+            return Excel::download(new AssistancesExport(1,null,null), $nameFecha);
+        }
+        else if ($radioReport === "all" ){
+            return Excel::download(new AssistancesExport(2,null,null), $nameFecha);
+        }
+        return view('assistance')->Excel::download(new AssistancesExport(3,$date_initial,$date_final), $nameFecha);
     }
 
     /**

@@ -8,11 +8,22 @@ use Maatwebsite\Excel\Concerns\ToModel;
 
 class EmployeesImport implements ToModel
 {
+    private $id_empresa;
+
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * BranchsImport constructor.
+     * @param $id_empresa
+     */
+
+    /**
+     * @param array $row
+     * @return Employee
+     */
+    public function __construct($id_empresa)
+    {
+        $this->id_empresa = $id_empresa;
+    }
+
     public function model(array $row)
     {
         $validationSucursal= Branch::where('clave', $row[2])->first();
@@ -24,8 +35,8 @@ class EmployeesImport implements ToModel
                 'nombre' => $row[3],
                 'apellido_paterno' => $row[4],
                 'apellido_materno' => $row[5],
-                'turno' => $row[6],
-                'id_empresa' => 1,
+                'id_turno' => $row[6],
+                'id_empresa' => $this->id_empresa,
             ]);
         }
     }

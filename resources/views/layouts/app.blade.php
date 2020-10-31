@@ -24,7 +24,7 @@
 
     <!-- Iconos Fontawesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.0/css/all.css" integrity="sha384-OLYO0LymqQ+uHXELyx93kblK5YIS3B2ZfLGBmsJaUyor7CpMTBsahDHByqSuWW+q" crossorigin="anonymous">
-    
+
     <script src="{{ asset('js/users.js') }}"></script>
 
     <!-- Fonts -->
@@ -61,7 +61,6 @@
                         @else
                             <li>
                                 <div class="btn-group" role="group" aria-label="...">
-                                    <a id="users-nav" href="{{ route('users') }}" type="button" class="btn btn-outline-secondary">Usuarios App</a>
                                     <a id="employees-nav" href="{{ route('employees') }}" type="button" class="btn btn-outline-secondary">Empleados</a>
                                     <a id="branch-nav" href="{{ route('branch') }}" type="button" class="btn btn-outline-secondary">Sucursales</a>
                                     <a id="assitance-nav" href="{{ route('assistance') }}" type="button" class="btn btn-outline-secondary">Asistencia</a>

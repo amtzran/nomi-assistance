@@ -9,5 +9,5 @@ class Branch extends Model
     // Model for table Branches
     protected $table = 'sucursales';
     protected $primarykey = 'id';
-    protected $fillable = ['id', 'clave', 'nombre'];
+    protected $fillable = ['id', 'clave', 'nombre','id_empresa'];
 }
