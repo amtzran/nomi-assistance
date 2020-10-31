@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Exports;
+use Carbon\Carbon;
 use DB;
 
 use App\Assistance;
@@ -8,6 +9,22 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class AssistancesExport implements FromCollection
 {
+    private $filter;
+    private $initial_date;
+    private $final_date;
+
+    /**
+     * AssistancesExport constructor.
+     * @param $filter
+     * @param $initial_date
+     * @param $final_date
+     */
+    public function __construct($filter, $initial_date, $final_date)
+    {
+        $this->filter = $filter;
+        $this->initial_date = $initial_date;
+        $this->final_date = $final_date;
+    }
     /**
     * @return \Illuminate\Support\Collection
     */
@@ -17,10 +34,22 @@ class AssistancesExport implements FromCollection
             ->join('empleados as e', 'a.id_clave', 'e.clave')
             ->join('ausencias as au', 'a.asistencia', 'au.id')
             ->select('e.clave', 'e.nss', 'e.nombre', 'e.apellido_paterno', 'au.nombre as nombre_incidencia',
-                'a.hora_entrada', 'a.hora_salida', 'a.fecha_entrada')
-            ->get();
+                'a.hora_entrada', 'a.hora_salida', 'a.fecha_entrada');
 
-        $assistances->prepend([
+        if ($this->filter === 1){
+            $date = Carbon::now();
+            $date = $date->toFormattedDateString();
+            $assistances->where("a.fecha_entrada", $date);
+        }
+        else if ($this->filter === 3) {
+            $assistances
+                ->whereDate("a.fecha_entrada", '>=', $this->initial_date)
+                ->whereDate('a.fecha_entrada', '<=', $this->final_date);
+        }
+
+        $data = $assistances->get();
+
+        $data->prepend([
             'Clave',
             'Nss',
             'Nombre',
@@ -28,8 +57,8 @@ class AssistancesExport implements FromCollection
             'Asistencia',
             'Hora Entrada',
             'Hora Salida',
-            'Fecha'            
+            'Fecha'
         ]);
-        return $assistances;
+        return $data;
     }
 }
