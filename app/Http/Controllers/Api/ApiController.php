@@ -54,9 +54,9 @@ class ApiController extends Controller
             $pin = $request->get('pin');
             if (!$this->validateCredentials($employeeKey, $pin)) {
                 return response()->json([
-                    'code' => 201,
+                    'code' => 401,
                     'message' => 'El PIN es incorrecto.'
-                ], 401);
+                ], 200);
             }
 
             $employee = Employee::where('clave', $employeeKey)->first();
