@@ -20,7 +20,9 @@
                     <select name="sucursal" id="sucursal" class="form-control">
                     <option value="{{ $employee->sucursalId }}" selected="true">{{ $employee->sucursal }}</option>
                         @foreach($sucursales as $sucursal)
-                          <option value="{{ $sucursal->clave }}">{{ $sucursal->nombre }}</option>
+                            @if($employee->sucursalId != $sucursal->clave)
+                                <option value="{{ $sucursal->clave }}">{{ $sucursal->nombre }}</option>
+                            @endif
                         @endforeach
                     </select>
                     <label for="nombre">Nombre</label>
@@ -33,7 +35,9 @@
                     <select name="turno" id="turno" class="form-control">
                         <option value="{{ $employee->turnoId }}" selected="true">{{ $employee->turno }}</option>
                         @foreach($turnos as $turno)
-                            <option value="{{ $turno->id }}">{{ $turno->nombre_turno }}</option>
+                            @if($employee->turnoId != $turno->id)
+                                <option value="{{ $turno->id }}">{{ $turno->nombre_turno }}</option>
+                            @endif
                         @endforeach
                     </select>
                      <!-- Modal footer -->

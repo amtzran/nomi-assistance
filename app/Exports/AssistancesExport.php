@@ -15,6 +15,7 @@ class AssistancesExport implements FromCollection
     private $filter;
     private $initial_date;
     private $final_date;
+    private $id_company;
 
     /**
      * AssistancesExport constructor.
@@ -22,11 +23,12 @@ class AssistancesExport implements FromCollection
      * @param $initial_date
      * @param $final_date
      */
-    public function __construct($filter, $initial_date, $final_date)
+    public function __construct($filter, $initial_date, $final_date, $id_company)
     {
         $this->filter = $filter;
         $this->initial_date = $initial_date;
         $this->final_date = $final_date;
+        $this->id_company = $id_company;
     }
     /**
      * Exporta una colección de empleados a excel.
@@ -38,11 +40,12 @@ class AssistancesExport implements FromCollection
             ->join('empleados as e', 'a.id_clave', 'e.clave')
             ->join('ausencias as au', 'a.asistencia', 'au.id')
             ->select('e.clave', 'e.nss', 'e.nombre', 'e.apellido_paterno', 'au.nombre as nombre_incidencia',
-                'a.hora_entrada', 'a.hora_salida', 'a.fecha_entrada');
+                'a.hora_entrada', 'a.hora_salida', 'a.fecha_entrada')
+            ->where('e.id_empresa', $this->id_company);
 
         if ($this->filter === 1){
             $date = Carbon::now();
-            $date = $date->toFormattedDateString();
+            $date = $date->toDateString();
             $assistances->where("a.fecha_entrada", $date);
         }
         else if ($this->filter === 3) {

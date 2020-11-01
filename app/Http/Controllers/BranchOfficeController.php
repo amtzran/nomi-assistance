@@ -123,7 +123,7 @@ class BranchOfficeController extends Controller
      */
     public function import() {
 
-        DB::table('sucursales')->delete();
+        DB::table('sucursales')->where("id_empresa",auth()->user()->id_empresa)->delete();
 
         Excel::import(new BranchsImport(auth()->user()->id_empresa), 'sucursal.xlsx');
 
