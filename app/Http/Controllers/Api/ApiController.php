@@ -14,22 +14,27 @@ use Throwable;
 class ApiController extends Controller
 {
     /**
-     * Get all branchs to JSON
+     * Get all branchs by company to JSON
+     * @param $empresaId
      * @return JsonResponse
      */
-    public function getSucByJson() {
-        $branches = DB::table('sucursales')->get();
+    public function getSucByJson($empresaId) {
+        $branches = DB::table('sucursales')
+            ->where('id_empresa', $empresaId)
+            ->get();
         return response()->json($branches);
     }
 
     /**
-     * Get all employees to JSON
+     * Get all employees by company to JSON
+     * @param $empresaId
      * @return JsonResponse
      */
-    public function getEmployeesByJson() {
+    public function getEmployeesByJson($empresaId) {
         $employees = DB::table('empleados as e')
             ->join('turnos as t', 'e.id_turno', 't.id')
             ->select('e.*', 't.nombre_turno as turno')
+            ->where('e.id_empresa', $empresaId)
             ->get();
 
         return response()->json($employees);
@@ -47,8 +52,7 @@ class ApiController extends Controller
             $employeeKey = $request->get('key');
             $coordinates = $request->get('coordinates');
             $pin = $request->get('pin');
-
-            if ($this->validateCredentials($employeeKey, $pin)) {
+            if (!$this->validateCredentials($employeeKey, $pin)) {
                 return response()->json([
                     'code' => 201,
                     'message' => 'El PIN es incorrecto.'
@@ -121,7 +125,7 @@ class ApiController extends Controller
         $nip = DB::table('autenticaciones')
             ->where('clave_empleado', $employeeId)
             ->first()->nip;
-        if ($nip === $pin) return true;
+        if ($nip == $pin) return true;
         return false;
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class LoginController
@@ -56,12 +57,17 @@ class LoginController extends Controller
         $password = $request->get('password');
         if (Auth::attempt(['email' => $email, 'password' => $password])) {
             $idUser = User::where('email', $email)->first();
-            $loginResponse = [
-                'loginResponse' => 1,
-                'user_name' => $idUser->name,
-                'email' => $idUser->email,
-                'user_id' => $idUser->id
-            ];
+            $status = DB::table('empresas')->where('id', $idUser->id_empresa)->first()->status;
+            if ($status === 1) {
+                $loginResponse = [
+                    'loginResponse' => 1,
+                    'user_name' => $idUser->name,
+                    'email' => $idUser->email,
+                    'user_id' => $idUser->id,
+                    'company_id' => $idUser->id_empresa
+                ];
+            } else $loginResponse = ['loginResponse' => 2];
+
             $collection = collect($loginResponse);
             return response()->json($collection);
         }
