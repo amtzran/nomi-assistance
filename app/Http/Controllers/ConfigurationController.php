@@ -19,11 +19,14 @@ use Throwable;
  */
 class ConfigurationController extends Controller
 {
+
     /**
      * @return Factory|Application|View
      */
     public function index(){
-        $turns = DB::table('turnos')->paginate(10);
+        $turns = DB::table('turnos')
+            ->where('id_empresa', auth()->user()->id_empresa)
+            ->paginate(10);
         return view('configuration')->with(['turns' => $turns]);
     }
 
@@ -39,7 +42,7 @@ class ConfigurationController extends Controller
             $turn->nombre_turno= $request->get('nombre_turno');
             $turn->hora_entrada= $request->get('hora_entrada');
             $turn->hora_salida= $request->get('hora_salida');
-            $turn->id_empresa= 0;
+            $turn->id_empresa= auth()->user()->id_empresa;
 
             $turn->save();
 
@@ -66,7 +69,7 @@ class ConfigurationController extends Controller
         $turn->nombre_turno = $request->get('nombre_turno');
         $turn->hora_entrada = $request->get('hora_entrada');
         $turn->hora_salida = $request->get('hora_salida');
-        $turn->id_empresa = 0;
+        $turn->id_empresa = auth()->user()->id_empresa;
 
         $turn->save();
 

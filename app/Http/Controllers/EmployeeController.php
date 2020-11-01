@@ -159,7 +159,7 @@ class EmployeeController extends Controller
      */
     public function import()
     {
-        DB::table('empleados')->delete();
+        DB::table('empleados')->where("id_empresa",auth()->user()->id_empresa)->delete();
 
         Excel::import(new EmployeesImport(auth()->user()->id_empresa), 'empleado.xlsx');
 

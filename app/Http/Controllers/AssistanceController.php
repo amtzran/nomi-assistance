@@ -50,8 +50,9 @@ class AssistanceController extends Controller
     public function export(Request $request)
     {
         $radioReport = $request->get("radioReport");
-        $date_initial =$request->get("date_initial");
-        $date_final =$request->get("date_final");
+        $date_initial = $request->get("date_initial");
+        $date_final = $request->get("date_final");
+        $id_company = auth()->user()->id_empresa;
         $name = 'Asistencias-';
         $csvExtension = '.xlsx';
         $date = Carbon::now();
@@ -59,12 +60,12 @@ class AssistanceController extends Controller
         $nameFecha = $name . $date . $csvExtension;
 
         if ($radioReport === "today" ){
-            return Excel::download(new AssistancesExport(1,null,null), $nameFecha);
+            return Excel::download(new AssistancesExport(1,null,null, $id_company), $nameFecha);
         }
         else if ($radioReport === "all" ){
-            return Excel::download(new AssistancesExport(2,null,null), $nameFecha);
+            return Excel::download(new AssistancesExport(2,null,null, $id_company), $nameFecha);
         }
-        return view('assistance')->Excel::download(new AssistancesExport(3,$date_initial,$date_final), $nameFecha);
+        return Excel::download(new AssistancesExport(3,$date_initial,$date_final, $id_company), $nameFecha);
     }
 
     /**
