@@ -39,13 +39,12 @@ Route::group(['prefix' => 'js'], function () {
     Route::group(['prefix' => 'assistance'], function () {
 
         /**
-         * Ruta para obtener una tarea por su Id.
-         *
-         * @url public/circlek/api/js/task/task/{id}
+         * Obtiene todas las sucursales por id de empresa.
+         * @url /api/js/assistance/sucursales/{empresaId}
          */
-        Route::get('/sucursales', 'Api\ApiController@getSucByJson');
+        Route::get('/sucursales/{empresaId}', 'Api\ApiController@getSucByJson');
 
-        Route::get('/employees', 'Api\ApiController@getEmployeesByJson');
+        Route::get('/employees/{empresaId}', 'Api\ApiController@getEmployeesByJson');
 
         /**
          * Guarda una nueva asistencia por empleado.
