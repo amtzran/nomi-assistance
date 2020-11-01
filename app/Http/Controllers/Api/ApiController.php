@@ -37,6 +37,20 @@ class ApiController extends Controller
             ->where('e.id_empresa', $empresaId)
             ->get();
 
+        $date = Carbon::now();
+        $date = $date->toDateString();
+
+        foreach ($employees as $employee) {
+            $employees->map(function ($employee) use ($date) {
+                $isAssistance = Assistance::where('fecha_entrada', $date)
+                    ->where('id_clave', $employee->clave)->first();
+                if ($isAssistance) {
+                    if ($isAssistance->entrada == 1 && $isAssistance->salida == 1) $employee->color = "#138D75";
+                    if ($isAssistance->entrada == 1 && $isAssistance->salida == 0) $employee->color = "#F39C12";
+                } else $employee->color = "#1F618D";
+            });
+        }
+
         return response()->json($employees);
     }
 
