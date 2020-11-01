@@ -43,14 +43,14 @@ Route::group(['prefix' => 'js'], function () {
          *
          * @url public/circlek/api/js/task/task/{id}
          */
-        Route::get('/sucursales', 'AssistanceController@getSucByJson');
+        Route::get('/sucursales', 'Api\ApiController@getSucByJson');
 
-        Route::get('/employees', 'AssistanceController@getEmployeesByJson');
+        Route::get('/employees', 'Api\ApiController@getEmployeesByJson');
 
         /**
          * Guarda una nueva asistencia por empleado.
          */
-        Route::post('/save/assistance', 'AssistanceController@saveAssistance');
+        Route::post('/save/assistance', 'Api\ApiController@saveAssistance');
 
 
         /**

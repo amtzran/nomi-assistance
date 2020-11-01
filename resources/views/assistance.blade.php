@@ -8,10 +8,7 @@
             <!-- <div class="col-md-2 col-md-push-3">
                 <button class="btn btn-dark" data-toggle="modal" data-target="#myModal">Importar Datos</button>
             </div> -->
-            <div class="col-md-6 col-md-pull-9">
-                <a href="{{ route('export_assistance') }}" class="btn btn-dark">Exportar Datos</a>
-            </div>
-            <div class="col-md-6 col-md-pull-9">
+            <div class="col-md-12 text-center">
                 <a class="btn btn-dark" data-toggle="modal" data-target="#myModalReport">Reporte</a>
             </div>
         </div>
