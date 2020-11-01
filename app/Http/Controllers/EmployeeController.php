@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Branch;
 use App\Employee;
 use App\Exports\EmployeesExport;
 use App\Imports\EmployeesImport;
@@ -28,10 +29,10 @@ class EmployeeController extends Controller
     public function index() {
         $search = Input::get('search');
         $employees = DB::table('empleados as e')
-            ->join('sucursales as s','e.id_sucursal','s.clave')
             ->join('turnos as t','e.id_turno','t.id')
-            ->select('e.id','e.clave','e.nss','s.nombre as sucursal','s.clave as sucursalId','e.nombre',
+            ->select('e.id','e.clave','e.nss','e.id_sucursal as sucursalId', 'e.nombre',
                 'e.apellido_paterno', 'e.apellido_materno', 't.nombre_turno as turno','t.id as turnoId')
+            ->orderBy('e.clave', 'asc')
             ->where('e.id_empresa', auth()->user()->id_empresa)->where(function ($query) use ($search) {
                 $query->where('e.clave', 'like', '%'.$search.'%')
                 ->orWhere('e.nss', 'like', '%'.$search.'%')
@@ -39,9 +40,15 @@ class EmployeeController extends Controller
                 ->orWhere('e.apellido_paterno', 'like', '%'.$search.'%');
             })->paginate(10);
 
+        $employees->getCollection()->transform(function ($item, $key) {
+            $sucursal = Branch::where('clave', $item->sucursalId)->first();
+            $item->sucursal = $sucursal->nombre;
+            return $item;
+        });
+
         $turns = DB::table('turnos as t')->where('id_empresa', auth()->user()->id_empresa)->get();
         $branches = DB::table('sucursales as s')->where('id_empresa', auth()->user()->id_empresa)->get();
-        return view('employee')->with(['employees' => $employees,'sucursales' => $branches,'turnos' => $turns]);
+        return view('employee')->with(['employees' => $employees, 'sucursales' => $branches, 'turnos' => $turns]);
     }
 
     /**
