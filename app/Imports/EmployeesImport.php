@@ -38,6 +38,7 @@ class EmployeesImport implements ToModel
             $authentication = new Authentications;
             $authentication->nip = EmployeeController::generatePIN();
             $authentication->clave_empleado = $row[0];
+            $authentication->id_empresa = $this->id_empresa;
             $authentication->save();
 
             return new Employee([

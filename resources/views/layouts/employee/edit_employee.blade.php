@@ -40,6 +40,8 @@
                             @endif
                         @endforeach
                     </select>
+                    <label for="nip">Nip</label>
+                    <input type="text" id="nip" class="form-control" name="nip" required="required" value="{{ $employee->nip }}">
                      <!-- Modal footer -->
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-dark" id="employeeEdit">Actualizar</button>

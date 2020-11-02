@@ -42,8 +42,12 @@ class EmployeeController extends Controller
             })->paginate(10);
 
         $employees->getCollection()->transform(function ($item, $key) {
-            $sucursal = Branch::where('clave', $item->sucursalId)->first();
+            $sucursal = Branch::where('clave', $item->sucursalId)
+                ->where('id_empresa', auth()->user()->id_empresa)->first();
+            $nip = Authentications::where('clave_empleado', $item->clave)
+                ->where('id_empresa', auth()->user()->id_empresa)->first();
             $item->sucursal = $sucursal->nombre;
+            $item->nip = $nip->nip;
             return $item;
         });
 
@@ -83,6 +87,7 @@ class EmployeeController extends Controller
             $authentication = new Authentications;
             $authentication->nip = $this->generatePIN();
             $authentication->clave_empleado = $request->get('clave');
+            $authentication->id_empresa = auth()->user()->id_empresa;
             $authentication->save();
 
             return response()->json([
@@ -133,6 +138,11 @@ class EmployeeController extends Controller
         $employee->id_empresa = auth()->user()->id_empresa;
         $employee->save();
 
+        $authentication = Authentications::where('clave_empleado', $employee->clave)
+            ->where('id_empresa', auth()->user()->id_empresa)->first();
+        $authentication->nip = $request->get('nip');
+        $authentication->save();
+
         return redirect()->route('employees')->with('success', 'Datos Guardados Correctamente.');
     }
 
@@ -146,6 +156,10 @@ class EmployeeController extends Controller
 
         $employee = Employee::find($request->get('id'));
         $employee->delete();
+
+        $authentication = Authentications::where('clave_empleado', $employee->clave)
+            ->where('id_empresa', auth()->user()->id_empresa)->first();
+        $authentication->delete();
 
         return redirect()->route('employees')->with('success', 'Datos eliminados Correctamente.');
 
