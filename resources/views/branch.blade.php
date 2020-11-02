@@ -16,6 +16,15 @@
                 </div>
             </div>
         @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-2 col-md-push-3">
                 <button class="btn btn-dark" data-toggle="modal" data-target="#myModal">Importar Datos</button>

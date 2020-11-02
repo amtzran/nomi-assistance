@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Throwable;
+use Validator;
 
 /**
  * Class ConfigurationController
@@ -64,6 +65,18 @@ class ConfigurationController extends Controller
      * @return RedirectResponse
      */
     public function updateTurn(Request $request){
+
+        $rules = [
+            'nombre_turno' => 'required|max:255',
+            'hora_entrada' => 'required',
+            'hora_salida' => 'required'
+        ];
+        $data = $request->all();
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            return redirect()->route('configuration')->withErrors($validator->messages())->withInput();
+        }
 
         $turn = Turn::find($request->get('id'));
         $turn->nombre_turno = $request->get('nombre_turno');

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Throwable;
+use Validator;
 
 /**
  * Class BranchOfficeController
@@ -73,6 +74,16 @@ class BranchOfficeController extends Controller
      * @return RedirectResponse
      */
      public function updateBranch(Request $request) {
+
+         $rules = [
+             'nombre' => 'required|max:250',
+         ];
+         $data = $request->all();
+         $validator = Validator::make($data, $rules);
+
+         if ($validator->fails()) {
+             return redirect()->route('branch')->withErrors($validator->messages())->withInput();
+         }
 
         $requestBranch = $request->get('clave');
 

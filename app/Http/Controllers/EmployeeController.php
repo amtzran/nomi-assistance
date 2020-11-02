@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
 use Throwable;
+use Validator;
 
 /**
  * Class EmployeeController
@@ -126,6 +127,22 @@ class EmployeeController extends Controller
      * @return RedirectResponse
      */
     public function updateEmployee(Request $request){
+
+        $rules = [
+            'clave' => 'required|max:10',
+            'nss' => 'required|max:11|numeric',
+            'sucursal' => 'required|numeric',
+            'nombre' => 'required|max:250',
+            'apellido_paterno' => 'required|max:250',
+            'apellido_materno' => 'max:250',
+            'turno' => 'required|numeric'
+        ];
+        $data = $request->all();
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            return redirect()->route('employees')->withErrors($validator->messages())->withInput();
+        }
 
         $employee = Employee::find($request->get('id'));
         $employee->clave = $request->get('clave');
