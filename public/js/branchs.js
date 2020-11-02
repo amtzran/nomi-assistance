@@ -4,23 +4,31 @@ $(document).ready(function() {
         let clave = $('#clave').val();
         let nombre = $('#nombre').val();
 
-        $.ajax({
-            type: 'POST',
-            url: "../create/branch",
-            data: {
-                _token: $("meta[name=csrf-token]").attr("content"),
-                clave: clave,
-                nombre: nombre,
-            },
-            success: function(data) {
-                if (data.code == 500) {
-                    faltante(data.message);
-                } else {
-                    correcto();
-                    location.reload();
+        //validations
+        if (clave === "") missingText('Ingresa la clave de la Sucursal');
+        else if (isNaN(clave)) missingText('Este campo sólo admite números');
+        else if (nombre === "") missingText('Ingresa el nombre de la Sucursal');
+        else if (nombre.length > 255) missingText('Debes ingresar un texto más corto que no exceda los 255 carácteres');
+
+        else{
+            $.ajax({
+                type: 'POST',
+                url: "../create/branch",
+                data: {
+                    _token: $("meta[name=csrf-token]").attr("content"),
+                    clave: clave,
+                    nombre: nombre,
+                },
+                success: function(data) {
+                    if (data.code == 500) {
+                        faltante(data.message);
+                    } else {
+                        correcto();
+                        location.reload();
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 
     //end modal new employees
@@ -43,6 +51,17 @@ $(document).ready(function() {
             icon: "error",
             button: false,
             timer: 2000
+        });
+    }
+    function missingText(textError) {
+        swal.fire({
+            title: "¡Espera!",
+            type: "error",
+            text: textError,
+            icon: "error",
+            timer: 3000,
+            showCancelButton: false,
+            showConfirmButton: false
         });
     }
     //end sweet alert
