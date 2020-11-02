@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $huella
  * @property string|null $rfid
  * @property int $clave_empleado
+ * @property int $id_empresa
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @method static Builder|Authentications newModelQuery()
@@ -36,5 +37,5 @@ class Authentications extends Model
     // Model for table autenticaciones
     protected $table = 'autenticaciones';
     protected $primarykey = 'id';
-    protected $fillable = ['id', 'nip', 'huella', 'rfid', 'clave_empleado'];
+    protected $fillable = ['id', 'nip', 'huella', 'rfid', 'clave_empleado', 'id_empresa'];
 }
