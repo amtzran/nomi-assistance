@@ -2,8 +2,10 @@
 
 namespace App\Imports;
 
+use App\Authentications;
 use App\Employee;
 use App\Branch;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\ToModel;
 
@@ -31,7 +33,13 @@ class EmployeesImport implements ToModel
     public function model(array $row)
     {
         $validationSucursal= Branch::where('clave', $row[2])->first();
-        if(!empty($validationSucursal)){
+        if(!empty($validationSucursal)) {
+
+            $authentication = new Authentications;
+            $authentication->nip = EmployeeController::generatePIN();
+            $authentication->clave_empleado = $row[0];
+            $authentication->save();
+
             return new Employee([
                 'clave' => $row[0],
                 'nss' => $row[1],

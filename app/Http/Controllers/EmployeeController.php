@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Authentications;
 use App\Branch;
 use App\Employee;
 use App\Exports\EmployeesExport;
@@ -78,6 +79,11 @@ class EmployeeController extends Controller
             $employee->id_turno = $request->get('id_turno');
             $employee->id_empresa = auth()->user()->id_empresa;
             $employee->save();
+
+            $authentication = new Authentications;
+            $authentication->nip = $this->generatePIN();
+            $authentication->clave_empleado = $request->get('clave');
+            $authentication->save();
 
             return response()->json([
                 'code' => 201,
@@ -181,5 +187,13 @@ class EmployeeController extends Controller
         Storage::putFileAs('/', $request->file('employee'), 'empleado.xlsx');
         $this->import();
         return redirect()->route('employees');
+    }
+
+    /**
+     * Generate number pin
+     * @return int
+     */
+    public static function generatePIN() {
+        return mt_rand(1000, 10000);
     }
 }
