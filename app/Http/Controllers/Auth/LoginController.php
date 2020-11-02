@@ -57,14 +57,16 @@ class LoginController extends Controller
         $password = $request->get('password');
         if (Auth::attempt(['email' => $email, 'password' => $password])) {
             $idUser = User::where('email', $email)->first();
-            $status = DB::table('empresas')->where('id', $idUser->id_empresa)->first()->status;
+            $company = DB::table('empresas')->where('id', $idUser->id_empresa)->first();
+            $status = $company->status;
             if ($status === 1) {
                 $loginResponse = [
                     'loginResponse' => 1,
                     'user_name' => $idUser->name,
                     'email' => $idUser->email,
                     'user_id' => $idUser->id,
-                    'company_id' => $idUser->id_empresa
+                    'company_id' => $idUser->id_empresa,
+                    'company' => $company->nombre
                 ];
             } else $loginResponse = ['loginResponse' => 2];
 
