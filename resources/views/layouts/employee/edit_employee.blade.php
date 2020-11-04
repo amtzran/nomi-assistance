@@ -13,7 +13,7 @@
                     {{ csrf_field() }}
                     <input type="number" name="id" value="{{ $employee->id }}" hidden="hidden">
                     <label for="clave">Clave</label>
-                    <input type="text" id="clave" class="form-control" name="clave" required="required" value="{{ $employee->clave }}">
+                    <input type="text" id="clave" class="form-control" name="clave" required="required" value="{{ $employee->clave }}" disabled="disabled">
                     <label for="nss">Nss</label>
                     <input type="text" id="nss" class="form-control" name="nss" required="required" value="{{ $employee->nss }}">
                     <label for="sucursal">Sucursal</label>

@@ -15,7 +15,7 @@ $(document).ready(function() {
         if (clave === "") missingText('Ingresa la clave del Empleado');
         else if (isNaN(clave)) missingText('Este campo sólo admite números');
         else if (nss === "") missingText('Ingresa el Número de seguridad social del Empleado');
-        else if (nss.length > 11) missingText('El numero de seguro social no debe ser mayor a 11 digitos');
+        else if (nss.length > 11) missingText('El número de seguro social no debe ser mayor a 11 digitos');
         else if (isNaN(nss)) missingText('Este campo sólo admite números');
         else if (id_sucursal == 0) missingText('Debes de seleccionar una Sucursal');
         else if (nombre === "") missingText('Ingresa el nombre del Empleado');
