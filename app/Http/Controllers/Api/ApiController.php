@@ -35,6 +35,7 @@ class ApiController extends Controller
             ->join('turnos as t', 'e.id_turno', 't.id')
             ->select('e.*', 't.nombre_turno as turno')
             ->where('e.id_empresa', $empresaId)
+            ->orderBy('e.clave', 'asc')
             ->get();
 
         $date = Carbon::now();
