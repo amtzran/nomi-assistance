@@ -47,6 +47,7 @@ class EmployeeController extends Controller
                 ->where('id_empresa', auth()->user()->id_empresa)->first();
             $nip = Authentications::where('clave_empleado', $item->clave)
                 ->where('id_empresa', auth()->user()->id_empresa)->first();
+
             $item->sucursal = $sucursal->nombre;
             $item->nip = $nip->nip;
             return $item;
@@ -56,7 +57,6 @@ class EmployeeController extends Controller
         $branches = DB::table('sucursales as s')->where('id_empresa', auth()->user()->id_empresa)->get();
         return view('employee')->with(['employees' => $employees, 'sucursales' => $branches, 'turnos' => $turns]);
     }
-
     /**
      * Guarda un nuevo empleado
      * @param Request $request
@@ -65,12 +65,21 @@ class EmployeeController extends Controller
     public function create(Request $request){
         try {
             $requestKey = $request->get('clave');
+            $requestNss = $request->get('nss');
 
             $isExist = Employee::where('clave', $requestKey)->first();
             if ($isExist) {
                 return response()->json([
                     'code' => 500,
                     'message' => 'La clave del empleado ya existe.'
+                ]);
+            }
+
+            $isExist = Employee::where('nss', $requestNss)->first();
+            if ($isExist) {
+                return response()->json([
+                    'code' => 500,
+                    'message' => 'El nss del empleado ya existe.'
                 ]);
             }
 
@@ -129,8 +138,7 @@ class EmployeeController extends Controller
     public function updateEmployee(Request $request){
 
         $rules = [
-            'clave' => 'required|max:10',
-            'nss' => 'required|max:11|numeric',
+            'nss' => 'required|digits_between:10,11|numeric',
             'sucursal' => 'required|numeric',
             'nombre' => 'required|max:250',
             'apellido_paterno' => 'required|max:250',
@@ -145,7 +153,6 @@ class EmployeeController extends Controller
         }
 
         $employee = Employee::find($request->get('id'));
-        $employee->clave = $request->get('clave');
         $employee->nss = $request->get('nss');
         $employee->id_sucursal = $request->get('sucursal');
         $employee->nombre = $request->get('nombre');

@@ -85,10 +85,7 @@ class BranchOfficeController extends Controller
              return redirect()->route('branch')->withErrors($validator->messages())->withInput();
          }
 
-        $requestBranch = $request->get('clave');
-
         $branch = Branch::find($request->get('id'));
-        $branch->clave = $requestBranch;
         $branch->nombre = $request->get('nombre');
         $branch->save();
 
