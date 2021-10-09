@@ -20,6 +20,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::name('welcome')->get('/', 'AssistanceController@index');
     Route::name('users')->get('users/app', 'AppUsersController@index');
     Route::name('createUser')->post('create/user', 'AppUsersController@create');
+    Route::name('change_user_password')->post('change/user/password', 'ConfigurationController@changeUserPassword');
 
     //Empleados
     Route::name('employees')->get('employees', 'EmployeeController@index');

@@ -81,6 +81,9 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
+                                    <a class="dropdown-item" id="changePassword" style="cursor: pointer;">
+                                        Cambiar Contraseña
+                                    </a>
                                 </div>
                             </li>
                         @endguest
@@ -93,6 +96,7 @@
             @yield('content')
         </main>
     </div>
+    @include('layouts.profile.modalChangePassword')
     <!-- Personal JS -->
     @yield('personal-js')
 </body>

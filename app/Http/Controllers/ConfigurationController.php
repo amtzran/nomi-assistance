@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Turn;
+use App\User;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Throwable;
@@ -36,7 +38,8 @@ class ConfigurationController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function create(Request $request){
+    public function create(Request $request): JsonResponse
+    {
         try {
 
             $turn = new Turn;
@@ -64,7 +67,8 @@ class ConfigurationController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function updateTurn(Request $request){
+    public function updateTurn(Request $request): RedirectResponse
+    {
 
         $rules = [
             'nombre_turno' => 'required|max:255',
@@ -95,12 +99,35 @@ class ConfigurationController extends Controller
      * @return RedirectResponse
      * @throws Exception
      */
-    public function deleteTurn(Request $request){
+    public function deleteTurn(Request $request): RedirectResponse
+    {
 
         $turn = Turn::find($request->get('id'));
         $turn->delete();
 
         return redirect()->route('configuration')->with('success', 'Datos eliminados Correctamente.');
 
+    }
+
+    public function changeUserPassword(Request $request): JsonResponse
+    {
+        try {
+            $newPassword = $request->get('newPassword');
+            $user = User::find(Auth::user()->id);
+            $user->password = bcrypt($newPassword);
+            $user->save();
+
+            return response()->json([
+                'code' => 201,
+                'message' => 'Se cambio correctamente la contraseña.'
+            ]);
+        }
+        catch (Exception $exception) {
+            return response()->json([
+                    'code' => 500,
+                    'message' => 'Algo salio mal intentalo de nuevo'
+                ]
+            );
+        }
     }
 }

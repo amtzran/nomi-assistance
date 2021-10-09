@@ -36,6 +36,7 @@ class AssistanceController extends Controller
             ->select('e.clave', 'e.nss', 'e.nombre', 'e.apellido_paterno', 'au.nombre as nombre_incidencia',
                  'a.hora_entrada', 'a.hora_salida', 'a.fecha_entrada', 'a.geolocalizacion', 'e.id_empresa')
             ->where('e.id_empresa', auth()->user()->id_empresa)
+            ->orderBy('a.id', 'des')
             ->paginate(10);
 
         return view('assistance')->with(['assistance' => $assistance]);

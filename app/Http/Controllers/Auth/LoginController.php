@@ -51,7 +51,7 @@ class LoginController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function authenticate(Request $request)
+    public function authenticate(Request $request): JsonResponse
     {
         $email = $request->get('username');
         $password = $request->get('password');
