@@ -66,8 +66,12 @@ class EmployeeController extends Controller
         try {
             $requestKey = $request->get('clave');
             $requestNss = $request->get('nss');
+            $idCompany = auth()->user()->id_empresa;
 
-            $isExist = Employee::where('clave', $requestKey)->first();
+            $isExist = Employee::where('clave', $requestKey)
+                ->where('id_empresa', $idCompany)
+                ->first();
+
             if ($isExist) {
                 return response()->json([
                     'code' => 500,
