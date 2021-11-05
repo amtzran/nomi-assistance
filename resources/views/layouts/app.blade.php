@@ -33,6 +33,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
 </head>
 <body>
     <div id="app">

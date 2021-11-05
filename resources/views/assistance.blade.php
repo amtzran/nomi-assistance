@@ -5,9 +5,9 @@
         <h4>Asistencias</h4>
         <br>
         <div class="row text-left">
-            <!-- <div class="col-md-2 col-md-push-3">
-                <button class="btn btn-dark" data-toggle="modal" data-target="#myModal">Importar Datos</button>
-            </div> -->
+<!--             <div class="col-md-2 text-left">
+
+            </div>-->
             <div class="col-md-12 text-center">
                 <a class="btn btn-dark" data-toggle="modal" data-target="#myModalReport">Reporte</a>
             </div>
@@ -112,6 +112,23 @@
                     <th>Fecha</th>
                     <th>Geolocalización</th>
                 </tr>
+                <tr class="table-primary">
+                    <th><input type="text" name="keyAssistance" id="keyAssistance" class="form-control"></th>
+                    <th><input type="text" name="nssAssistance" id="nssAssistance" class="form-control"></th>
+                    <th><input type="text" name="nameAssistance" id="nameAssistance" class="form-control"></th>
+                    <th><input type="text" name="lastNameAssistance" id="lastNameAssistance" class="form-control"></th>
+                    <th><select id="selectTypeAssistance" class="form-control">
+                            <option value="0" selected>Todos</option>
+                            @foreach($absences as $absence)
+                                <option value="{{ $absence->id }}">{{ $absence->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </th>
+                    <th><input class="form-control" type="time" name="hourInAssistance" id="hourInAssistance"></th>
+                    <th><input class="form-control" type="time" name="hourOutAssistance" id="hourOutAssistance"></th>
+                    <th><input class="form-control" type="text" name="filterDateAssistance" id="filterDateAssistance"></th>
+                    <th><button class="btn btn-dark" id="btnFilterAssistance">Buscar</button></th>
+                </tr>
                 </thead>
 
                 <tbody>
@@ -133,4 +150,7 @@
         </div>
         {{ $assistance->links() }}
     </div>
+@endsection
+@section('personal-js')
+    <script type="text/javascript" src="{{ asset('/js/assistances.js') }}"></script>
 @endsection
