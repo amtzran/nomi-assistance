@@ -11,19 +11,15 @@
 
      if (urlseparate[3] == "users") {
          $('#users-nav').addClass("active");
-         console.log('entro');
      }
      if (urlseparate[3] == "employees") {
          $('#employees-nav').addClass("active");
-         console.log('entro');
      }
      if (urlseparate[3] == "branch") {
          $('#branch-nav').addClass("active");
-         console.log('entro');
      }
      if (urlseparate[3] == "assistance") {
          $('#assitance-nav').addClass("active");
-         console.log('entro');
      }
 
      // Change password

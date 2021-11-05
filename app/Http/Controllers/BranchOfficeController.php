@@ -41,8 +41,12 @@ class BranchOfficeController extends Controller
     public function create(Request $request) {
         try {
             $requestBranch = $request->get('clave');
+            $idCompany = auth()->user()->id_empresa;
 
-            $isExist = Branch::where('clave', $requestBranch)->first();
+            $isExist = Branch::where('clave', $requestBranch)
+                ->where('id_empresa', $idCompany)
+                ->first();
+
             if($isExist) {
                 return response()->json([
                     'code' => 500,
