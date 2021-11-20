@@ -71,6 +71,11 @@ class AssistanceController extends Controller
                 ->whereDate('a.fecha_entrada', '<=', $finalDate);
         }
 
+        $employees = DB::table('empleados as e')
+            ->where('id_empresa', auth()->user()->id_empresa)
+            ->orderBy('e.nombre')
+            ->get();
+
         $assistances = $assistance->orderBy('a.created_at','DESC')->paginate($forPage)->appends([
             'keyAssistance' => $request->keyAssistance,
             'nssAssistance' => $request->nssAssistance,
@@ -86,7 +91,8 @@ class AssistanceController extends Controller
 
         return view('assistance')->with([
             'assistance' => $assistances,
-            'absences' => $absences
+            'absences' => $absences,
+            'employees' => $employees
         ]);
     }
 
@@ -136,6 +142,55 @@ class AssistanceController extends Controller
         Storage::putFileAs('/', $request->file('assistance'), 'asistencia.xlsx');
         $this->import();
         return redirect()->route('assistance');
+    }
+
+    public function ExportHourExtra(Request $request){
+        try {
+            $employee = $request->get('employee');
+            $initialDateHour = $request->get('initialDateHour');
+            $finalDateHour = $request->get('finalDateHour');
+
+            $assistances = DB::table('asistencia as a')
+                ->join('empleados as e', 'a.id_clave', 'e.clave')
+                ->join('ausencias as au', 'a.asistencia', 'au.id')
+                ->join('turnos as t','e.id_turno','t.id')
+                ->select('e.clave', 'e.nss', 'e.nombre', 'e.apellido_paterno', 'au.nombre as nombre_incidencia',
+                    'a.hora_entrada', 'a.hora_salida', 'a.fecha_entrada', 'a.geolocalizacion', 'e.id_empresa', 't.hora_salida as hora_salida_turno')
+                ->where('e.id_empresa', auth()->user()->id_empresa)
+                ->where('a.entrada' ,1)
+                ->where('a.salida' ,1)
+                ->whereDate("a.fecha_entrada", '>=', $initialDateHour)
+                ->whereDate('a.fecha_entrada', '<=', $finalDateHour);
+
+            if ($employee != 0) $assistances->where('e.id', $employee);
+
+            $assistances = $assistances->get();
+
+            $totalMinutes = 0;
+            foreach ($assistances as $assistance) {
+                $hoursOutEmployee = Carbon::parse($assistance->hora_salida);
+                $hoursOutTurn = Carbon::parse($assistance->hora_salida_turno);
+                $minutes = $hoursOutTurn->diffInMinutes($hoursOutEmployee);
+                $totalMinutes += $minutes;
+                $assistance->minutes = $minutes;
+                $assistance->hours = intdiv($minutes, 60).':'. ($minutes % 60);
+            }
+
+            $totalHours = intdiv($totalMinutes, 60).':'. ($totalMinutes % 60);
+
+            return response()->json([
+                'code' => 200,
+                'hours' => $totalHours,
+                'minutes' => $totalMinutes,
+                'assistances' => $assistances
+            ]);
+        } catch (\Exception $exception){
+            return response()->json([
+                'code' => 500,
+                'message' => 'Algo salió Mal, Intenta de Nuevo'
+            ]);
+        }
+
     }
 
 }
