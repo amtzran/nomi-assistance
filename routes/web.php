@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::name('assistance_file_upload')->post('assistance/file/upload', 'AssistanceController@assistanceFile');
     Route::name('export_assistance')->post('assistance/export/assistance', 'AssistanceController@export');
     Route::name('import_assistance')->get('assistance/import/assistance', 'AssistanceController@import');
+    Route::name('export_hour_extra')->get('assistance/export/hour', 'AssistanceController@ExportHourExtra');
 
     //Configuraciones
     Route::name('configuration')->get('configuration', 'ConfigurationController@index');

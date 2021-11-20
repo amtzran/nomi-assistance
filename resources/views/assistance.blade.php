@@ -5,100 +5,18 @@
         <h4>Asistencias</h4>
         <br>
         <div class="row text-left">
-<!--             <div class="col-md-2 text-left">
-
-            </div>-->
-            <div class="col-md-12 text-center">
-                <a class="btn btn-dark" data-toggle="modal" data-target="#myModalReport">Reporte</a>
+            <div class="col-md-6 text-center">
+                <a class="btn btn-dark" data-toggle="modal" data-target="#myModalReport">Reporte Asistencias</a>
+            </div>
+            <div class="col-md-6 text-center">
+                <a class="btn btn-outline-dark" data-toggle="modal" data-target="#modalHourExtraReport">Reporte Horas Extra</a>
             </div>
         </div>
-        <!-- INICIA MODAL PARA INSCRIBIR -->
-        <div class="modal fade" id="myModal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <h4 class="modal-title">Importar datos</h4>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <form method="POST" enctype="multipart/form-data" action="{{ Route('assistance_file_upload')
-                        }}" role="form">
-                            {{ csrf_field() }}
-                            <label for="assistance">Seleccionar archivo excel</label>
-                            <input type="file" id="assistance" name="assistance" required="required">
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-dark">Importar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- TERMINA MODAL PARA ELIMINAR REGISTRO -->
-        <!-- MODAL REPORT -->
-        <div class="modal fade" id="myModalReport" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <h4 class="modal-title">Reporte</h4>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <form method="POST" enctype="multipart/form-data" action="{{ Route('export_assistance')}}" role="form">
-                            {{ csrf_field() }}
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="radio" name="radioReport" id="todayRadio" value="today" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            Hoy
-                                        </label>
-                                    </div>
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="radio" name="radioReport" id="allRadio" value="all">
-                                        <label class="form-check-label" for="exampleRadios2">
-                                            Todo
-                                        </label>
-                                    </div>
-                                    <div class="col form-check mb-2">
-                                        <input class="form-check-input" type="radio" name="radioReport" id="dateRadio" value="option3">
-                                        <label class="form-check-label" for="exampleRadios3">
-                                            Fecha
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <label for="assistance">Seleccionar Fecha Inicial y Final</label>
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col">
-                                        <input type="date" id="date_initial" name="date_initial" class="form-control">
-                                    </div>
-                                    <div class="col">
-                                        <input type="date" id="date_final" name="date_final" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-dark">Extraer</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @include('modals.modalAssistanceExcel')
+        @include('modals.modalReportAssistance')
+        @include('modals.modalHourExtraReport')
         <br>
-        <div class="table-responsive-md">
+        <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                 <tr class="table-primary">
@@ -153,4 +71,9 @@
 @endsection
 @section('personal-js')
     <script type="text/javascript" src="{{ asset('/js/assistances.js') }}"></script>
+<!--    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/select2.min.js') }}"></script>-->
+<!--    <script>
+            $('.select-employees').select2();
+    </script>-->
 @endsection
