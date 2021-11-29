@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AssistancesExport;
+use App\Exports\AssistancesExportHour;
 use App\Imports\AssistancesImport;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Exception;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -107,6 +109,7 @@ class AssistanceController extends Controller
         $radioReport = $request->get("radioReport");
         $date_initial = $request->get("date_initial");
         $date_final = $request->get("date_final");
+        $id_employee = $request->get('selectEmployeesGeneral');
         $id_company = auth()->user()->id_empresa;
         $name = 'Asistencias-';
         $csvExtension = '.xlsx';
@@ -115,12 +118,16 @@ class AssistanceController extends Controller
         $nameFecha = $name . $date . $csvExtension;
 
         if ($radioReport === "today" ){
-            return Excel::download(new AssistancesExport(1,null,null, $id_company), $nameFecha);
+            return Excel::download(new AssistancesExport(1,null,null, $id_employee, $id_company), $nameFecha);
         }
-        else if ($radioReport === "all" ){
-            return Excel::download(new AssistancesExport(2,null,null, $id_company), $nameFecha);
+        if ($radioReport === "all" ){
+            return Excel::download(new AssistancesExport(2,null,null, $id_employee, $id_company), $nameFecha);
         }
-        return Excel::download(new AssistancesExport(3,$date_initial,$date_final, $id_company), $nameFecha);
+        if ($radioReport === "date" ) {
+            if ($date_initial == null || $date_final == null) return redirect()->back();
+            return Excel::download(new AssistancesExport(3,$date_initial,$date_final, $id_employee, $id_company), $nameFecha);
+        }
+
     }
 
     /**
@@ -192,5 +199,27 @@ class AssistanceController extends Controller
         }
 
     }
+
+    /**
+     * @param Request $request
+     * @return BinaryFileResponse
+     * @throws Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function exportHourExtrasExcel(Request $request)
+    {
+        $idEmployee = $request->get('employee');
+        $initialDateHour = $request->get('initialDateHour');
+        $finalDateHour = $request->get('finalDateHour');
+        $id_company = auth()->user()->id_empresa;
+        $name = 'Horas-Extras';
+        $csvExtension = '.xlsx';
+        $date = Carbon::now();
+        $date = $date->toFormattedDateString();
+        $nameFecha = $name . $date . $csvExtension;
+
+        return Excel::download(new AssistancesExportHour( $initialDateHour, $finalDateHour, $id_company, $idEmployee), $nameFecha);
+
+        }
 
 }

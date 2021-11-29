@@ -15,6 +15,18 @@
                 <form method="POST" enctype="multipart/form-data" action="{{ Route('export_assistance')}}" role="form">
                     {{ csrf_field() }}
                     <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col form-check mb-2">
+                                <select name="selectEmployeesGeneral" id="selectEmployeesGeneral" class="form-control">
+                                    <option value="0">Todos</option>
+                                    @foreach($employees as $employee)
+                                        <option value="{{$employee->id}}">{{$employee->nombre}} {{ $employee->apellido_paterno }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col form-check">
                                 <input class="form-check-input" type="radio" name="radioReport" id="todayRadio" value="today" checked>
@@ -29,7 +41,7 @@
                                 </label>
                             </div>
                             <div class="col form-check mb-2">
-                                <input class="form-check-input" type="radio" name="radioReport" id="dateRadio" value="option3">
+                                <input class="form-check-input" type="radio" name="radioReport" id="dateRadio" value="date">
                                 <label class="form-check-label" for="exampleRadios3">
                                     Fecha
                                 </label>

@@ -32,7 +32,7 @@ $(document).ready(function() {
         window.location.href = `/assistance?keyAssistance=${keyAssistance}&nssAssistance=${nssAssistance}&nameAssistance=${nameAssistance}&lastNameAssistance=${lastNameAssistance}&typeAssistance=${typeAssistance}&initialDate=${initialDate}&finalDate=${finalDate}&hourInAssistance=${hourInAssistance}&hourOutAssistance=${hourOutAssistance}`;
     });
 
-    //
+    // Calcular Hora esxtras View
     $('#btnCalculate').click(function() {
         let employee = $('#selectEmployees option:selected').val();
         let initialDateHour = $('#date_initial_hour').val();
@@ -44,6 +44,57 @@ $(document).ready(function() {
             $.ajax({
                 type: 'GET',
                 url: "../assistance/export/hour",
+                data: {
+                    _token: $("meta[name=csrf-token]").attr("content"),
+                    employee: employee,
+                    initialDateHour: initialDateHour,
+                    finalDateHour: finalDateHour,
+                },
+                success: function(data) {
+                    if (data.code == 500) {
+                        faltante(data.message);
+                    } else {
+                        let rows = '';
+                        let table = $('#tableBodyExtraReport');
+                        const {hours, minutes} = data;
+
+                        data.assistances.forEach((element) => {
+                            const {clave, nss, nombre, apellido_paterno, hora_entrada, hora_salida, fecha_entrada, hours, minutes} = element;
+                            rows += `<tr>
+                                <td class="text-primary text-bold">${clave}</td>
+                                <td>${nss}</td>
+                                <td >${nombre}</td>
+                                <td>${apellido_paterno}</td>
+                                <td>${hora_entrada}</td>
+                                <td>${hora_salida}</td>
+                                <td>${fecha_entrada}</td>
+                                <td>${hours}</td>
+                                <td>${minutes}</td>
+                        </tr>`;
+                        });
+                        table.append(rows);
+
+                        // Set Labels
+                        $('#labelHours').html(hours);
+                        $('#labelMinutes').html(minutes);
+                    }
+                }
+            });
+        }
+
+    });
+
+    // Exportar calculo Horaas extras
+    $('#btnExportHour').click(function() {
+        let employee = $('#selectEmployees option:selected').val();
+        let initialDateHour = $('#date_initial_hour').val();
+        let finalDateHour = $('#date_final_hour').val();
+
+        if (initialDateHour.length === 0 || finalDateHour.length === 0) faltante('Debes Seleccionar un periodo.');
+        else {
+            $.ajax({
+                type: 'GET',
+                url: "../assistance/export/assistance/hour/extra/excel",
                 data: {
                     _token: $("meta[name=csrf-token]").attr("content"),
                     employee: employee,
