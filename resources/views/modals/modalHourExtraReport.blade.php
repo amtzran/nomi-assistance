@@ -29,10 +29,10 @@
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col">
-                                        <input type="date" id="date_initial_hour" name="date_initial_hour" class="form-control">
+                                        <input type="date" id="date_initial_hour" name="date_initial_hour" class="form-control" required>
                                     </div>
                                     <div class="col">
-                                        <input type="date" id="date_final_hour" name="date_final_hour" class="form-control">
+                                        <input type="date" id="date_final_hour" name="date_final_hour" class="form-control" required>
                                     </div>
                                 </div>
                             </div>

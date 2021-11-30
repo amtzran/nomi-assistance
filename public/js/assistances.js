@@ -84,15 +84,6 @@ $(document).ready(function() {
 
     });
 
-    // Exportar calculo Horaas extras
-    $('#btnExportHour').click(function() {
-        let initialDateHour = $('#date_initial_hour').val();
-        let finalDateHour = $('#date_final_hour').val();
-
-        if (initialDateHour.length === 0 || finalDateHour.length === 0) faltante('Debes Seleccionar un periodo.');
-
-    });
-
     //sweet alert
     function correcto() {
         swal.fire({
