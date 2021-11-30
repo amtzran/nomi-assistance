@@ -46,7 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::name('export_assistance')->post('assistance/export/assistance', 'AssistanceController@export');
     Route::name('import_assistance')->get('assistance/import/assistance', 'AssistanceController@import');
     Route::name('export_hour_extra')->get('assistance/export/hour', 'AssistanceController@ExportHourExtra');
-    Route::name('export_assistance_hour_extra_excel')->get('assistance/export/assistance/hour/extra/excel', 'AssistanceController@exportHourExtrasExcel');
+    Route::name('export_assistance_hour_extra_excel')->post('assistance/export/assistance/hour/extra/excel', 'AssistanceController@exportHourExtrasExcel');
 
     //Configuraciones
     Route::name('configuration')->get('configuration', 'ConfigurationController@index');

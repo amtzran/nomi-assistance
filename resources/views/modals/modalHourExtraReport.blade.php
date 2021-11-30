@@ -6,6 +6,8 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
+            <form method="POST" enctype="multipart/form-data" action="{{ Route('export_assistance_hour_extra_excel')}}" role="form">
+            {{ csrf_field() }}
                 <!-- Modal body -->
                 <div class="modal-body">
                         <h4 class="modal-title">Horas Extras</h4>
@@ -27,10 +29,10 @@
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col">
-                                        <input type="date" id="date_initial_hour" name="date_initial_hour" class="form-control" required>
+                                        <input type="date" id="date_initial_hour" name="date_initial_hour" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <input type="date" id="date_final_hour" name="date_final_hour" class="form-control" required>
+                                        <input type="date" id="date_final_hour" name="date_final_hour" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -73,10 +75,11 @@
                             <button type="button" id="btnCalculate" class="btn btn-dark">Calcular</button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" id="btnExportHour" class="btn btn-dark">Extraer</button>
+                            <button type="submit" id="btnExportHour" class="btn btn-dark">Extraer</button>
                         </div>
                     </div>
                 </div>
+            </form>
         </div>
     </div>
 </div>

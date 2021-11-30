@@ -10,7 +10,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Exception;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -208,17 +207,18 @@ class AssistanceController extends Controller
      */
     public function exportHourExtrasExcel(Request $request)
     {
-        $idEmployee = $request->get('employee');
-        $initialDateHour = $request->get('initialDateHour');
-        $finalDateHour = $request->get('finalDateHour');
+        $idEmployee = $request->get('selectEmployees');
+        $initialDateHour = $request->get('date_initial_hour');
+        $finalDateHour = $request->get('date_final_hour');
         $id_company = auth()->user()->id_empresa;
         $name = 'Horas-Extras';
         $csvExtension = '.xlsx';
         $date = Carbon::now();
         $date = $date->toFormattedDateString();
         $nameFecha = $name . $date . $csvExtension;
+        $excelFile = new AssistancesExportHour($initialDateHour, $finalDateHour, $id_company, $idEmployee);
 
-        return Excel::download(new AssistancesExportHour( $initialDateHour, $finalDateHour, $id_company, $idEmployee), $nameFecha);
+        return Excel::download($excelFile, $nameFecha);
 
         }
 
