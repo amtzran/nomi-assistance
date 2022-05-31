@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\AssistancesExport;
 use App\Exports\AssistancesExportHour;
+use App\Exports\AssistancesReportExport;
 use App\Imports\AssistancesImport;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -198,7 +199,7 @@ class AssistanceController extends Controller
         }
 
     }
-    
+
     public function reportAssistanceByEmployee(Request $request)
     {
         $employee = $request->get('selectEmployees');
