@@ -6,8 +6,10 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class AssistancesReportExport implements FromCollection
+class AssistancesReportExport implements FromCollection, WithStyles
 {
 
     private $initial_date;
@@ -80,7 +82,7 @@ class AssistancesReportExport implements FromCollection
             $minutosTarde = $hoursInTurn->diffInMinutes($hoursInEmployee);
             if ($minutosTarde >= 5) $retardos += 1;
             if ($assistance->salida == 0) $faltas += 1;
-            
+
             $report->push([
                 'fecha_entrada' => $assistance->fecha_entrada,
                 'dia' => $assistance->day,
@@ -101,5 +103,13 @@ class AssistancesReportExport implements FromCollection
         ]);
         return $report;
 
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            // Style the first row as bold text.
+            1    => ['font' => ['bold' => true]],
+        ];
     }
 }
