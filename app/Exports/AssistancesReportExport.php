@@ -51,6 +51,7 @@ class AssistancesReportExport implements FromCollection
         $minutosExtras = 0;
 
         $datas = $assistances->get();
+        $report = new \Illuminate\Database\Eloquent\Collection();
 
         foreach ($datas as $assistance) {
             $dateStart = Carbon::parse($assistance->fecha_entrada);
@@ -79,21 +80,18 @@ class AssistancesReportExport implements FromCollection
             $minutosTarde = $hoursInTurn->diffInMinutes($hoursInEmployee);
             if ($minutosTarde >= 5) $retardos += 1;
             if ($assistance->salida == 0) $faltas += 1;
+            
+            $report->push([
+                'fecha_entrada' => $assistance->fecha_entrada,
+                'dia' => $assistance->day,
+                'hora_entrada' => $assistance->hora_entrada,
+                'hora_salida' => $assistance->hora_salida,
+                'extra_minutes' => $assistance->minutes,
+                'extra_hours' => $assistance->hours
+            ]);
         }
         
-         $datas->forget('id');
-        $datas->forget('asistencia');
-        $datas->forget('created_at');
-        $datas->forget('updated_at');
-        $datas->forget('entrada');
-        $datas->forget('salida');
-        $datas->forget('fecha_salida');
-        $datas->forget('id_clave');
-        $datas->forget('geolocalizacion');
-        $datas->forget('hora_entrada_turno');
-        $datas->forget('hora_salida_turno');
-        
-        dd($datas);
+        dd($report);
 
         $datas->prepend([
             'FECHA',
