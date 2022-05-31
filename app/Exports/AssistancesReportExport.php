@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Employee;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Collection;
@@ -44,6 +45,8 @@ class AssistancesReportExport implements FromCollection, WithStyles
             ->where('e.id', $this->id_employee)
             ->whereDate("a.fecha_entrada", '>=', $this->initial_date)
             ->whereDate('a.fecha_entrada', '<=', $this->final_date);
+        
+        $employee = Employee::findOrFail($this->id_employee);
 
         $diasTrabajados = 0;
         $diasDescanso = 0;
@@ -111,7 +114,7 @@ class AssistancesReportExport implements FromCollection, WithStyles
         ]);
         $report->prepend([
             'NOMBRE:',
-            'ALBERTO MARTINEZ RANGEL'
+            $employee->nombre . ' ' . $employee->apellido_paterno . ' ' . $employee->apellido_materno
         ]);
 
         $report->push([
