@@ -88,8 +88,7 @@ class AssistancesReportExport implements FromCollection, WithStyles
                 'dia' => $assistance->day,
                 'hora_entrada' => $assistance->hora_entrada,
                 'hora_salida' => $assistance->hora_salida,
-                'extra_minutes' => $assistance->minutes,
-                'extra_hours' => $assistance->hours
+                'extra_minutes' => $assistance->minutes
             ]);
         }
 
@@ -98,11 +97,9 @@ class AssistancesReportExport implements FromCollection, WithStyles
             'DIA',
             'ENTRADA',
             'SALIDA',
-            'EXTRAS EN MINUTOS',
-            'EXTRAS EN HORAS'
+            'MINUTOS'
         ]);
         $report->prepend([
-            '',
             '',
             '',
             '',
@@ -113,7 +110,7 @@ class AssistancesReportExport implements FromCollection, WithStyles
             'NOMBRE:',
             'ALBERTO MARTINEZ RANGEL'
         ]);
-        
+
         return $report;
 
     }
