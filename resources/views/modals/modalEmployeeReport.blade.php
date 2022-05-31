@@ -43,7 +43,7 @@
                 <div class="modal-footer">
                     <div class="row">
                         <div class="col-md-6">
-                            <button type="submit" id="btnExportReportEmployee" class="btn btn-dark">Generar Reporte</button>
+                            <button type="submit" id="btnExportReportEmployee" class="btn btn-dark">Descargar</button>
                         </div>
                     </div>
                 </div>
