@@ -90,10 +90,8 @@ class AssistancesReportExport implements FromCollection
                 'extra_hours' => $assistance->hours
             ]);
         }
-        
-        dd($report);
 
-        $datas->prepend([
+        $report->prepend([
             'FECHA',
             'DIA',
             'ENTRADA',
