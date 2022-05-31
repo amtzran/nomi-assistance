@@ -94,6 +94,11 @@ class AssistancesReportExport implements FromCollection, WithStyles
         }
 
         $report->prepend([
+            'NOMBRE:',
+            'ALBERTO MARTINEZ RANGEL'
+        ]);
+
+        $report->prepend([
             'FECHA',
             'DIA',
             'ENTRADA',
