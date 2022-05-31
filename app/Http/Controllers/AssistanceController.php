@@ -199,44 +199,20 @@ class AssistanceController extends Controller
 
     }
     
-    public function reportAssistanceByEmployee()
+    public function reportAssistanceByEmployee(Request $request)
     {
-        //$employee = $request->get('employee');
-        //$initialDateHour = $request->get('initialDateHour');
-        //$finalDateHour = $request->get('finalDateHour');
+        $employee = $request->get('selectEmployees');
+        $initialDateHour = $request->get('date_initial_hour');
+        $finalDateHour = $request->get('date_final_hour');
 
-        $assistances = DB::table('asistencia as a')
-            ->join('empleados as e', 'a.id_clave', 'e.clave')
-            ->join('ausencias as au', 'a.asistencia', 'au.id')
-            ->join('turnos as t','e.id_turno','t.id')
-            ->select('a.*', 't.hora_salida as hora_salida_turno')
-            ->where('e.id_empresa', auth()->user()->id_empresa)
-            ->where('e.clave', 1)
-            //->whereDate("a.fecha_entrada", '>=', $initialDateHour)
-            //->whereDate('a.fecha_entrada', '<=', $finalDateHour)
-            ->get();
+        $name = 'Reporte de Asistencia de Empleado';
+        $csvExtension = '.xlsx';
+        $date = Carbon::now();
+        $date = $date->toFormattedDateString();
+        $nameFecha = $name . $date . $csvExtension;
+        $excelFile = new AssistancesReportExport($initialDateHour, $finalDateHour, $employee);
 
-        foreach ($assistances as $assistance) {
-            $dateStart = Carbon::parse($assistance->fecha_entrada);
-            if ($dateStart->isMonday()) $assistance->day = 'LUNES';
-            if ($dateStart->isTuesday()) $assistance->day = 'MARTES';
-            if ($dateStart->isWednesday()) $assistance->day = 'MIÉRCOLES';
-            if ($dateStart->isThursday()) $assistance->day = 'JUEVES';
-            if ($dateStart->isFriday()) $assistance->day = 'VIERNES';
-            if ($dateStart->isSaturday()) $assistance->day = 'SÁBADO';
-            if ($dateStart->isSunday()) $assistance->day = 'DOMINGO';
-
-            // Calculate minutes extras
-            $hoursOutEmployee = Carbon::parse($assistance->hora_salida);
-            $hoursOutTurn = Carbon::parse($assistance->hora_salida_turno);
-            if ($dateStart->isSaturday()) $hoursOutTurn = Carbon::parse('13:00:00');
-            $minutes = $hoursOutTurn->diffInMinutes($hoursOutEmployee);
-            $assistance->minutes = $minutes;
-            $assistance->hours = intdiv($minutes, 60).':'. ($minutes % 60);
-
-        }
-
-        dd($assistances);
+        return Excel::download($excelFile, $nameFecha);
 
     }
 
