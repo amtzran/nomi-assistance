@@ -98,7 +98,7 @@ class AssistancesReportExport implements FromCollection
             'SALIDA',
             'EXTRAS',
         ]);
-        return $datas;
+        return $report;
 
     }
 }
