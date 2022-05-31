@@ -198,6 +198,38 @@ class AssistanceController extends Controller
         }
 
     }
+    
+    public function reportAssistanceByEmployee()
+    {
+        //$employee = $request->get('employee');
+        //$initialDateHour = $request->get('initialDateHour');
+        //$finalDateHour = $request->get('finalDateHour');
+
+        $assistances = DB::table('asistencia as a')
+            ->join('empleados as e', 'a.id_clave', 'e.clave')
+            ->join('ausencias as au', 'a.asistencia', 'au.id')
+            ->join('turnos as t','e.id_turno','t.id')
+            ->select('a.*')
+            ->where('e.id_empresa', auth()->user()->id_empresa)
+            //->where('e.id', $employee)
+            //->whereDate("a.fecha_entrada", '>=', $initialDateHour)
+            //->whereDate('a.fecha_entrada', '<=', $finalDateHour)
+            ->get();
+
+        foreach ($assistances as $assistance) {
+            $dateStart = Carbon::parse($assistance->fecha_entrada);
+            if ($dateStart->isMonday()) $assistance->day = 'LUNES';
+            if ($dateStart->isTuesday()) $assistance->day = 'MARTES';
+            if ($dateStart->isWednesday()) $assistance->day = 'MIÉRCOLES';
+            if ($dateStart->isThursday()) $assistance->day = 'JUEVES';
+            if ($dateStart->isFriday()) $assistance->day = 'VIERNES';
+            if ($dateStart->isSaturday()) $assistance->day = 'SÁBADO';
+            if ($dateStart->isSunday()) $assistance->day = 'DOMINGO';
+        }
+
+        dd($assistances);
+
+    }
 
     /**
      * @param Request $request
