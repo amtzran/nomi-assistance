@@ -80,6 +80,8 @@ class AssistancesReportExport implements FromCollection
             if ($minutosTarde >= 5) $retardos += 1;
             if ($assistance->salida == 0) $faltas += 1;
         }
+        
+        dd($datas);
 
         $datas->prepend([
             'FECHA',
