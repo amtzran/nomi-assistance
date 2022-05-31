@@ -5,13 +5,13 @@
         <h4>Asistencias</h4>
         <br>
         <div class="row text-left">
-            <div class="col-md-6 text-center">
+            <div class="col-md-4 text-center">
                 <a class="btn btn-dark" data-toggle="modal" data-target="#myModalReport">Reporte Asistencias</a>
             </div>
-            <div class="col-md-6 text-center">
+            <div class="col-md-4 text-center">
                 <a class="btn btn-outline-dark" data-toggle="modal" data-target="#modalHourExtraReport">Reporte Horas Extra</a>
             </div>
-            <div class="col-md-6 text-center">
+            <div class="col-md-4 text-center">
                 <a class="btn btn-outline-dark" data-toggle="modal" data-target="#modalReportEmployeeAssistance">Reporte Asistencia Empleado</a>
             </div>
         </div>
