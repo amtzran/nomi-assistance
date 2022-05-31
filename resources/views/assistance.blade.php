@@ -11,10 +11,14 @@
             <div class="col-md-6 text-center">
                 <a class="btn btn-outline-dark" data-toggle="modal" data-target="#modalHourExtraReport">Reporte Horas Extra</a>
             </div>
+            <div class="col-md-6 text-center">
+                <a class="btn btn-outline-dark" data-toggle="modal" data-target="#modalReportEmployeeAssistance">Reporte Asistencia Empleado</a>
+            </div>
         </div>
         @include('modals.modalAssistanceExcel')
         @include('modals.modalReportAssistance')
         @include('modals.modalHourExtraReport')
+        @include('modals.modalEmployeeReport')
         <br>
         <div class="table-responsive">
             <table class="table table-hover">
