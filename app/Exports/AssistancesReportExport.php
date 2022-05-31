@@ -102,6 +102,14 @@ class AssistancesReportExport implements FromCollection, WithStyles
             'EXTRAS EN HORAS'
         ]);
         $report->prepend([
+            '',
+            '',
+            '',
+            '',
+            '',
+            ''
+        ]);
+        $report->prepend([
             'NOMBRE:',
             'ALBERTO MARTINEZ RANGEL'
         ]);
@@ -115,6 +123,7 @@ class AssistancesReportExport implements FromCollection, WithStyles
         return [
             // Style the first row as bold text.
             1    => ['font' => ['bold' => true]],
+            3    => ['font' => ['bold' => true]],
         ];
     }
 }
