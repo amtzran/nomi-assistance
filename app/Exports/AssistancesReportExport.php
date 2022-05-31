@@ -3,8 +3,8 @@
 namespace App\Exports;
 
 use Carbon\Carbon;
+use DB;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class AssistancesReportExport implements FromCollection
@@ -14,6 +14,12 @@ class AssistancesReportExport implements FromCollection
     private $final_date;
     private $id_employee;
 
+    /**
+     * AssistancesReportExport constructor.
+     * @param $initial_date
+     * @param $final_date
+     * @param $id_employee
+     */
     public function __construct($initial_date, $final_date, $id_employee)
     {
         $this->initial_date = $initial_date;
@@ -21,6 +27,10 @@ class AssistancesReportExport implements FromCollection
         $this->id_employee = $id_employee;
     }
 
+    /**
+     * Exporta una colección de asistencias a excel.
+     * @return Collection
+     */
     public function collection()
     {
         $assistances = DB::table('asistencia as a')
@@ -29,9 +39,9 @@ class AssistancesReportExport implements FromCollection
             ->join('turnos as t','e.id_turno','t.id')
             ->select('a.*', 't.hora_entrada as hora_entrada_turno', 't.hora_salida as hora_salida_turno')
             ->where('e.id_empresa', auth()->user()->id_empresa)
-            ->where('e.clave', 1)
-            ->whereDate("a.fecha_entrada", '>=', $this->initialDateHour)
-            ->whereDate('a.fecha_entrada', '<=', $this->finalDateHour);
+            ->where('e.id', $this->id_employee)
+            ->whereDate("a.fecha_entrada", '>=', $this->initial_date)
+            ->whereDate('a.fecha_entrada', '<=', $this->final_date);
 
         $diasTrabajados = 0;
         $diasDescanso = 0;
