@@ -96,7 +96,8 @@ class AssistancesReportExport implements FromCollection
             'DIA',
             'ENTRADA',
             'SALIDA',
-            'EXTRAS',
+            'EXTRAS EN MINUTOS',
+            'EXTRAS EN HORAS'
         ]);
         return $report;
 
