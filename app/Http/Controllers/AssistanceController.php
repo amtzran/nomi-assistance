@@ -211,7 +211,7 @@ class AssistanceController extends Controller
             ->join('turnos as t','e.id_turno','t.id')
             ->select('a.*', 't.hora_salida as hora_salida_turno')
             ->where('e.id_empresa', auth()->user()->id_empresa)
-            ->where('e.id', 1)
+            ->where('e.clave', 1)
             //->whereDate("a.fecha_entrada", '>=', $initialDateHour)
             //->whereDate('a.fecha_entrada', '<=', $finalDateHour)
             ->get();
