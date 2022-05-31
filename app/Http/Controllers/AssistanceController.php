@@ -209,9 +209,9 @@ class AssistanceController extends Controller
             ->join('empleados as e', 'a.id_clave', 'e.clave')
             ->join('ausencias as au', 'a.asistencia', 'au.id')
             ->join('turnos as t','e.id_turno','t.id')
-            ->select('a.*')
+            ->select('a.*', 't.hora_salida as hora_salida_turno')
             ->where('e.id_empresa', auth()->user()->id_empresa)
-            //->where('e.id', $employee)
+            ->where('e.id', 1)
             //->whereDate("a.fecha_entrada", '>=', $initialDateHour)
             //->whereDate('a.fecha_entrada', '<=', $finalDateHour)
             ->get();
@@ -225,6 +225,15 @@ class AssistanceController extends Controller
             if ($dateStart->isFriday()) $assistance->day = 'VIERNES';
             if ($dateStart->isSaturday()) $assistance->day = 'SÁBADO';
             if ($dateStart->isSunday()) $assistance->day = 'DOMINGO';
+
+            // Calculate minutes extras
+            $hoursOutEmployee = Carbon::parse($assistance->hora_salida);
+            $hoursOutTurn = Carbon::parse($assistance->hora_salida_turno);
+            if ($dateStart->isSaturday()) $hoursOutTurn = Carbon::parse('13:00:00');
+            $minutes = $hoursOutTurn->diffInMinutes($hoursOutEmployee);
+            $assistance->minutes = $minutes;
+            $assistance->hours = intdiv($minutes, 60).':'. ($minutes % 60);
+
         }
 
         dd($assistances);
