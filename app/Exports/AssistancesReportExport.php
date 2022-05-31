@@ -112,9 +112,17 @@ class AssistancesReportExport implements FromCollection, WithStyles
         ]);
 
         $report->push([
+            '',
+            '',
+            '',
+            '',
+            ''
+        ]);
+
+        $report->push([
             'DIAS TRABAJADOS:',
             '',
-            '13',
+            $diasTrabajados,
             '',
             ''
         ]);
@@ -122,7 +130,7 @@ class AssistancesReportExport implements FromCollection, WithStyles
         $report->push([
             'DIAS DESCANSO',
             '',
-            '2',
+            $diasDescanso,
             '',
             ''
         ]);
@@ -130,7 +138,7 @@ class AssistancesReportExport implements FromCollection, WithStyles
         $report->push([
             'RETARDOS',
             '',
-            '1',
+            $retardos,
             '',
             ''
         ]);
@@ -138,7 +146,7 @@ class AssistancesReportExport implements FromCollection, WithStyles
         $report->push([
             'FALTAS',
             '',
-            '1',
+            $faltas,
             '',
             ''
         ]);
@@ -146,7 +154,7 @@ class AssistancesReportExport implements FromCollection, WithStyles
         $report->push([
             'HORAS TRABAJADAS',
             '',
-            '67',
+            $horasTrabajadas,
             '',
             ''
         ]);
@@ -154,7 +162,7 @@ class AssistancesReportExport implements FromCollection, WithStyles
         $report->push([
             'TOTAL EXTRAS',
             '',
-            '129',
+            $minutosExtras,
             '',
             ''
         ]);
