@@ -52,7 +52,7 @@ class AssistancesReportExport implements FromCollection
 
         $datas = $assistances->get();
 
-        foreach ($assistances as $assistance) {
+        foreach ($datas as $assistance) {
             $dateStart = Carbon::parse($assistance->fecha_entrada);
             if ($dateStart->isMonday()) $assistance->day = 'LUNES';
             if ($dateStart->isTuesday()) $assistance->day = 'MARTES';
