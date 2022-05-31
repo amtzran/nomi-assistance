@@ -81,6 +81,18 @@ class AssistancesReportExport implements FromCollection
             if ($assistance->salida == 0) $faltas += 1;
         }
         
+         $datas->forget('id');
+        $datas->forget('asistencia');
+        $datas->forget('created_at');
+        $datas->forget('updated_at');
+        $datas->forget('entrada');
+        $datas->forget('salida');
+        $datas->forget('fecha_salida');
+        $datas->forget('id_clave');
+        $datas->forget('geolocalizacion');
+        $datas->forget('hora_entrada_turno');
+        $datas->forget('hora_salida_turno');
+        
         dd($datas);
 
         $datas->prepend([
