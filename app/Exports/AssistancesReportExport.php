@@ -111,6 +111,54 @@ class AssistancesReportExport implements FromCollection, WithStyles
             'ALBERTO MARTINEZ RANGEL'
         ]);
 
+        $report->push([
+            'DIAS TRABAJADOS:',
+            '',
+            '13',
+            '',
+            ''
+        ]);
+
+        $report->push([
+            'DIAS DESCANSO',
+            '',
+            '2',
+            '',
+            ''
+        ]);
+
+        $report->push([
+            'RETARDOS',
+            '',
+            '1',
+            '',
+            ''
+        ]);
+
+        $report->push([
+            'FALTAS',
+            '',
+            '1',
+            '',
+            ''
+        ]);
+
+        $report->push([
+            'HORAS TRABAJADAS',
+            '',
+            '67',
+            '',
+            ''
+        ]);
+
+        $report->push([
+            'TOTAL EXTRAS',
+            '',
+            '129',
+            '',
+            ''
+        ]);
+
         return $report;
 
     }
