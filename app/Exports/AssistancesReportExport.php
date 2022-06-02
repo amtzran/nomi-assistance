@@ -98,7 +98,7 @@ class AssistancesReportExport implements FromCollection, WithStyles
             if (!$dateStart->isSaturday()) $horasTrabajadas -= 1;
 
             $assistance->minutes = $minutes - $minutosTarde;
-            dd($minutosTarde);
+            dd($assistance->minutes);
             $report->push([
                 'fecha_entrada' => $assistance->fecha_entrada,
                 'dia' => $assistance->day,
