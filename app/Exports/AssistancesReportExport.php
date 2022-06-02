@@ -81,6 +81,7 @@ class AssistancesReportExport implements FromCollection, WithStyles
             $isGreat = $hoursOutEmployee->gt($hoursOutTurn);
             if (!$isGreat) {
                 $minutes = $hoursOutEmployee->diffInMinutes($hoursOutTurn);
+                dd($minutes);
                 $assistance->minutes = -$minutes;
             }
 
