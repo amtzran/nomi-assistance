@@ -45,7 +45,7 @@ class AssistancesReportExport implements FromCollection, WithStyles
             ->where('e.id', $this->id_employee)
             ->whereDate("a.fecha_entrada", '>=', $this->initial_date)
             ->whereDate('a.fecha_entrada', '<=', $this->final_date);
-        
+
         $employee = Employee::findOrFail($this->id_employee);
 
         $diasTrabajados = 0;
@@ -88,6 +88,8 @@ class AssistancesReportExport implements FromCollection, WithStyles
             if ($minutosTarde >= 5) $retardos += 1;
             if ($assistance->salida == 0) $faltas += 1;
             if (!$dateStart->isSaturday()) $horasTrabajadas -= 1;
+
+            $assistance->minutes = $minutes - $minutosTarde;
 
             $report->push([
                 'fecha_entrada' => $assistance->fecha_entrada,
