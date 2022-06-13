@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Employee;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use DB;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -44,7 +45,8 @@ class AssistancesReportExport implements FromCollection, WithStyles
             ->where('e.id_empresa', auth()->user()->id_empresa)
             ->where('e.id', $this->id_employee)
             ->whereDate("a.fecha_entrada", '>=', $this->initial_date)
-            ->whereDate('a.fecha_entrada', '<=', $this->final_date);
+            ->whereDate('a.fecha_entrada', '<=', $this->final_date)
+            ->orderBy('a.fecha_entrada');
 
         $employee = Employee::findOrFail($this->id_employee);
 
@@ -57,6 +59,11 @@ class AssistancesReportExport implements FromCollection, WithStyles
 
         $datas = $assistances->get();
         $report = new \Illuminate\Database\Eloquent\Collection();
+
+        $period = CarbonPeriod::create($this->initial_date, $this->final_date);
+        foreach ($period as $date) {
+            if ($date->isSunday()) $diasDescanso += 1;
+        }
 
         foreach ($datas as $assistance) {
             $dateStart = Carbon::parse($assistance->fecha_entrada);
@@ -85,6 +92,12 @@ class AssistancesReportExport implements FromCollection, WithStyles
                 $minutes = $minutes * -1;
             }
 
+            $isGreatInit = $hoursInEmployee->gt($hoursInTurn);
+            if (!$isGreatInit) {
+                $minutesIn = $hoursInEmployee->diffInMinutes($hoursInTurn);
+                $minutes = $minutes + $minutesIn;
+                $assistance->minutes = $minutes;
+            }
 
 
             // Totals
@@ -92,13 +105,14 @@ class AssistancesReportExport implements FromCollection, WithStyles
             $horasTrabajadas += $workHours;
             $minutosExtras += $minutes;
             if (!$dateStart->isSunday()) $diasTrabajados += 1;
-            if ($dateStart->isSunday()) $diasDescanso += 1;
+
             $minutosTarde = $hoursInTurn->diffInMinutes($hoursInEmployee);
             if ($minutosTarde >= 5) $retardos += 1;
+
             if ($assistance->salida == 0) $faltas += 1;
             if (!$dateStart->isSaturday()) $horasTrabajadas -= 1;
             
-            $assistance->minutes = $minutes - $minutosTarde;
+            if ($isGreatInit) $assistance->minutes = $minutes - $minutosTarde;
             
             $report->push([
                 'fecha_entrada' => $assistance->fecha_entrada,
