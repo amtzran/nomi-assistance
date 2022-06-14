@@ -86,7 +86,7 @@ class AssistancesReportExport implements FromCollection, WithStyles
             $assistance->hours = intdiv($minutes, 60).':'. ($minutes % 60);
 
             $isGreat = $hoursOutEmployee->gt($hoursOutTurn);
-            if (!$isGreat) {
+            if (!$isGreat && $assistance->hora_salida != null) {
                 $minutes = $hoursOutEmployee->diffInMinutes($hoursOutTurn);
                 $assistance->minutes = $minutes * -1;
                 $minutes = $minutes * -1;
@@ -99,11 +99,15 @@ class AssistancesReportExport implements FromCollection, WithStyles
                 $assistance->minutes = $minutes;
             }
 
+            if ($assistance->hora_salida == null) {
+                $minutes = 0;
+                $assistance->minutes = $minutes;
+            }
+
 
             // Totals
             $workHours = $hoursOutEmployee->diffInHours($hoursInEmployee);
             $horasTrabajadas += $workHours;
-            $minutosExtras += $minutes;
             if (!$dateStart->isSunday()) $diasTrabajados += 1;
 
             $minutosTarde = $hoursInTurn->diffInMinutes($hoursInEmployee);
@@ -112,7 +116,12 @@ class AssistancesReportExport implements FromCollection, WithStyles
             if ($assistance->salida == 0) $faltas += 1;
             if (!$dateStart->isSaturday()) $horasTrabajadas -= 1;
             
-            if ($isGreatInit) $assistance->minutes = $minutes - $minutosTarde;
+            if ($isGreatInit) {
+                $minutes = $minutes - $minutosTarde;
+                $assistance->minutes = $minutes;
+            }
+
+            $minutosExtras += $minutes;
             
             $report->push([
                 'fecha_entrada' => $assistance->fecha_entrada,
