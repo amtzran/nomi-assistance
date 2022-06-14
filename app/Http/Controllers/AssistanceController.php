@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Employee;
 use App\Exports\AssistancesExport;
 use App\Exports\AssistancesExportHour;
 use App\Exports\AssistancesReportExport;
 use App\Imports\AssistancesImport;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -214,6 +217,132 @@ class AssistanceController extends Controller
         $excelFile = new AssistancesReportExport($initialDateHour, $finalDateHour, $employee);
 
         return Excel::download($excelFile, $nameFecha);
+
+    }
+
+    public function reportAssistanceByEmployeePdf(Request $request)
+    {
+        $employee = $request->get('selectEmployees');
+        $initialDateHour = $request->get('date_initial_hour');
+        $finalDateHour = $request->get('date_final_hour');
+
+        $name = 'Reporte de Asistencia de Empleado';
+        $date = Carbon::now();
+        $date = $date->toFormattedDateString();
+        $name = $name . $date;
+
+        $now = Carbon::now()->toDateString();
+        $hour = Carbon::now()->toTimeString();
+
+        $assistances = DB::table('asistencia as a')
+            ->join('empleados as e', 'a.id_clave', 'e.clave')
+            ->join('ausencias as au', 'a.asistencia', 'au.id')
+            ->join('turnos as t','e.id_turno','t.id')
+            ->select('a.*', 't.hora_entrada as hora_entrada_turno', 't.hora_salida as hora_salida_turno')
+            ->where('e.id_empresa', auth()->user()->id_empresa)
+            ->where('e.id', $this->id_employee)
+            ->whereDate("a.fecha_entrada", '>=', $this->initial_date)
+            ->whereDate('a.fecha_entrada', '<=', $this->final_date)
+            ->orderBy('a.fecha_entrada');
+
+        $employee = Employee::findOrFail($this->id_employee);
+
+        $diasTrabajados = 0;
+        $diasDescanso = 0;
+        $retardos = 0;
+        $faltas = 0;
+        $horasTrabajadas = 0;
+        $minutosExtras = 0;
+
+        $datas = $assistances->get();
+        $report = new Collection();
+
+        $period = CarbonPeriod::create($this->initial_date, $this->final_date);
+        foreach ($period as $date) {
+            if ($date->isSunday()) $diasDescanso += 1;
+        }
+
+        foreach ($datas as $assistance) {
+            $dateStart = Carbon::parse($assistance->fecha_entrada);
+            if ($dateStart->isMonday()) $assistance->day = 'LUNES';
+            if ($dateStart->isTuesday()) $assistance->day = 'MARTES';
+            if ($dateStart->isWednesday()) $assistance->day = 'MIÉRCOLES';
+            if ($dateStart->isThursday()) $assistance->day = 'JUEVES';
+            if ($dateStart->isFriday()) $assistance->day = 'VIERNES';
+            if ($dateStart->isSaturday()) $assistance->day = 'SÁBADO';
+            if ($dateStart->isSunday()) $assistance->day = 'DOMINGO';
+
+            // Calculate minutes extras
+            $hoursInEmployee = Carbon::parse($assistance->hora_entrada);
+            $hoursOutEmployee = Carbon::parse($assistance->hora_salida);
+            $hoursOutTurn = Carbon::parse($assistance->hora_salida_turno);
+            $hoursInTurn = Carbon::parse($assistance->hora_entrada_turno);
+            if ($dateStart->isSaturday()) $hoursOutTurn = Carbon::parse('13:00:00');
+            $minutes = $hoursOutTurn->diffInMinutes($hoursOutEmployee);
+            $assistance->minutes = $minutes;
+            $assistance->hours = intdiv($minutes, 60).':'. ($minutes % 60);
+
+            $isGreat = $hoursOutEmployee->gt($hoursOutTurn);
+            if (!$isGreat && $assistance->hora_salida != null) {
+                $minutes = $hoursOutEmployee->diffInMinutes($hoursOutTurn);
+                $assistance->minutes = $minutes * -1;
+                $minutes = $minutes * -1;
+            }
+
+            $isGreatInit = $hoursInEmployee->gt($hoursInTurn);
+            if (!$isGreatInit) {
+                $minutesIn = $hoursInEmployee->diffInMinutes($hoursInTurn);
+                $minutes = $minutes + $minutesIn;
+                $assistance->minutes = $minutes;
+            }
+
+            if ($assistance->hora_salida == null) {
+                $minutes = 0;
+                $assistance->minutes = $minutes;
+            }
+
+
+            // Totals
+            $workHours = $hoursOutEmployee->diffInHours($hoursInEmployee);
+            $horasTrabajadas += $workHours;
+            if (!$dateStart->isSunday()) $diasTrabajados += 1;
+
+            $minutosTarde = $hoursInTurn->diffInMinutes($hoursInEmployee);
+            if ($minutosTarde >= 5 && $isGreatInit) $retardos += 1;
+
+            if ($assistance->salida == 0) $faltas += 1;
+            if (!$dateStart->isSaturday()) $horasTrabajadas -= 1;
+
+            if ($isGreatInit) {
+                $minutes = $minutes - $minutosTarde;
+                $assistance->minutes = $minutes;
+            }
+
+            $minutosExtras += $minutes;
+
+            $report->push([
+                'fecha_entrada' => $assistance->fecha_entrada,
+                'dia' => $assistance->day,
+                'hora_entrada' => $assistance->hora_entrada,
+                'hora_salida' => $assistance->hora_salida,
+                'extra_minutes' => $assistance->minutes
+            ]);
+        }
+
+        $pdf = PDF::loadView('receipt_of_tools', [
+            'employee' => $employee,
+            'assistances' => $report,
+            'diasTrabajados' => $diasTrabajados,
+            'diasDescanso' => $diasDescanso,
+            'retardos' => $retardos,
+            'faltas' => $faltas,
+            'horasTrabajadas' => $horasTrabajadas,
+            'minutosExtras' => $minutosExtras,
+            'now' => $now,
+            'hour' => $hour
+        ]);
+
+        return $pdf->stream();
 
     }
 
