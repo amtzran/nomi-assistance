@@ -36,6 +36,15 @@
                                 </div>
                             </div>
                             <hr>
+                            <div class="row">
+                                <div class="col form-check">
+                                    <select name="selectType" id="selectType" class="form-control">
+                                        <option value="pdf">REPORTE EN PDF</option>
+                                        <option value="excel">REPORTE EN EXCEL</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
                     </div>
 
                 </div>

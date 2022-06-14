@@ -59,8 +59,6 @@
 
 <div style="text-align: center; ; margin: 50px 20px 0 20px;">
     <p style="margin-top: 0px; margin-bottom: 7px">
-        <span style="font-size:13pt; font-weight: bold">Recibo de Asistencias por Empleado</span>
-        <br>
         <span style="font-size:10pt"></span>
     </p>
     <hr>
@@ -68,73 +66,80 @@
 
 <div style="text-align: center; ; margin: 10px 20px 0 20px;">
     <p style="margin-top: 0px; margin-bottom: 7px; font-size:12pt; line-height:25px;">
-        test firma
+        {{$employee->nombre . ' ' . $employee->apellido_paterno . ' ' . $employee->apellido_materno}}
     </p>
     <hr>
 </div>
 
 <div style="text-align: center; ; margin: 10px 20px 0 20px;">
-    <table class="styled-table">
+    <table class="styled-table" style="width: 750px">
         <thead>
         <tr>
             <th>FECHA</th>
             <th>DIA</th>
             <th>ENTRADA</th>
             <th>SALIDA</th>
-            <th>EXTRAS</th>
+            <th>EXTRAS (MINUTOS)</th>
         </tr>
         </thead>
         <tbody style="text-align: center;">
         @foreach($assistances as $assistance)
             <tr>
-                <td style="color: #324496; font-weight: bold;">{{$assistance->fecha_entrada}}</td>
-                <td>{{$assistance->dia}}</td>
-                <td>{{$assistance->hora_entrada}}</td>
-                <td>{{$assistance->hora_salida}}</td>
-                <td>{{$assistance->extra_minutes}}</td>
+                <td style="color: #324496; font-weight: bold;">{{$assistance['fecha_entrada']}}</td>
+                <td>{{$assistance['dia']}}</td>
+                <td>{{$assistance['hora_entrada']}}</td>
+                <td>{{$assistance['hora_salida']}}</td>
+                <td>{{$assistance['extra_minutes']}}</td>
             </tr>
         @endforeach
-        <tr style="font-weight: bold;">
+        <tr>
+            <td style="color: #324496; font-weight: bold;"></td>
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
+        </tr>
+        <tr style="font-weight: bold; text-align: left">
             <td>DIAS TRABAJADOS</td>
             <td>{{$diasTrabajados}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
-        <tr style="font-weight: bold;">
-            <td></td>
-            <td></td>
-            <td></td>
+        <tr style="font-weight: bold; text-align: left">
             <td>DIAS DESCANSO</td>
             <td>{{$diasDescanso}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
-        <tr style="font-weight: bold;">
-            <td></td>
-            <td></td>
-            <td></td>
+        <tr style="font-weight: bold; text-align: left">
             <td>RETARDOS</td>
             <td>{{$retardos}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
-        <tr style="font-weight: bold;">
-            <td></td>
-            <td></td>
-            <td></td>
+        <tr style="font-weight: bold; text-align: left">
             <td>FALTAS</td>
             <td>{{$faltas}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
-        <tr style="font-weight: bold;">
-            <td></td>
-            <td></td>
-            <td></td>
+        <tr style="font-weight: bold; text-align: left">
             <td>HORAS TRABAJADAS</td>
             <td>{{$horasTrabajadas}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
-        <tr style="font-weight: bold;">
-            <td></td>
-            <td></td>
-            <td></td>
+        <tr style="font-weight: bold; text-align: left">
             <td>TOTAL EXTRAS (MINUTOS)</td>
             <td>{{$minutosExtras}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <!-- and so on... -->
         </tbody>
